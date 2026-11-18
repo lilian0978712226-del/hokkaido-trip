@@ -1605,6 +1605,23 @@ html,button,a,input,select,label{touch-action:manipulation}
 .rt-pick button svg{width:46px;height:46px}
 .rt-pick button b{font-size:14px;color:var(--ink)}
 .rt-pick button.on{border-color:var(--ink)!important;background:#FFF4DA!important;transform:translateY(-3px);box-shadow:0 3px 0 var(--ink)}
+/* ===== 夜燈模式 ===== */
+html.night{background:#33292F}
+html.night body{background-color:#33292F!important;background-image:radial-gradient(rgba(255,226,190,.07) 1.2px,transparent 1.3px)!important;color:#F2E6DA}
+html.night header.top,html.night .bottomnav{background:#2A2126!important;border-color:#1E181B!important}
+html.night header.top .brand span{color:#F6E9DC!important}
+html.night .section h2,html.night .section-heading h2,html.night .hero-copy h1,html.night .hero-copy .eyebrow{color:#F6E9DC!important}
+html.night .section h2:after{border-top-color:#7D6B66!important}
+html.night .section>p,html.night .section>.muted,html.night .section-heading p,html.night .today-intro,html.night .itinerary-footnote,html.night .fp-hint{color:#D9C8BC!important}
+html.night main .card,html.night #dayCard,html.night .hero,html.night .food-card,html.night .stay-card,html.night .lg-sum,html.night details.fold,html.night .ph-card,html.night .em-card,html.night .boarding-pass,html.night .stage-band,html.night .day-tabs button,html.night #tabsBottom button,html.night .top-nav a,html.night .bottomnav button,html.night .official-season-note,html.night #whereNow,html.night .departure-countdown{filter:brightness(.86) saturate(.92)}
+html.night #dayCard .event,html.night #dayCard details.fold,html.night .food-card details.fold,html.night main .card .card,html.night .card details.fold{filter:none}
+html.night .yen-fab{filter:brightness(.9) drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+html.night .cs-panel{filter:brightness(.92)}
+html.night .cs-sheet{background:rgba(20,14,18,.55)}
+.night-btn{flex:0 0 auto;width:34px;height:34px;margin-left:6px;padding:0;border:1.8px solid var(--ink)!important;border-radius:50%!important;background:#FFF6DE!important;display:grid;place-items:center;box-shadow:0 2px 0 var(--ink);position:relative}
+.night-btn svg{width:20px;height:20px}
+.night-btn i{position:absolute;right:-4px;bottom:-4px;font-style:normal;font-size:8.5px;font-weight:700;background:#fff;border:1.2px solid var(--ink);border-radius:999px;padding:0 3px;line-height:1.3;color:var(--ink)}
+html.night .night-btn{background:#4A3E57!important;border-color:#F6E9DC!important;box-shadow:0 2px 0 #1E181B}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3742,5 +3759,26 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   forced=nx===pick(now())?null:nx;tick();
   clearTimeout(window.__todT);if(forced)window.__todT=setTimeout(()=>{forced=null;tick();},20000);
  });
+})();
+/* ===== 夜燈模式：自動（19:00–6:00）／一直開／一直關 ===== */
+(function(){
+ const KEY='hk-night-v1',root=document.documentElement;
+ let mode='auto';try{mode=localStorage.getItem(KEY)||'auto'}catch(e){}
+ const isNight=()=>{const h=new Date().getHours();return h>=19||h<6;};
+ const meta=document.querySelector('meta[name="theme-color"]')||(()=>{const m=document.createElement('meta');m.name='theme-color';document.head.appendChild(m);return m;})();
+ const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.6 3.6A8.6 8.6 0 1 0 20.4 15.8A7 7 0 0 1 15.6 3.6Z" fill="#FFE39A" stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round"/><circle cx="10" cy="12" r="1" fill="#E9B85E"/><circle cx="13" cy="16" r=".8" fill="#E9B85E"/></svg>';
+ const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#FFD98A" stroke="#5B4B43" stroke-width="1.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M5.4 18.6l1.5-1.5M17.1 6.9l1.5-1.5" stroke="#5B4B43" stroke-width="1.6" stroke-linecap="round"/></svg>';
+ const btn=document.createElement('button');btn.type='button';btn.className='night-btn';
+ const brand=document.querySelector('header.top .brand');if(brand)brand.insertAdjacentElement('afterend',btn);
+ function apply(){
+  const on=mode==='on'||(mode==='auto'&&isNight());
+  root.classList.toggle('night',on);meta.setAttribute('content',on?'#2A2126':'#FFFAF2');
+  btn.innerHTML=(on?MOON:SUN)+(mode==='auto'?'<i>自動</i>':'');
+  btn.setAttribute('aria-label',`夜燈模式：${mode==='auto'?'自動':mode==='on'?'一直開':'一直關'}，點一下切換`);
+ }
+ btn.addEventListener('click',()=>{mode=mode==='auto'?(isNight()?'off':'on'):mode==='on'?'off':'auto';try{localStorage.setItem(KEY,mode)}catch(e){}
+  apply();toast(mode==='auto'?'夜燈模式：自動（晚上 7 點到早上 6 點）':mode==='on'?'夜燈模式：一直開 🌙':'夜燈模式：一直關 ☀️');});
+ apply();setInterval(()=>{if(mode==='auto')apply();},5*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)apply();});
 })();
 </script></body></html>

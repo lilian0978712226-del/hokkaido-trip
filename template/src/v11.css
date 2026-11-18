@@ -45,3 +45,20 @@ html,button,a,input,select,label{touch-action:manipulation}
 .rt-pick button svg{width:46px;height:46px}
 .rt-pick button b{font-size:14px;color:var(--ink)}
 .rt-pick button.on{border-color:var(--ink)!important;background:#FFF4DA!important;transform:translateY(-3px);box-shadow:0 3px 0 var(--ink)}
+/* ===== 夜燈模式 ===== */
+html.night{background:#33292F}
+html.night body{background-color:#33292F!important;background-image:radial-gradient(rgba(255,226,190,.07) 1.2px,transparent 1.3px)!important;color:#F2E6DA}
+html.night header.top,html.night .bottomnav{background:#2A2126!important;border-color:#1E181B!important}
+html.night header.top .brand span{color:#F6E9DC!important}
+html.night .section h2,html.night .section-heading h2,html.night .hero-copy h1,html.night .hero-copy .eyebrow{color:#F6E9DC!important}
+html.night .section h2:after{border-top-color:#7D6B66!important}
+html.night .section>p,html.night .section>.muted,html.night .section-heading p,html.night .today-intro,html.night .itinerary-footnote,html.night .fp-hint{color:#D9C8BC!important}
+html.night main .card,html.night #dayCard,html.night .hero,html.night .food-card,html.night .stay-card,html.night .lg-sum,html.night details.fold,html.night .ph-card,html.night .em-card,html.night .boarding-pass,html.night .stage-band,html.night .day-tabs button,html.night #tabsBottom button,html.night .top-nav a,html.night .bottomnav button,html.night .official-season-note,html.night #whereNow,html.night .departure-countdown{filter:brightness(.86) saturate(.92)}
+html.night #dayCard .event,html.night #dayCard details.fold,html.night .food-card details.fold,html.night main .card .card,html.night .card details.fold{filter:none}
+html.night .yen-fab{filter:brightness(.9) drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+html.night .cs-panel{filter:brightness(.92)}
+html.night .cs-sheet{background:rgba(20,14,18,.55)}
+.night-btn{flex:0 0 auto;width:34px;height:34px;margin-left:6px;padding:0;border:1.8px solid var(--ink)!important;border-radius:50%!important;background:#FFF6DE!important;display:grid;place-items:center;box-shadow:0 2px 0 var(--ink);position:relative}
+.night-btn svg{width:20px;height:20px}
+.night-btn i{position:absolute;right:-4px;bottom:-4px;font-style:normal;font-size:8.5px;font-weight:700;background:#fff;border:1.2px solid var(--ink);border-radius:999px;padding:0 3px;line-height:1.3;color:var(--ink)}
+html.night .night-btn{background:#4A3E57!important;border-color:#F6E9DC!important;box-shadow:0 2px 0 #1E181B}

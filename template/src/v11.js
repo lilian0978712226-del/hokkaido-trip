@@ -256,3 +256,24 @@
   clearTimeout(window.__todT);if(forced)window.__todT=setTimeout(()=>{forced=null;tick();},20000);
  });
 })();
+/* ===== 夜燈模式：自動（19:00–6:00）／一直開／一直關 ===== */
+(function(){
+ const KEY='hk-night-v1',root=document.documentElement;
+ let mode='auto';try{mode=localStorage.getItem(KEY)||'auto'}catch(e){}
+ const isNight=()=>{const h=new Date().getHours();return h>=19||h<6;};
+ const meta=document.querySelector('meta[name="theme-color"]')||(()=>{const m=document.createElement('meta');m.name='theme-color';document.head.appendChild(m);return m;})();
+ const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.6 3.6A8.6 8.6 0 1 0 20.4 15.8A7 7 0 0 1 15.6 3.6Z" fill="#FFE39A" stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round"/><circle cx="10" cy="12" r="1" fill="#E9B85E"/><circle cx="13" cy="16" r=".8" fill="#E9B85E"/></svg>';
+ const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#FFD98A" stroke="#5B4B43" stroke-width="1.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M5.4 18.6l1.5-1.5M17.1 6.9l1.5-1.5" stroke="#5B4B43" stroke-width="1.6" stroke-linecap="round"/></svg>';
+ const btn=document.createElement('button');btn.type='button';btn.className='night-btn';
+ const brand=document.querySelector('header.top .brand');if(brand)brand.insertAdjacentElement('afterend',btn);
+ function apply(){
+  const on=mode==='on'||(mode==='auto'&&isNight());
+  root.classList.toggle('night',on);meta.setAttribute('content',on?'#2A2126':'#FFFAF2');
+  btn.innerHTML=(on?MOON:SUN)+(mode==='auto'?'<i>自動</i>':'');
+  btn.setAttribute('aria-label',`夜燈模式：${mode==='auto'?'自動':mode==='on'?'一直開':'一直關'}，點一下切換`);
+ }
+ btn.addEventListener('click',()=>{mode=mode==='auto'?(isNight()?'off':'on'):mode==='on'?'off':'auto';try{localStorage.setItem(KEY,mode)}catch(e){}
+  apply();toast(mode==='auto'?'夜燈模式：自動（晚上 7 點到早上 6 點）':mode==='on'?'夜燈模式：一直開 🌙':'夜燈模式：一直關 ☀️');});
+ apply();setInterval(()=>{if(mode==='auto')apply();},5*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)apply();});
+})();
