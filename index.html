@@ -1237,6 +1237,40 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 .lg-share{width:100%;min-height:48px!important}
 .lg-hint{font-size:12px;color:var(--ink2);margin:10px 0 0;line-height:1.6}
 @media(min-width:640px){.em-grid{grid-template-columns:1fr 1fr}}
+/* v7 */
+.next-stop{margin:14px 0 0;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:12px;box-shadow:var(--pop)}
+.ns-in{display:grid;grid-template-columns:46px 1fr;gap:10px;align-items:center}
+.ns-ic{width:46px;height:46px;border-radius:50%;background:var(--pink2);border:2px solid var(--ink);display:grid;place-items:center;font-size:22px}
+.ns-in small{display:block;font-size:12px;color:var(--coral);font-weight:700;letter-spacing:1px}
+.ns-in b{display:block;font-size:17px;line-height:1.3;overflow-wrap:anywhere}
+.ns-sub{display:block;font-size:12.5px;color:var(--ink2);margin-top:2px}
+.ns-btns{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;margin-top:10px}
+.ns-btns button{min-height:44px;border:2px solid var(--ink)!important;border-radius:999px!important;font-size:15px;font-weight:700;color:var(--ink)!important;background:#fff!important;box-shadow:0 2px 0 var(--ink)}
+.ns-btns .ns-go{background:var(--coral)!important;color:#fff!important}
+.ns-btns button:active{transform:translateY(2px);box-shadow:none}
+.lt-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0 2px;padding-bottom:2px}
+.lt-row::-webkit-scrollbar{display:none}
+.lt-chip{flex:0 0 auto;display:flex;flex-direction:column;background:#FBF4EC;border:1.5px solid var(--ink);border-radius:12px;padding:5px 10px;min-width:96px}
+.lt-chip b{font-size:14px;font-variant-numeric:tabular-nums}
+.lt-chip small{font-size:11px;color:var(--ink2)}
+.lt-chip em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--coral)}
+.lt-chip em.past{color:var(--ink3)}
+#dayCard .tag.hours{background:#F3F0EA!important;color:var(--ink2)!important;border-color:var(--ink3)!important;font-weight:500}
+#dayCard .tag.hours.soon{background:#FBE3D6!important;color:#B4643F!important;border-color:#B4643F!important;font-weight:700}
+#dayCard .tag.hours.closed{background:#E8E4DF!important;color:#8A8078!important;text-decoration:line-through}
+.fp-card{text-align:center}
+.fp-stat{margin:0 0 6px;font-size:15px}
+.fp-stat b{color:var(--coral);font-size:19px}
+.fp-map svg{width:100%;border-radius:14px;max-width:440px;height:auto;display:block;margin:0 auto}
+.fp-paw{transform-box:fill-box;animation:fpPop .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes fpPop{from{opacity:0;scale:.2}}
+.fp-cities{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0 12px}
+.fp-city{font-size:12px;border:1.5px solid var(--ink3);border-radius:999px;padding:2px 9px;color:var(--ink2);background:#fff}
+.fp-city.part{border-color:var(--coral);color:var(--coral)}
+.fp-city.full{background:var(--coral);border-color:var(--ink);color:#fff}
+.fp-save{width:100%}
+.fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 0}
+@media(prefers-reduced-motion:reduce){.fp-paw{animation:none}}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1744,7 +1778,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   '白金青池公共停車場':'白金青い池 駐車場',
   '白鬚瀑布':'白ひげの滝',
   '青池':'白金青い池',
-  '麵包超人專賣店':'アンパンマンショップ 旭川',
+  '麵包超人專賣店':'やなせたかしの店 アンパンマンショップ ふらの店',
   '森林精靈露台':'ニングルテラス',
   'Hotel Amanek Asahikawa':'ホテルアマネク旭川',
   '大眾燒・文字燒（旭川站周邊）':'もんじゃ焼き 旭川駅',
@@ -2198,5 +2232,172 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  callBtn();
  /* nav */
  const nav=$('.top-nav');if(nav){const a=nav.querySelector('a[href="#flights"]');[['#phrases','日文卡'],['#emergency','緊急']].reverse().forEach(([h,t])=>{const x=document.createElement('a');x.href=h;x.textContent=t;(a||nav.lastChild).insertAdjacentElement('beforebegin',x);});}
+})();
+</script>
+<script>/* ===== v7：下一站、營業時間、光景倒數、北海道足跡 ===== */
+(function(){
+ const $=s=>document.querySelector(s);
+ const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const esc2=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const toMin=t=>{const [h,m]=String(t).split(':').map(Number);return h*60+(m||0);};
+ const fmt=m=>{m=Math.round(m);const s=m<0?'-':'';m=Math.abs(m);const h=Math.floor(m/60),mm=m%60;return s+(h?h+' 小時 ':'')+mm+' 分';};
+ const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.round(m%60)).padStart(2,'0');
+ const nowJP=()=>{const p=japanParts();return {key:`${p.year}-${p.month}-${p.day}`,min:+p.hour*60+ +p.minute};};
+ const tripState=()=>{const k=nowJP().key;return k<'2027-02-10'?'before':k>'2027-02-18'?'after':'during';};
+ const isToday=i=>tripState()==='during'&&todayDayIndex()===i;
+
+ /* ---------- 營業時間（來源：官方／旅遊網站公開資訊，出發前請再確認） ---------- */
+ const HOURS=[
+  [/滝野/,'09:00','16:00','冬季 9:00–16:00'],
+  [/小樽水族館/,'10:00','15:30','冬季 10:00–16:00，最後入館 15:30'],
+  [/檍/,'11:00','15:00','11:00–15:00'],
+  [/藻岩山纜車/,'11:00','21:30','冬季 11:00–22:00，上山末班 21:30'],
+  [/六花亭/,'10:00','18:00','約 10:00–18:00',2],
+  [/北菓樓/,'09:00','18:00','冬季約 9:00–18:00'],
+  [/遊船/,'10:00','18:30','船班 10:00–18:30'],
+  [/大倉山展望台/,'09:00','16:45','冬季約 9:00–17:00，最後入場 16:45'],
+  [/白い恋人/,'10:00','16:30','10:00–18:00，有料區最後入館 16:30'],
+  [/旭山動物園/,'10:30','15:30','10:30–15:30'],
+  [/有珠山纜車/,'08:15','16:00','依日期不同，下山末班約 16:00–17:45'],
+  [/大通雪祭/,'','22:00','點燈到 22:00']
+ ];
+ const findH=(name,day)=>HOURS.find(h=>h[0].test(name)&&(h[4]==null||h[4]===day));
+
+ /* ---------- 日落（NOAA 演算法） ---------- */
+ const LOC=[[43.06,141.35,'札幌'],[43.06,141.35,'札幌'],[43.19,141.0,'小樽'],[43.06,141.35,'札幌'],[43.59,142.47,'美瑛'],[43.77,142.37,'旭川'],[42.56,140.82,'洞爺湖'],[42.77,141.40,'支笏湖'],[42.82,141.65,'千歲']];
+ function sunset(lat,lon,y,mo,d){
+  const rad=Math.PI/180,N=Math.floor(275*mo/9)-Math.floor((mo+9)/12)*(1+Math.floor((y-4*Math.floor(y/4)+2)/3))+d-30;
+  const lngH=lon/15,t=N+((18-lngH)/24),M=0.9856*t-3.289;
+  let L=(M+1.916*Math.sin(M*rad)+0.020*Math.sin(2*M*rad)+282.634+360)%360;
+  let RA=(Math.atan(0.91764*Math.tan(L*rad))/rad+360)%360;RA=(RA+(Math.floor(L/90)*90-Math.floor(RA/90)*90))/15;
+  const sinDec=0.39782*Math.sin(L*rad),cosDec=Math.cos(Math.asin(sinDec));
+  const cosH=(Math.cos(90.833*rad)-sinDec*Math.sin(lat*rad))/(cosDec*Math.cos(lat*rad));
+  const H=Math.acos(cosH)/rad/15,T=H+RA-0.06571*t-6.622;
+  return (((T-lngH+9)%24+24)%24)*60;
+ }
+ const LIGHTS=[
+  [{e:'❄️',n:'大通雪祭點燈結束',t:'22:00'}],
+  [{e:'🚠',n:'藻岩山上山末班',t:'21:30'}],
+  [{e:'🏮',n:'小樽運河煤氣燈（約日落時亮起）',sun:true}],
+  [],[],[],[],
+  [{e:'✨',n:'支笏湖點燈',t:'16:30'}],
+  []
+ ];
+ function lightRow(i){
+  const [la,lo,place]=LOC[i];const ss=sunset(la,lo,2027,2,10+i);
+  const items=[{e:'🌅',n:place+' 日落',m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:x.sun?ss:toMin(x.t)})));
+  const today=isToday(i),now=nowJP().min;
+  return `<div class="lt-row">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>還有 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<span class="lt-chip"><b>${x.e} ${hhmm(x.m)}</b><small>${x.n}</small>${cd}</span>`;}).join('')}</div>`;
+ }
+
+ /* ---------- 每天卡片：營業時間＋光景倒數 ---------- */
+ function decorate(i){
+  const dc=$('#dayCard');if(!dc)return;
+  const theme=dc.querySelector('.day-theme');if(theme&&!dc.querySelector('.lt-row'))theme.insertAdjacentHTML('afterend',lightRow(i));
+  const today=isToday(i),now=nowJP().min;
+  dc.querySelectorAll('.event').forEach((ev,j)=>{
+   const e=days[i].events[j];if(!e)return;const h=findH(e[1],i);if(!h)return;
+   const tags=ev.querySelector('.tags');if(!tags||tags.querySelector('.tag.hours'))return;
+   const arr=toMin(e[0]),open=h[1]?toMin(h[1]):null,close=toMin(h[2]);
+   let cls='',warn='';
+   if(open!=null&&arr<open-15)warn=`・比開門早到 ${open-arr} 分`;
+   if(arr>close-30)warn=`・抵達時已接近關門`;
+   if(today){const left=close-now;if(left<0)cls='closed',warn='・今天已關門';else if(left<=60)cls='soon',warn=`・剩 ${left} 分鐘`;}
+   if(warn&&!cls)cls='soon';
+   tags.insertAdjacentHTML('beforeend',`<span class="tag hours ${cls}">🕒 ${h[3]}${warn}</span>`);
+   tags.style.display='flex';
+  });
+ }
+
+ /* ---------- 首頁：下一站 ---------- */
+ const hero=$('.departure-countdown');
+ const nx=document.createElement('div');nx.className='next-stop';nx.id='whereNow';
+ if(hero)hero.insertAdjacentElement('afterend',nx);
+ function renderNext(){
+  const st=tripState(),n=nowJP();let d,j,head,sub='';
+  if(st==='before'){d=0;j=0;head='出發第一站';sub=`${days[0].date.slice(5).replace('-','/')} 出發後，這裡會自動顯示下一站`;}
+  else if(st==='after'){nx.innerHTML=`<div class="ns-in"><span class="ns-ic">🏠</span><div><small>旅程結束</small><b>平安回家囉，北海道下次見！</b></div></div>`;return;}
+  else{
+   d=todayDayIndex();const ev=days[d].events;
+   j=ev.findIndex((e,k)=>{const t=toMin(e[0]),nt=ev[k+1]?toMin(ev[k+1][0]):t+60;return n.min<nt;});
+   if(j<0){if(d<8){d=d+1;j=0;head='今天行程結束 🌙 明天第一站';}else{nx.innerHTML=`<div class="ns-in"><span class="ns-ic">✈️</span><div><small>最後一天</small><b>準備回台灣，一路平安！</b></div></div>`;return;}}
+   else{const t=toMin(ev[j][0]);head=n.min>=t?'現在在':'下一站';sub=n.min>=t?`${ev[j][0]} 抵達・下一站 ${ev[j+1]?ev[j+1][0]+' '+ev[j+1][1]:'今天最後一站'}`:`${ev[j][0]} 抵達・還有 ${fmt(t-n.min)}`;}
+  }
+  const e=days[d].events[j];
+  nx.innerHTML=`<div class="ns-in"><span class="ns-ic">${e[3]||'📍'}</span><div><small>${head}・D${d+1}</small><b>${esc2(e[1])}</b><span class="ns-sub">${sub||e[0]+' 抵達'}</span></div></div><div class="ns-btns"><button type="button" class="ns-go" data-nsmap="${esc2(e[1])}" data-nsday="${d}">📍 導航</button><button type="button" class="ns-see" data-nsday2="${d}">看行程</button></div>`;
+ }
+ nx.addEventListener('click',ev=>{
+  const a=ev.target.closest('[data-nsmap]');if(a){maps(a.dataset.nsmap,+a.dataset.nsday);return;}
+  const b=ev.target.closest('[data-nsday2]');if(b){showDay(+b.dataset.nsday2);const t=document.getElementById('itinerary');if(t)t.scrollIntoView({block:'start'});}
+ });
+
+ /* ---------- 北海道足跡 ---------- */
+ const C={sapporo:[124,214],takino:[132,226],otaru:[104,204],biei:[196,180],shirogane:[208,190],furano:[196,204],asahikawa:[190,162],toya:[86,262],shiraoi:[126,262],noboribetsu:[108,268],shikotsu:[118,240],chitose:[144,238]};
+ const CN={sapporo:'札幌',takino:'滝野',otaru:'小樽',biei:'美瑛',shirogane:'白金',furano:'富良野',asahikawa:'旭川',toya:'洞爺湖',shiraoi:'白老',noboribetsu:'登別',shikotsu:'支笏湖',chitose:'千歲'};
+ function city(n,i){
+  if(/台中/.test(n))return null;
+  if(/新千歲|Nippon|KOKO|山線/.test(n))return'chitose';if(/支笏/.test(n))return'shikotsu';if(/滝野/.test(n))return'takino';
+  if(i===2)return /Hotel|Shinobure/.test(n)?'sapporo':'otaru';
+  if(i===4){if(/美瑛/.test(n))return'biei';if(/白鬚|青池/.test(n))return'shirogane';if(/麵包超人|森林精靈/.test(n))return'furano';return'asahikawa';}
+  if(i===5)return'asahikawa';
+  if(i===6){if(/Amanek/.test(n))return'asahikawa';if(/白老/.test(n))return'shiraoi';if(/瀧本/.test(n))return'noboribetsu';return'toya';}
+  if(i===7)return /瀧本|地獄|海膽/.test(n)?'noboribetsu':'chitose';
+  return'sapporo';
+ }
+ const STOPS=[];const seen={};
+ days.forEach((d,i)=>d.events.forEach((e,j)=>{const c=city(e[1],i);if(!c)return;const k=c+'|'+e[1];if(seen[k])return;seen[k]=1;STOPS.push({i,j,c,n:e[1]});}));
+ const per={};STOPS.forEach(s=>{const k=per[s.c]=(per[s.c]||0)+1;const a=k*2.4,r=k===1?0:4+k*1.3;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
+ const OUT='M152 24 136 33 141 73 134 149 120 200 96 208 64 194 66 225 27 267 44 313 42 349 80 321 105 319 70 295 94 278 132 253 186 287 231 309 236 281 299 225 371 198 336 176 356 117 292 143 237 117 191 71Z';
+ const fp=document.createElement('section');fp.className='section';fp.id='footprints';
+ fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>北海道足跡</h2><div class="card fp-card"><p class="fp-stat" id="fpStat"></p><div class="fp-map" id="fpMap"></div><div class="fp-cities" id="fpCities"></div><button type="button" class="lg-add fp-save" id="fpSave">📸 存成圖片分享</button><p class="fp-hint">行程卡片按「完成」就會留下小腳印</p></div>`;
+ const anchor=$('#food-book')||$('#stay');if(anchor)anchor.insertAdjacentElement('beforebegin',fp);
+ const ORDER=[];STOPS.forEach(s=>{if(ORDER[ORDER.length-1]!==s.c)ORDER.push(s.c);});
+ const LAND='M150 52 L172 46 L196 60 L214 72 L236 98 L262 112 L288 124 L318 110 L340 120 L358 132 L352 160 L336 176 L352 186 L366 198 L352 210 L318 222 L290 238 L262 268 L246 288 L236 306 L218 300 L196 288 L172 276 L150 262 L134 256 L118 262 L104 276 L92 286 L80 300 L70 312 L56 304 L64 288 L76 276 L68 262 L58 248 L64 232 L80 216 L94 206 L106 200 L116 186 L126 160 L132 122 L140 84Z';
+ function mapSVG(forExport){
+  const done=STOPS.filter(s=>safeGet(`event-${s.i}-${s.j}`));
+  const vis=ORDER.filter(c=>done.some(s=>s.c===c));
+  const pct=Math.round(done.length/STOPS.length*100);
+  const P=c=>C[c];
+  let route='';ORDER.forEach((c,k)=>{if(!k)return;const [x1,y1]=P(ORDER[k-1]),[x2,y2]=P(c);route+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#D9CFC5" stroke-width="1.2" stroke-dasharray="1.5 2.5" stroke-linecap="round"/>`;});
+  let paws='',pk=0;
+  for(let k=1;k<ORDER.length;k++){const a=ORDER[k-1],b=ORDER[k];const da=done.some(s=>s.c===a),db=done.some(s=>s.c===b);if(!(da&&db))continue;const [x1,y1]=P(a),[x2,y2]=P(b);const L=Math.hypot(x2-x1,y2-y1),n=Math.max(1,Math.floor(L/9)),ang=Math.atan2(y2-y1,x2-x1)*180/Math.PI+90;
+   for(let t=1;t<n;t++){const f=t/n,side=(t%2?1:-1)*1.6,nx=-(y2-y1)/L*side,ny=(x2-x1)/L*side;const x=x1+(x2-x1)*f+nx,y=y1+(y2-y1)*f+ny;paws+=`<g class="fp-paw" style="animation-delay:${(pk++*.03).toFixed(2)}s" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(0)}) scale(.42)"><ellipse cx="0" cy="2" rx="3.6" ry="3" fill="#E8A386"/><circle cx="-3.4" cy="-2.6" r="1.5" fill="#E8A386"/><circle cx="0" cy="-4.4" r="1.5" fill="#E8A386"/><circle cx="3.4" cy="-2.6" r="1.5" fill="#E8A386"/></g>`;}}
+  const LBL={otaru:[-1,-1],toya:[-1,0],sapporo:[1,-1],takino:[1,1],shikotsu:[-1,1],chitose:[1,0],shiraoi:[1,1],noboribetsu:[-1,1],biei:[-1,0],shirogane:[1,0],furano:[1,1],asahikawa:[1,-1]};
+  const nodes=Object.keys(C).filter(c=>ORDER.includes(c)).map(c=>{const [x,y]=C[c];const t=STOPS.filter(s=>s.c===c).length,dn=done.filter(s=>s.c===c).length;const full=dn===t,part=dn>0;const [lx,ly]=LBL[c]||[1,0];
+   return `<g><circle cx="${x}" cy="${y}" r="4.2" fill="${full?'#E8A386':part?'#FBE3D6':'#fff'}" stroke="${part?'#B4643F':'#B6A89D'}" stroke-width="1.2"/>${full?`<path d="M${x-1.8} ${y}l1.3 1.4 2.5-2.8" fill="none" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>`:''}<text x="${x+lx*7}" y="${y+(ly>0?8.5:ly<0?-5:2.8)}" text-anchor="${lx<0?'end':'start'}" font-size="7" font-weight="700" fill="${part?'#5B4B43':'#9C8F85'}" font-family="sans-serif" paint-order="stroke" stroke="#F5F8FB" stroke-width="2.2">${CN[c]}</text></g>`;}).join('');
+  const vb=forExport?'40 112 220 236':'48 140 200 160';const sea=forExport?'':`<rect x="48" y="140" width="200" height="160" rx="8" fill="#F6FAFD"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" ${forExport?'width="880" height="944"':''}>
+   ${forExport?`<rect x="40" y="112" width="220" height="236" fill="#FFFAF2"/><rect x="48" y="134" width="204" height="190" rx="8" fill="#F6FAFD"/><text x="150" y="128" text-anchor="middle" font-size="10" font-weight="700" fill="#5B4B43" font-family="sans-serif">北海道大暴吃・足跡地圖</text><text x="150" y="340" text-anchor="middle" font-size="7" fill="#86756A" font-family="sans-serif">走過 ${done.length} 站・${vis.length} 個地方・完成 ${pct}%・2027 冬</text>`:''}
+   ${sea}<path d="${LAND}" fill="#FFFDF8" stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round"/>
+   <text x="70" y="168" font-size="6" fill="#9DB4C8" font-family="sans-serif" font-style="italic">日本海</text><text x="196" y="292" font-size="6" fill="#9DB4C8" font-family="sans-serif" font-style="italic">太平洋</text>
+   ${route}${paws}${nodes}
+  </svg>`;
+ }
+ function renderFP(){
+  const done=STOPS.filter(s=>safeGet(`event-${s.i}-${s.j}`));
+  $('#fpMap').innerHTML=mapSVG(false);
+  const cities=Object.keys(CN).filter(k=>STOPS.some(s=>s.c===k));
+  const doneC=cities.filter(k=>done.some(s=>s.c===k));
+  $('#fpStat').innerHTML=`🐾 已走過 <b>${done.length}</b>／${STOPS.length} 站・<b>${doneC.length}</b>／${cities.length} 個地方`;
+  $('#fpCities').innerHTML=cities.map(k=>{const t=STOPS.filter(s=>s.c===k).length,dn=done.filter(s=>s.c===k).length;return `<span class="fp-city ${dn===t?'full':dn?'part':''}">${CN[k]} ${dn}/${t}</span>`;}).join('');
+ }
+ $('#fpSave').addEventListener('click',async()=>{
+  try{
+   const blob=new Blob([mapSVG(true)],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+   const img=new Image();img.src=url;await img.decode();
+   const cv=document.createElement('canvas');cv.width=880;cv.height=944;cv.getContext('2d').drawImage(img,0,0,880,944);URL.revokeObjectURL(url);
+   const png=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([png],'hokkaido-footprints.png',{type:'image/png'});
+   if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'北海道足跡'});}
+   else{const a=document.createElement('a');a.href=URL.createObjectURL(png);a.download=file.name;a.click();}
+  }catch(e){if(!e||e.name!=='AbortError')toast('這支手機無法直接存圖，請用截圖分享');}
+ });
+ document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('#dayCard input[data-check]'))setTimeout(renderFP,30);});
+
+ /* ---------- 掛上 showDay & 定時更新 ---------- */
+ if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
+ try{decorate(current)}catch(e){}
+ renderNext();renderFP();
+ setInterval(()=>{renderNext();if(isToday(current)){const dc=$('#dayCard');dc.querySelectorAll('.tag.hours').forEach(t=>t.remove());const lr=dc.querySelector('.lt-row');if(lr)lr.remove();decorate(current);}},60000);
+ const top=$('.top-nav');if(top){const a=top.querySelector('a[href="#food-book"]');if(a){const x=document.createElement('a');x.href='#footprints';x.textContent='足跡';a.insertAdjacentElement('beforebegin',x);}}
 })();
 </script></body></html>
