@@ -148,6 +148,7 @@
  document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-adj]');if(b)open(b.dataset.adj);});
 
  /* 傳給旅伴／收到時合併 */
+ window.hkAdjPack=()=>pack({v:1,o:OV,c:CSget()});
  async function pack(obj){
   let bytes=new TextEncoder().encode(JSON.stringify(obj)),tag='j';
   if(window.CompressionStream){try{const cs=new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'));bytes=new Uint8Array(await new Response(cs).arrayBuffer());tag='z';}catch(e){}}
@@ -167,14 +168,14 @@
   try{await navigator.clipboard.writeText(text+' '+url);toast('連結已複製，貼到 LINE 傳給'+partner());}catch(err){prompt('複製這個連結傳給'+partner(),url);}
  });
  async function tryMerge(){
-  const m=location.hash.match(/#adj=([^&]+)/);if(!m)return;
+  const m=((window.__hkHash||'')+location.hash).match(/[#&]adj=([^&]+)/);if(!m)return;window.__hkHash='';
   try{
    const got=await unpack(m[1]);let n=0;
    Object.entries(got.o||{}).forEach(([k,v])=>{if(!OV[k]||(v.ts||0)>(OV[k].ts||0)){OV[k]=v;n++;}});saveOV();
    const mine=CSget(),ids=new Set(mine.map(c=>c.id));const add=(got.c||[]).filter(c=>!ids.has(c.id));
    const upd=mine.map(c=>{const o=(got.c||[]).find(x=>x.id===c.id);return o||c;});
    CSset(upd.concat(add).filter(c=>!(OV['c:'+c.id]&&OV['c:'+c.id].x)));n+=add.length;
-   history.replaceState(null,'',location.pathname+location.search);
+   {const rest=location.hash.replace(/^#/,'').split('&').filter(x=>x&&!/^adj=/.test(x)).join('&');history.replaceState(null,'',location.pathname+location.search+(rest?'#'+rest:''));}
    redraw();toast(n?`已同步 ${n} 項行程調整 ✨`:'行程已經是最新的了');
   }catch(err){toast('這個連結打不開，請對方再傳一次');}
  }

@@ -331,8 +331,10 @@
    if(navigator.share){try{await navigator.share({title:'北海道大暴吃帳本',text,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
    copyText(text+'\n'+url);
   });
+  window.hkLedgerPack=()=>pack();
   async function tryMerge(){
    const m=location.hash.match(/#merge=([A-Za-z0-9_-]+)/);if(!m)return;
+   window.__hkHash=location.hash;
    history.replaceState(null,'',location.pathname+location.search);
    let o;try{o=await unpack(m[1]);}catch(e){toast('合併連結讀取失敗，請對方重新傳一次');return;}
    const [na,nb]=o.n||['',''];
