@@ -3271,4 +3271,14 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   s.style.pointerEvents='auto';
  });
 })();
+/* 三個重複羅盤的標題換成各自的圖示 */
+(function(){
+ const S='stroke="#5B4B43" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+ const ART={
+  emergency:`<rect x="9" y="19" width="46" height="34" rx="9" fill="#F7D9DF" ${S}/><path d="M24 19v-4.4a3.6 3.6 0 0 1 3.6-3.6h8.8a3.6 3.6 0 0 1 3.6 3.6V19" fill="none" ${S}/><path d="M28.6 27.6h6.8v6.6H42v6.8h-6.6v6.6h-6.8v-6.6H22v-6.8h6.6Z" fill="#fff" ${S} stroke-width="2.4"/>`,
+  'trip-tools':`<path d="M14 15 9.6 10.6M50 15l4.4-4.4" ${S}/><circle cx="16" cy="13" r="5" fill="#F6E2A6" ${S}/><circle cx="48" cy="13" r="5" fill="#F6E2A6" ${S}/><circle cx="32" cy="35" r="20" fill="#DCEBF7" ${S}/><circle cx="32" cy="35" r="14.6" fill="#fff" stroke="#5B4B43" stroke-width="2"/><path d="M32 25.6V35l6.4 4" fill="none" ${S}/><path d="M20 53.4 17 57M44 53.4l3 3.6" ${S}/><circle cx="32" cy="35" r="1.8" fill="#E58F7B"/>`,
+  footprints:`<path d="M12 50 25 45 39 50 52 45V14L39 19 25 14 12 19Z" fill="#FFFBF3" ${S}/><path d="M25 14v31M39 19v31" stroke="#5B4B43" stroke-width="2" stroke-dasharray="3 3"/><path d="M32 22.6l2.6 5.4 5.8.8-4.2 4 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.2-4 5.8-.8Z" fill="#FFC94D" ${S} stroke-width="2.2"/>`
+ };
+ Object.entries(ART).forEach(([id,a])=>{const svg=document.querySelector(`#${id} h2 .h-ic`);if(svg){svg.setAttribute('viewBox','0 0 64 64');svg.innerHTML=a;}});
+})();
 </script></body></html>
