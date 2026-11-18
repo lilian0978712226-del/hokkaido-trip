@@ -1,0 +1,128 @@
+/* v8 */
+/* 每天的時間點：取代原本主題文字那格 */
+#dayCard .day-theme.lt-mode{display:grid!important;grid-template-columns:64px 1fr;align-items:center;gap:12px;text-align:left}
+#dayCard .day-theme.lt-mode>span{display:none!important}
+#dayCard .day-theme.lt-mode .day-illus{width:58px;height:58px}
+#dayCard .lt-list{display:flex;flex-direction:column;gap:6px;min-width:0}
+#dayCard .lt-item{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:6px;font-size:14px;line-height:1.25}
+#dayCard .lt-item+.lt-item{border-top:1.5px dashed rgba(91,75,67,.18);padding-top:6px}
+#dayCard .lt-e{font-size:17px;text-align:center}
+#dayCard .lt-n{color:var(--ink2);min-width:0;overflow-wrap:anywhere}
+#dayCard .lt-n em{display:block;font-style:normal;font-size:11.5px;font-weight:700;color:var(--coral)}
+#dayCard .lt-n em.past{color:var(--ink3)}
+#dayCard .lt-item b{font-size:17px;font-variant-numeric:tabular-nums;color:var(--ink)}
+/* 自己加的行程 */
+#dayCard .custom-ev{background:#FFF7FA!important;border-style:dashed!important}
+#dayCard .tag.mine{background:#FBE1EA!important;color:#A65A73!important;border-color:#D9A0B3!important}
+#dayCard .tag.mine-rep{background:#fff!important;color:var(--ink2)!important;border-color:var(--ink3)!important}
+#dayCard .cs-del.sure{background:#E58F7B!important;color:#fff!important}
+#dayCard .ev-replaced{opacity:.55}
+#dayCard .ev-replaced h4{text-decoration:line-through;text-decoration-color:#C9908A}
+#dayCard .rep-note{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:#A65A73;margin:2px 0 4px}
+#dayCard .rep-undo{border:1.5px solid var(--ink3)!important;background:#fff!important;border-radius:999px!important;font-size:11.5px;padding:1px 8px;color:var(--ink2)!important;min-height:0}
+.cs-addbar{margin:12px 0 2px}
+.cs-add{width:100%;min-height:46px;border:2px dashed #C9A6B3!important;border-radius:16px!important;background:#FFF7FA!important;color:#A65A73!important;font-size:15px;font-weight:700}
+.cs-sheet{position:fixed;inset:0;z-index:300;background:rgba(91,75,67,.35);display:flex;align-items:flex-end;justify-content:center}
+.cs-sheet[hidden]{display:none}
+.cs-panel{width:min(100%,520px);max-height:92vh;overflow:auto;background:#FFFAF2;border:2px solid var(--ink);border-bottom:0;border-radius:24px 24px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));animation:csUp .28s ease-out}
+@keyframes csUp{from{transform:translateY(40px);opacity:0}}
+.cs-panel h3{margin:0 0 8px;font-size:18px}
+.cs-panel label{display:block;font-size:13px;color:var(--ink2);margin-top:10px}
+.cs-panel input,.cs-panel select{display:block;width:100%;margin-top:4px;font:inherit;font-size:16px;min-height:44px;padding:6px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink)}
+.cs-icons{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:10px}
+.cs-icons button{width:100%;aspect-ratio:1;height:auto;border:2px solid var(--ink3)!important;border-radius:50%!important;background:#fff!important;font-size:20px;padding:0}
+.cs-icons button.on{border-color:var(--ink)!important;background:#FBE1EA!important;transform:scale(1.08)}
+.cs-btns{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;margin-top:16px}
+.cs-btns button{min-height:48px;border:2px solid var(--ink)!important;border-radius:999px!important;font-size:16px;font-weight:700;background:#fff!important;color:var(--ink)!important;box-shadow:0 2px 0 var(--ink)}
+.cs-btns .cs-save{background:var(--coral)!important;color:#fff!important}
+body.cs-open{overflow:hidden}
+
+/* 點亮北海道 */
+.fp-card{text-align:center;transition:transform .3s}
+.fp-card.pop{animation:fpBounce .6s}
+@keyframes fpBounce{30%{transform:scale(1.02)}60%{transform:scale(.995)}}
+.fp-top{display:flex;align-items:baseline;justify-content:center;gap:6px}
+.fp-top b{font-size:34px;color:var(--coral);line-height:1}
+.fp-top span{font-size:15px;color:var(--ink2)}
+.fp-top em{font-style:normal;font-size:13px;font-weight:700;background:#FFF1D6;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px;margin-left:4px}
+.fp-bar{height:12px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:8px 4px 10px}
+.fp-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#F6C7A9 0 6px,#F0A57E 6px 12px);transition:width .6s}
+.fp-map svg{width:100%;height:auto;display:block}
+.fp-lit{animation:fpTw 2.6s ease-in-out infinite}
+@keyframes fpTw{50%{opacity:.65}}
+.fp-dot,.fp-lit{cursor:pointer}
+.fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 10px}
+.fp-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fp-btn{min-height:46px;border:2px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:15px;font-weight:700;box-shadow:0 2px 0 var(--ink)}
+.fp-btn.pri{background:var(--coral)!important;color:#fff!important}
+.fp-btn:active{transform:translateY(2px);box-shadow:none}
+@media(prefers-reduced-motion:reduce){.fp-lit,.fp-card.pop,.cs-panel{animation:none}}
+
+/* 保險收合 */
+.em-fold{margin-top:14px}
+.em-fold .em-mine{margin-top:8px!important}
+
+/* 記帳：更可愛一點 */
+.lg-sum{background:linear-gradient(135deg,#FFF1E8,#FDE8EF)!important;border-radius:20px!important}
+.lg-sum>div:first-child b{color:var(--coral)}
+.lg-form{background:#fff!important;border-radius:22px!important;background-image:radial-gradient(#F4E9DF 1.2px,transparent 1.3px)!important;background-size:14px 14px!important}
+.lg-amt{grid-template-columns:52px minmax(0,1fr) 52px!important}
+.lg-amt input{border-radius:18px!important;font-size:24px!important}
+.lg-amt input::placeholder{color:#CDBFB4}
+.lg-cur{border-radius:50%!important;background:#FDE3EA!important;width:52px;height:52px;min-height:52px!important;padding:0}
+.lg-amt .lg-add{width:52px;height:52px;min-height:52px!important;padding:0;border-radius:50%!important;font-size:0!important;position:relative}
+.lg-amt .lg-add::before{content:"＋";font-size:28px;line-height:1;position:absolute;inset:0;display:grid;place-items:center;color:#fff}
+.lg-cats{gap:7px!important}
+.lg-chip{border-radius:18px!important;border-width:1.5px!important;transition:transform .2s}
+.lg-chip[data-cat="food"]{background:#FFF0E6!important}
+.lg-chip[data-cat="move"]{background:#EAF3FB!important}
+.lg-chip[data-cat="shop"]{background:#F6EDFB!important}
+.lg-chip[data-cat="stay"]{background:#EAF6EF!important}
+.lg-chip[data-cat="ticket"]{background:#FFF7DC!important}
+.lg-chip[data-cat="other"]{background:#FDEDF2!important}
+.lg-chip.on{background:var(--coral)!important;color:#fff!important;border-width:2px!important;transform:translateY(-3px) rotate(-3deg)!important;box-shadow:0 3px 0 var(--ink)}
+.lg-seg{border-radius:999px!important;border-width:1.5px!important;background:#fff}
+.lg-seg button.on{background:#FDE3EA!important;color:var(--ink)!important}
+.lg-form select,.lg-form input#lgNote{border-radius:999px!important;border-width:1.5px!important;background:#FFFCF8!important}
+.lg-settle{border-radius:20px!important;background:#FFF9EC!important;border-style:solid!important;border-width:1.5px!important;position:relative}
+
+/* 行程按鈕：導航・複製・完成 一排，備註在下一排 */
+#dayCard .event-actions{display:grid!important;grid-template-columns:repeat(3,max-content);gap:6px!important;overflow:visible!important}
+#dayCard .event-actions .note-row{grid-column:1/-1;justify-self:start}
+
+/* 記帳功能鍵：可愛版 */
+.lg-seg{border:0!important;background:none!important;gap:8px;overflow:visible!important}
+.lg-seg button{border:1.8px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;box-shadow:0 2px 0 var(--ink);transition:transform .15s}
+.lg-seg button+button{border-left:1.8px solid var(--ink)!important}
+.lg-seg button.on{background:#FDE3EA!important;color:var(--ink)!important;font-weight:800}
+.lg-seg button.on:before{content:'♥ '!important;color:#E57F9A}
+.lg-seg button:active,.lg-chip:active,.lg-cur:active{transform:translateY(2px)!important;box-shadow:none!important}
+.lg-chip{box-shadow:0 2px 0 rgba(91,75,67,.35)}
+.lg-chip.on{transform:translateY(-3px)!important}
+.lg-cur{box-shadow:0 2px 0 var(--ink)!important;font-size:20px!important}
+.lg-amt .lg-add{background:radial-gradient(circle at 35% 30%,#F6B9A0,#E8977A)!important;box-shadow:0 3px 0 var(--ink)!important}
+.lg-amt .lg-add::after{content:"✦";position:absolute;top:4px;right:7px;font-size:10px;color:#FFF3C4}
+.lg-form select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%)!important;background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%!important;background-size:6px 6px!important;background-repeat:no-repeat!important;padding-right:34px!important}
+#ledgerApp details.fold>summary{border-radius:999px!important;background:#FFF7F0!important}
+#ledgerApp details.fold[open]>summary{background:#FDE3EA!important}
+.fp-dot{transition:transform .2s}
+.fp-badge.full{animation:fpTw 3s ease-in-out infinite}
+.em-fold2{margin-top:6px}
+.em-fold2 .em-grid{margin-top:10px}
+/* 標籤移到時間下面 */
+#dayCard .time-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+#dayCard .time-col .tag{font-size:10.5px!important;padding:1px 5px!important;line-height:1.3!important;white-space:normal!important;text-align:center;max-width:100%;margin:0!important;border-width:1.3px!important}
+#dayCard .tags:empty,#dayCard .tags:not(:has(.tag)){display:none!important}
+/* 時間欄：時間＋一個分類，必去用星星 */
+#dayCard .event{grid-template-columns:60px minmax(0,1fr)!important}
+#dayCard .time-col{width:60px;gap:5px}
+#dayCard .time-col .time{width:100%;text-align:center;font-size:14px!important;padding:3px 0!important;position:relative;box-sizing:border-box}
+#dayCard .time-col .time.must::after{content:"★";position:absolute;top:-9px;right:-7px;width:17px;height:17px;border-radius:50%;background:#FFC94D;border:1.5px solid var(--ink);font-size:10px;line-height:15px;text-align:center;color:#fff}
+#dayCard .tags .tag:not(.hours):not(.mine):not(.mine-rep){display:none!important}
+#dayCard .cat{font-size:11px;font-weight:700;line-height:1;padding:4px 0;width:100%;text-align:center;border-radius:999px;border:1.3px solid var(--ink);white-space:nowrap;color:var(--ink)}
+#dayCard .cat-food{background:#F6E2A6}
+#dayCard .cat-stay{background:#F7D9DF}
+#dayCard .cat-move{background:#D7E7F4}
+#dayCard .cat-park{background:#ECE7E1}
+#dayCard .cat-spot{background:#DCEBD5}
+#dayCard .cat-shop{background:#E9DDF4}

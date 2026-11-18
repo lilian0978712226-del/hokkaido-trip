@@ -2411,8 +2411,9 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   []
  ];
  function lightRow(i){
+  if(!LOC[i])return '';
   const [la,lo,place]=LOC[i];const ss=sunset(la,lo,2027,2,10+i);
-  const items=[{e:'🌅',n:place+' 日落'+(i===2?'・運河煤氣燈同步亮起':''),m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t)})).sort((a,b)=>a.m-b.m));
+  const items=[{e:'🌅',n:place+' 日落'+(i===2?'・運河煤氣燈同步亮起':''),m:ss}].concat((LIGHTS[i]||[]).map(x=>({e:x.e,n:x.n,m:toMin(x.t)})).sort((a,b)=>a.m-b.m));
   const today=isToday(i),now=nowJP().min;
   return `<div class="lt-list">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>剩 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<div class="lt-item"><span class="lt-e">${x.e}</span><span class="lt-n">${x.n}${cd}</span><b>${hhmm(x.m)}</b></div>`;}).join('')}</div>`;
  }
@@ -2590,11 +2591,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   days.forEach((d,i)=>{const rep=new Set(CS.filter(c=>c.d===i&&c.rep>=0).map(c=>c.rep));
    d.events.forEach((e,j)=>{if(rep.has(j))return;const c=city(e[1],i);if(!c)return;const key=e[1];
     let s=map.get(key);if(!s){s={n:e[1],c,keys:[],o:i*10000+toMin(e[0])};map.set(key,s);out.push(s);}s.keys.push(`event-${i}-${j}`);});
-   CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&ct!=='sapporo')?ct:DEF[i],keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
+   CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&ct!=='sapporo')?ct:(DEF[i]||DEF[0]),keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
   });
   out.forEach(s=>s.done=s.keys.some(isDone));
   const groups={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>(groups[s.c]=groups[s.c]||[]).push(s));
   Object.entries(groups).forEach(([c,arr])=>{
+   if(!C[c]){arr.forEach(s=>{s.x=-99;s.y=-99;});return;}
    const [cx,cy]=C[c];const n=arr.length;
    const rings=n<=6?[[21,n]]:n<=12?[[25,n]]:[[25,Math.min(13,Math.ceil(n*0.55))],[35,0]];
    if(rings.length>1)rings[1][1]=n-rings[0][1];

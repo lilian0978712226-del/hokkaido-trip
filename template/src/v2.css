@@ -1,0 +1,373 @@
+
+/* ===== v2: simpler, smoother, more Hokkaido ===== */
+/* performance: no backdrop blur, lighter snow (no filter on a full-screen layer) */
+.top,.bottomnav,.modal-backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.top{background:#FFF8EC!important}
+.bottomnav{background:#FFF8EC!important}
+#snowfall-overlay{filter:none!important;opacity:.75!important;contain:strict}
+body{font-family:'Huninn','PingFang TC','Noto Sans TC','Microsoft JhengHei',system-ui,sans-serif!important}
+
+/* simpler text: hide helper paragraphs (data stays in the page) */
+#todayIntro,.itinerary-footnote,.hero>.muted,#weather .card>p.muted,#weather .dayhead .muted,#foodCount,
+.home-shortcuts small,#trip-tools .card>.alert-panel:nth-of-type(3),.care-notes-section{display:none!important}
+.official-season-note{font-size:12.5px!important}
+
+/* top nav active state (set by IntersectionObserver) */
+.top-nav a.on{background:var(--coral)!important;color:#fff!important}
+.top-nav a:first-child{background:#fff}
+
+/* hero: weather = one slim line */
+.hq-line{display:flex;align-items:center;gap:8px;margin-top:12px;padding:8px 12px;background:var(--sky2);border:2px solid var(--ink);border-radius:999px;text-decoration:none;color:var(--ink);min-height:48px}
+.hq-line svg{width:30px;height:30px;flex:0 0 30px}
+.hq-line b{font-size:13px;white-space:nowrap}
+.hq-line span{font-size:12px;color:var(--ink2);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.35}
+.hq-line:after{content:'›';font-size:22px;margin-left:auto;color:var(--ink2)}
+
+/* hero flights: STARLUX boarding passes in a swipe row */
+#flights{margin-top:14px;scroll-margin-top:84px}
+#flights .flightgrid.boarding{display:flex!important;gap:12px!important;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 14px 10px 4px;margin:0 -4px;scrollbar-width:none}
+#flights .flightgrid.boarding::-webkit-scrollbar{display:none}
+#flights .pass{flex:0 0 86%;scroll-snap-align:start}
+.pass-top{padding:7px 12px!important}
+.pass-top .sx{display:flex;align-items:center;gap:6px;letter-spacing:1px}
+.pass-top .sx svg{width:16px;height:16px}
+.pass-route{padding:10px 12px 4px!important}
+.pass-port b{font-size:26px!important}
+.pass-foot{padding:6px 12px 10px!important}
+.flight-note{font-size:11.5px;color:var(--ink2);margin:2px 4px 0;text-align:center}
+@media(min-width:640px){#flights .pass{flex:1 1 0}}
+
+/* shortcuts: 6 compact icon tiles */
+.home-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.home-shortcuts a{min-height:70px!important;padding:8px 4px!important}
+.home-shortcuts a>span svg{width:32px!important;height:32px!important}
+@media(min-width:640px){.home-shortcuts{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+
+/* day-switch stage: sprite crosses the snow + mini Hokkaido map */
+.day-stage{display:flex;gap:8px;align-items:stretch;margin:0 0 14px}
+.stage-band{position:relative;flex:1 1 auto;height:92px;background:#CFE3F2;border:2.5px solid var(--ink);border-radius:20px;overflow:hidden}
+.stage-bg{position:absolute;inset:0;width:100%;height:100%}
+.stage-cable{opacity:0}
+.day-stage.has-cable .stage-cable{opacity:1}
+.stage-sprite{position:absolute;left:0;top:0;will-change:transform}
+.stage-sprite svg{width:100%;height:100%;display:block}
+.stage-sprite.walking svg{animation:sbStep .28s ease-in-out infinite alternate}
+@keyframes sbStep{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-3px) rotate(2deg)}}
+.stage-cap{position:absolute;left:8px;bottom:6px;font-size:11.5px;font-weight:700;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.stage-map{flex:0 0 92px;width:92px;height:92px;background:var(--sky2);border:2.5px solid var(--ink);border-radius:20px;padding:6px}
+.stage-map .ring{transform-box:fill-box;transform-origin:center;animation:sbPulse 1.6s ease-out infinite}
+@keyframes sbPulse{0%{transform:scale(.5);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+
+/* note button inside timeline: clearly tappable memo */
+#dayCard .smallbtn.note:before{content:'📝'}
+.market-photo-pair.in-modal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.market-photo-pair.in-modal img{width:100%;aspect-ratio:3/4;object-fit:cover;border:2px solid var(--ink);border-radius:12px}
+.market-photo-pair.in-modal figure{margin:0}
+.market-photo-pair.in-modal figcaption{font-size:12px;text-align:center;margin-top:4px}
+
+/* fold (details) used for long lists/routes */
+details.fold{margin-top:10px}
+details.fold>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:46px;padding:8px 14px;background:#fff;border:2px solid var(--ink);border-radius:14px;cursor:pointer;font-weight:700;font-size:14px;box-shadow:0 2.5px 0 var(--ink)}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary i{font-style:normal;font-size:12px;color:var(--ink2)}
+details.fold>summary i:after{content:' ▾'}
+details.fold[open]>summary{margin-bottom:10px}
+details.fold[open]>summary i{font-size:0}
+details.fold[open]>summary i:after{content:'收起 ▴';font-size:12px}
+
+/* food: horizontal swipe strip instead of a long grid */
+.food-book{display:flex!important;overflow-x:auto;gap:10px;scroll-snap-type:x proximity;padding:4px 2px 10px;scrollbar-width:none}
+.food-book::-webkit-scrollbar{display:none}
+.food-card{flex:0 0 150px;scroll-snap-align:start}
+.food-card small{display:none}
+
+/* ===== ledger ===== */
+#ledger .card{background:var(--mustard2)!important;padding:16px 14px!important}
+.lg-top{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lg-big{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:10px 12px;min-width:0}
+.lg-big small{display:block;font-size:12px;color:var(--ink2)}
+.lg-big b{display:block;font-size:clamp(20px,6vw,26px);font-variant-numeric:tabular-nums;line-height:1.2;overflow-wrap:anywhere}
+.lg-big span{font-size:11.5px;color:var(--ink2)}
+.lg-big.over b{color:var(--red)}
+.lg-bar{height:14px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:10px 0 6px}
+.lg-bar i{display:block;height:100%;background:var(--sage);border-right:2px solid var(--ink);transition:width .4s}
+.lg-bar.warn i{background:var(--coral)}
+.lg-today{margin:0 0 10px;font-size:13px;color:var(--ink2)}
+.lg-form{background:#fff;border:2px solid var(--ink);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.lg-amt{display:flex;gap:8px}
+.lg-cur{flex:0 0 64px;min-height:54px;border:2.5px solid var(--ink)!important;border-radius:14px!important;background:var(--pink)!important;font-size:20px;font-weight:800;color:var(--ink)!important}
+.lg-amt input{flex:1;min-width:0;font:inherit;font-size:26px;font-weight:800;padding:8px 12px;border:2.5px solid var(--ink);border-radius:14px;background:var(--cream);color:var(--ink)}
+.lg-cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.lg-chip{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;min-height:54px;border:2px solid var(--ink)!important;border-radius:12px!important;background:#fff!important;font-size:18px;color:var(--ink)!important}
+.lg-chip span{font-size:11px}
+.lg-chip.on{background:var(--coral)!important;color:#fff!important;transform:translateY(-2px);box-shadow:0 3px 0 var(--ink)}
+.lg-row{display:flex;gap:8px;flex-wrap:wrap}
+.lg-row>*{flex:1 1 140px;min-width:0}
+.lg-seg{display:flex;border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.lg-seg button{flex:1;min-height:42px;border:0!important;background:#fff!important;font-size:13px;color:var(--ink)!important}
+.lg-seg button+button{border-left:2px solid var(--ink)!important}
+.lg-seg button.on{background:var(--sky)!important;font-weight:800}
+.lg-form select,.lg-form input#lgNote,.lg-set input{font:inherit;font-size:15px;min-height:44px;padding:6px 10px;border:2px solid var(--ink);border-radius:12px;background:var(--cream);color:var(--ink);width:100%}
+.lg-add{min-height:52px;border:2.5px solid var(--ink)!important;border-radius:999px!important;background:var(--coral)!important;color:#fff!important;font-size:17px;font-weight:800;box-shadow:0 3px 0 var(--ink)}
+.lg-add:active{transform:translateY(3px);box-shadow:none}
+.lg-settle{margin-top:12px;background:#fff;border:2px dashed var(--ink);border-radius:14px;padding:10px 12px;font-size:14px}
+.lg-cbars{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.lg-cb{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:8px;font-size:13px}
+.lg-cb i{height:12px;background:#fff;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.lg-cb em{display:block;height:100%;background:var(--pink)}
+.lg-cb b{font-variant-numeric:tabular-nums}
+.lg-list{display:flex;flex-direction:column;gap:6px}
+.lg-item{display:grid;grid-template-columns:34px 1fr auto 36px;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:8px}
+.lg-ic{font-size:20px;text-align:center}
+.lg-item b{display:block;font-size:14px;overflow-wrap:anywhere}
+.lg-item small{font-size:11.5px;color:var(--ink2)}
+.lg-item strong{font-variant-numeric:tabular-nums}
+.lg-del{width:34px;height:34px;border:2px solid var(--ink)!important;border-radius:50%!important;background:var(--pink2)!important;color:var(--ink)!important;font-size:16px;padding:0}
+.lg-del.sure{background:var(--red)!important;color:#fff!important;font-size:11px;width:auto;border-radius:10px!important;padding:0 6px}
+.lg-set label{display:block;font-size:13px;margin-bottom:8px}
+.lg-set .smallbtn{margin:4px 6px 0 0}
+.lg-clear{background:var(--pink2)!important}
+.lg-listbox .smallbtn{margin-top:8px}
+@media(max-width:360px){.lg-cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.stage-map .ring,.stage-sprite.walking svg{animation:none!important}}
+
+/* ===== 美食街：一整排小店面，下面是街道 ===== */
+.food-book{display:flex!important;gap:0!important;align-items:flex-end;overflow-x:auto;padding:30px 0 0!important;margin:0 -14px;scroll-snap-type:x proximity;scrollbar-width:none}
+.food-card.shop{flex:0 0 132px;position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;scroll-snap-align:start;text-align:center}
+.shop-top{position:relative;margin:0 6px;background:var(--wall);border:2.5px solid var(--ink);border-bottom:0;padding:22px 6px 6px;min-height:72px;display:flex;align-items:flex-end;justify-content:center}
+.shop-roof{position:absolute;left:-8px;right:-8px;top:-14px;height:22px;background:var(--roof);border:2.5px solid var(--ink);border-radius:8px 8px 4px 4px}
+.shop-roof:after{content:'';position:absolute;left:4px;right:4px;top:-7px;height:9px;background:#fff;border:2px solid var(--ink);border-bottom:0;border-radius:10px 10px 0 0}
+.r-slant .shop-roof,.r-slant2 .shop-roof{transform:skewY(-6deg);top:-18px}
+.r-slant2 .shop-roof{transform:skewY(6deg)}
+.r-gable .shop-roof{height:34px;top:-30px;left:-4px;right:-4px;border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);border:0;background:var(--ink)}
+.r-gable .shop-roof:before{content:'';position:absolute;inset:3px 5px 0;clip-path:polygon(50% 0,100% 100%,0 100%);background:var(--roof)}
+.r-gable .shop-roof:after{left:30%;right:30%;top:2px;height:10px;clip-path:polygon(50% 0,100% 100%,0 100%);border:0;border-radius:0}
+.r-dome .shop-roof{height:30px;top:-26px;border-radius:60px 60px 4px 4px}
+.r-flat2 .shop-top{min-height:92px}
+.shop-sign{display:block;width:100%;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:3px 4px;font-size:12.5px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.shop-awning{margin:0 2px;height:16px;border:2.5px solid var(--ink);border-radius:0 0 10px 10px;background:repeating-linear-gradient(90deg,var(--awn) 0 14px,#fff 14px 28px)}
+.shop-face{margin:0 6px;background:var(--wall);border:2.5px solid var(--ink);border-top:0;display:grid;grid-template-columns:1fr 26px;gap:6px;align-items:end;padding:8px 6px 0;height:78px}
+.shop-win{background:var(--sky2);border:2.5px solid var(--ink);border-radius:8px;height:56px;display:grid;place-items:center;margin-bottom:8px}
+.shop-win svg{width:44px!important;height:44px!important}
+.shop-door{height:48px;background:var(--roof);border:2.5px solid var(--ink);border-bottom:0;border-radius:12px 12px 0 0;position:relative}
+.shop-door:after{content:'';position:absolute;right:4px;top:22px;width:4px;height:4px;border-radius:50%;background:var(--ink)}
+.shop-walk{background:#FFFDF8;border-top:2.5px solid var(--ink);padding:6px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.shop-walk .fd{font-size:11px!important;font-weight:700;background:var(--mustard2)!important;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px}
+.shop-walk .fc-actions{display:flex;gap:4px;margin:0!important}
+.shop-walk .smallbtn{min-height:32px!important;padding:3px 9px!important;font-size:12px!important;box-shadow:0 2px 0 var(--ink)!important}
+.shop-road{height:30px;background:#8E9BA8;border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);position:relative}
+.shop-road:after{content:'';position:absolute;left:0;right:0;top:12px;border-top:3px dashed #fff}
+.food-card.shop:nth-child(even) .shop-walk:before{content:'';position:absolute;right:-3px;bottom:36px;width:4px;height:58px;background:var(--ink);border-radius:2px}
+.food-card.shop:nth-child(even) .shop-walk:after{content:'';position:absolute;right:-9px;bottom:92px;width:16px;height:14px;background:var(--mustard);border:2px solid var(--ink);border-radius:4px 4px 2px 2px}
+.shop.c0{--wall:#FDE6E8;--roof:#F08A5D;--awn:#F6C1C7}
+.shop.c1{--wall:#E3EEF8;--roof:#3E64A8;--awn:#A9C7E3}
+.shop.c2{--wall:#FCEDC0;--roof:#D9533F;--awn:#F08A5D}
+.shop.c3{--wall:#E3EFD9;--roof:#8DB580;--awn:#F2C14E}
+.shop.c4{--wall:#FFF8EC;--roof:#C98B5E;--awn:#D9533F}
+.shop.sb-reveal{opacity:1!important;transform:none!important}
+
+/* 住宿卡：拿掉造成「分岔」的屋頂裝飾 */
+.stay-card:before{content:none!important;display:none!important}
+.stay-card{padding-top:16px!important;margin-top:14px!important}
+
+/* D7 泡湯動畫 */
+.stage-onsen{display:none;position:absolute;bottom:2px;width:120px;height:70px}
+.day-stage.has-onsen .stage-onsen{display:block}
+.stage-onsen svg{width:100%;height:100%;overflow:visible}
+.stage-onsen .soak-bird{opacity:0;transform:translateY(14px);transition:opacity .25s,transform .45s cubic-bezier(.3,1.6,.5,1)}
+.stage-onsen.soak .soak-bird{opacity:1;transform:none}
+.stage-onsen .steam{opacity:0}
+.stage-onsen.soak .steam{animation:sbSteam 2.4s ease-out infinite}
+.stage-onsen.soak .s2{animation-delay:.8s}.stage-onsen.soak .s3{animation-delay:1.6s}
+@keyframes sbSteam{0%{opacity:0;transform:translateY(8px)}30%{opacity:.95}100%{opacity:0;transform:translateY(-14px)}}
+.stage-onsen.soak .ripple{animation:sbRipple 1.8s ease-in-out infinite}
+@keyframes sbRipple{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+.stage-onsen.soak svg{animation:sbSplash .5s ease-out}
+@keyframes sbSplash{0%{transform:scale(1,1)}40%{transform:scale(1.06,.94)}100%{transform:none}}
+@media(prefers-reduced-motion:reduce){.stage-onsen .steam{opacity:.8!important;animation:none!important}.stage-onsen.soak svg{animation:none!important}}
+
+/* ===== 行程卡片精簡：一站一張小卡，少滑很多 ===== */
+#dayCard .event,.itinerary-primary .event{grid-template-columns:50px minmax(0,1fr)!important;gap:9px!important;padding:10px 10px 10px 8px!important;border-radius:16px!important}
+#dayCard .time,.itinerary-primary .time{font-size:13.5px!important;padding:4px 0!important;border-radius:9px}
+#dayCard .event h4,.itinerary-primary .event h4{font-size:16px!important;line-height:1.3!important;margin:1px 0 2px!important}
+#dayCard .event p,.itinerary-primary .event p{font-size:13px!important;line-height:1.45!important;margin:0!important}
+#dayCard .tags{margin-top:5px!important;gap:4px!important}
+#dayCard .tags:not(:has(.tag:not(.plain))){display:none!important}
+#dayCard .tag{font-size:10.5px!important;padding:1px 7px!important;border-width:1.5px!important}
+#dayCard .tag.plain{display:none!important}
+#dayCard .event-actions{display:flex!important;flex-wrap:wrap;gap:5px!important;margin-top:7px!important}
+#dayCard .event-actions .smallbtn,.itinerary-primary .event-actions .smallbtn{min-height:32px!important;padding:3px 10px!important;font-size:12.5px!important;box-shadow:0 2px 0 var(--ink)!important;border-width:1.8px!important}
+#dayCard .smallbtn.note:before{content:'📝 '}
+#dayCard .event-actions label.smallbtn{gap:5px}
+#dayCard .event-actions input[type=checkbox]{width:16px!important;height:16px!important;flex-basis:16px!important}
+#dayCard .leg,.itinerary-primary .leg{margin-left:24px!important;padding:5px 0 5px 14px!important;font-size:12px!important;gap:6px!important;flex-wrap:nowrap!important;white-space:nowrap}
+#dayCard .leg a{min-height:28px!important;padding:2px 9px!important;font-size:11.5px!important;box-shadow:0 1.5px 0 var(--ink)!important;border-width:1.5px!important;flex:0 0 auto}
+#dayCard .leg{overflow:hidden;text-overflow:ellipsis}
+#dayCard .day-theme{min-height:0!important;padding:8px 10px!important;font-size:13px!important}
+#dayCard .day-theme .day-illus{width:44px!important;height:44px!important;flex-basis:44px!important}
+#dayCard .weather{padding:9px 11px!important;font-size:13px}
+#dayCard .weather .weather-risk{margin-top:4px}
+#dayCard .weather br{display:none}
+#dayCard .weather .weather-link{min-height:30px!important;margin-top:6px!important;padding:2px 10px!important;font-size:12px!important}
+.today-day-card{padding:14px 10px 12px!important}
+.dayhead h3,.itinerary-primary .dayhead h3{font-size:clamp(20px,5.6vw,24px)!important}
+
+/* ===== 整體再精簡 ===== */
+#dayCard .weather .weather-meta,#dayCard .weather .weather-link{display:none!important}
+#dayCard .weather strong{font-size:13.5px}
+#trip-tools .card>.alert-panel:nth-of-type(2){display:none!important}
+#essentials .info-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+#essentials .mini{padding:9px 10px!important}
+#essentials .mini strong{font-size:16px!important}
+#essentials .mini p{margin:3px 0 0;font-size:12px}
+#essentials .mini .smallbtn{min-height:30px!important;padding:2px 9px!important;font-size:12px!important;margin-top:4px}
+#trip-tools .info-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+#trip-tools .mini strong{font-size:17px!important;overflow-wrap:anywhere}
+#trip-tools .mini p{margin:3px 0 0;font-size:12px}
+.departure-countdown{padding:12px 10px 10px!important;margin-top:24px!important}
+.departure-countdown-units>div{padding:6px 0 4px!important}
+
+/* ===== 記帳：簡單明瞭版 ===== */
+#ledger .card{background:#fff!important}
+.lg-sum{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--ink);border-radius:16px;overflow:hidden;background:var(--cream)}
+.lg-sum>div{padding:10px 12px;min-width:0}
+.lg-sum>div+div{border-left:2px dashed var(--ink3)}
+.lg-sum small{display:block;font-size:12px;color:var(--ink2)}
+.lg-sum b{display:block;font-size:clamp(20px,6vw,24px);line-height:1.2;font-variant-numeric:tabular-nums}
+.lg-sum span{font-size:11.5px;color:var(--ink2)}
+.lg-sum .over b{color:var(--red)}
+.lg-sum .lg-bar{grid-column:1/3;margin:0!important;border:0!important;border-top:2px solid var(--ink)!important;border-radius:0!important;height:10px!important;padding:0!important}
+.lg-form{margin-top:12px;padding:10px!important;gap:8px!important;background:var(--cream)!important}
+.lg-amt{display:grid!important;grid-template-columns:52px minmax(0,1fr) 76px;gap:6px!important}
+.lg-cur{min-height:50px!important;font-size:17px!important}
+.lg-amt input{font-size:22px!important;padding:6px 10px!important;background:#fff!important}
+.lg-amt .lg-add{min-height:50px!important;font-size:16px!important;border-radius:14px!important;padding:0!important}
+.lg-chip{min-height:48px!important;font-size:16px!important}
+.lg-more>summary{list-style:none;cursor:pointer;font-size:13px;padding:6px 4px;color:var(--ink)}
+.lg-more>summary::-webkit-details-marker{display:none}
+.lg-more>summary span{font-weight:700;background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px}
+.lg-more>summary i{font-style:normal;color:var(--ink2);font-size:12px}
+.lg-more[open]>summary{margin-bottom:8px}
+.lg-more .lg-row+.lg-row{margin-top:8px}
+.lg-settle{display:flex;flex-direction:column;gap:2px;margin-top:10px!important;font-size:13.5px!important;background:var(--cream)!important;border-style:dashed!important}
+.lg-settle small{font-size:12px;color:var(--ink2)}
+.lg-listbox .lg-cbars{margin:0 0 10px!important}
+
+/* ===== 柔和淡色：保留所有顏色，只降低彩度 ===== */
+:root{--line-w:2px!important;--pop:2px 3px 0 rgba(91,75,67,.12)!important}
+.card,.today-day-card,.hero,.departure-countdown,.pass,.mini,.stay-card,.daytab,.smallbtn,.lg-form,.lg-sum,#dayCard .event{border-width:2px!important}
+.daytab,.smallbtn,.top-nav a,.bottomnav button,.home-shortcuts a{box-shadow:0 2px 0 rgba(91,75,67,.55)!important}
+.hero h1{text-shadow:2px 2px 0 var(--pink)!important}
+body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4px)!important}
+#snowfall-overlay{opacity:.55!important}
+#trip-tools .alert-panel:has(#importantReminders)>b{display:none}#trip-tools .alert-panel:has(#importantReminders){padding:0!important;border:0!important;background:none!important}#trip-tools .alert-panel:has(#importantReminders) details.fold{margin:10px 0 0}
+
+/* ===== 每日小劇場（v3） ===== */
+.day-stage .stage-cable{opacity:0;transition:opacity .3s}
+.day-stage.m-cable .stage-cable{opacity:1}
+.day-stage .stage-onsen{display:none}
+.day-stage.m-onsen .stage-onsen{display:block}
+.stage-water{position:absolute;left:0;right:0;bottom:0;height:30px;display:none}
+.stage-water svg{width:100%;height:100%;display:block}
+.day-stage.m-boat .stage-water{display:block}
+.day-stage.m-boat .stage-hill{opacity:0}
+.stage-water .wave{animation:sbRipple 2.2s ease-in-out infinite}
+.stage-band{transition:background-color .5s}
+.day-stage.m-night .stage-band{background:#8C9BB8}
+.stage-moon{position:absolute;right:16px;top:10px;width:20px;height:20px;border-radius:50%;background:#F8F1DC;box-shadow:-5px 0 0 0 #8C9BB8 inset;border:2px solid var(--ink);opacity:0;transition:opacity .5s}
+.day-stage.m-night .stage-moon{opacity:1}
+.day-stage.m-night .stage-band:before{content:'';position:absolute;inset:0 0 40% 0;background-image:radial-gradient(#fff 1.2px,transparent 1.6px),radial-gradient(#fff 1px,transparent 1.4px);background-size:46px 30px,64px 40px;background-position:8px 6px,30px 16px;opacity:.85;animation:sbTwinkleBg 3s ease-in-out infinite}
+@keyframes sbTwinkleBg{50%{opacity:.4}}
+.stage-sprite{position:absolute;left:0;top:0;will-change:transform}
+.stage-sprite svg{width:100%;height:100%;display:block;overflow:visible}
+.stage-extra{position:absolute;inset:0;pointer-events:none}
+/* speech bubble */
+.stage-bubble{position:absolute;z-index:3;font-size:12px;font-weight:700;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:2px 8px;white-space:nowrap;opacity:0;transform:scale(.4) translateY(6px);transform-origin:0 100%;transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1)}
+.stage-bubble:after{content:'';position:absolute;left:10px;bottom:-6px;width:8px;height:8px;background:#fff;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.stage-bubble.show{opacity:1;transform:none}
+.stage-cap{z-index:2}
+/* walking cycles (parts can move because the art is inlined) */
+.stage-sprite.walking.s-walk svg{animation:sbStep .3s ease-in-out infinite alternate}
+.stage-sprite.walking .leg-a{animation:sbLegA .3s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 0}
+.stage-sprite.walking .leg-b{animation:sbLegA .3s ease-in-out infinite alternate-reverse;transform-box:fill-box;transform-origin:50% 0}
+@keyframes sbLegA{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+.stage-sprite .tail{transform-box:fill-box;transform-origin:100% 80%;animation:sbWag 1s ease-in-out infinite alternate}
+@keyframes sbWag{from{transform:rotate(-6deg)}to{transform:rotate(10deg)}}
+.stage-sprite.arrived.s-walk svg{animation:sbHappy 1.2s ease-in-out 2}
+@keyframes sbHappy{0%,100%{transform:none}30%{transform:translateY(-6px)}50%{transform:none}70%{transform:translateY(-3px)}}
+.stage-sprite.s-parade svg{transform-origin:50% 100%}
+.stage-sprite.walking.s-parade svg{animation:sbWaddle2 .32s ease-in-out infinite alternate}
+@keyframes sbWaddle2{from{transform:rotate(-10deg)}to{transform:rotate(10deg) translateY(-2px)}}
+.stage-sprite.arrived.s-parade svg{animation:sbFlap .5s ease-in-out 3 alternate}
+@keyframes sbFlap{from{transform:rotate(0)}to{transform:rotate(-6deg) translateY(-4px)}}
+.stage-sprite.s-boat svg{animation:sbBob 1.6s ease-in-out infinite}
+@keyframes sbBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+.stage-sprite.s-cable svg{transform-origin:50% 0}
+.stage-sprite.arrived.s-cable svg{animation:sbSway 1.8s ease-in-out infinite}
+@keyframes sbSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.stage-sprite.walking.s-cable svg{animation:sbSway .9s ease-in-out infinite}
+.stage-sprite .wheel{transform-box:fill-box;transform-origin:center}
+.stage-sprite.walking .wheel{animation:sbSpin .4s linear infinite}
+@keyframes sbSpin{to{transform:rotate(360deg)}}
+.stage-sprite.walking.s-drive svg{animation:sbStep .18s ease-in-out infinite alternate}
+.stage-sprite .puff{opacity:0}
+.stage-sprite.walking .puff{animation:sbPuff .7s ease-out infinite}
+.stage-sprite.walking .p2{animation-delay:.35s}
+@keyframes sbPuff{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-10px,-6px) scale(1.4)}}
+.stage-sprite.s-land svg,.stage-sprite.s-takeoff svg{transform-origin:center}
+.stage-sprite.arrived.s-land svg{animation:sbHappy 1s ease-in-out 1}
+@media(prefers-reduced-motion:reduce){.stage-sprite svg,.stage-sprite *,.stage-water .wave,.day-stage.m-night .stage-band:before{animation:none!important}}
+
+/* ===== v4 修正 ===== */
+/* 對話框：小小的、柔和、會自己消失 */
+.stage-bubble{font-size:10.5px!important;font-weight:700;padding:1px 7px!important;border-width:1.5px!important;border-radius:999px!important;background:#FFFAF2!important;color:var(--ink);box-shadow:0 1px 0 rgba(91,75,67,.25)}
+.stage-bubble:after{left:8px!important;bottom:-4px!important;width:6px!important;height:6px!important;border-width:1.5px!important;background:#FFFAF2!important}
+.stage-bubble.show{animation:sbFloat 2.4s ease-in-out infinite}
+@keyframes sbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.stage-cap{font-size:11px!important;padding:1px 8px!important;border-width:1.5px!important;bottom:5px!important}
+/* hero：日期合併成一條小標 */
+.hero-dates{margin:2px 0 0!important}
+.hero-dates span{font-size:12.5px!important;padding:4px 12px!important;background:#fff!important;border-width:1.5px!important;font-weight:700}
+.hero h1{margin-bottom:4px!important}
+/* 天氣：只保留一個，放在每日動畫下面 */
+#dayCard .weather{display:none!important}
+#weather.wx-inline{margin:0 0 12px!important}
+#weather.wx-inline>h2{display:none!important}
+#weather.wx-inline .card{padding:10px 12px!important;margin:0!important;background:var(--sky2)!important;border-radius:18px!important}
+#weather.wx-inline .card:after{display:none}
+#weather.wx-inline .dayhead{margin:0 0 6px!important;align-items:center!important;flex-wrap:nowrap}
+#weather.wx-inline .dayhead b{font-size:13px}
+#weather.wx-inline .dayhead b:before{content:'🌤️ '}
+#weather.wx-inline #refreshWeather{min-height:30px!important;padding:2px 10px!important;font-size:11.5px!important;white-space:nowrap}
+#weather.wx-inline .weather{background:#fff!important;padding:8px 10px!important;border-width:1.5px!important}
+#weather.wx-inline .weather strong{font-size:13px!important;font-weight:700}
+#weather.wx-inline .weather-meta{display:none!important}
+#weather.wx-inline .weather-risk{font-size:11.5px!important;padding:4px 8px!important}
+#weather.wx-inline .event-actions{display:flex;flex-wrap:nowrap!important;overflow-x:auto;gap:5px!important;margin-top:8px!important;scrollbar-width:none}
+#weather.wx-inline .event-actions::-webkit-scrollbar{display:none}
+#weather.wx-inline .event-actions .smallbtn{flex:0 0 auto;min-height:28px!important;padding:2px 9px!important;font-size:11.5px!important;box-shadow:none!important;border-width:1.5px!important}
+/* 記帳：選項直接看得到、一眼就懂 */
+.lg-opts{display:flex;flex-direction:column;gap:6px;border-top:1.5px dashed var(--ink3);padding-top:8px}
+.lg-opt{display:grid;grid-template-columns:38px minmax(0,1fr);align-items:center;gap:8px}
+.lg-opt>span{font-size:12px;color:var(--ink2);font-weight:700}
+.lg-opt .lg-seg{border-width:1.5px!important;border-radius:999px!important}
+.lg-opt .lg-seg button{min-height:36px!important;font-size:13px!important}
+.lg-opt .lg-seg button.on{background:var(--coral)!important;color:#fff!important}
+.lg-opt .lg-seg button.on:before{content:'✓ '}
+.lg-opt select,.lg-opt input{min-height:36px!important;font-size:13.5px!important;padding:4px 10px!important;border-width:1.5px!important;border-radius:999px!important;background:#fff!important}
+
+/* 鱗友朝市 rich note */
+.note-body.rich{white-space:normal!important;background-image:none!important;line-height:1.6!important;padding:12px!important}
+.rich-note .rn-goal{margin:0 0 10px;font-size:14.5px;background:var(--pink2);border:1.5px solid var(--ink);border-radius:12px;padding:6px 10px}
+.rich-note h4{margin:0 0 6px;font-size:16px}
+.rn-shop{border:1.5px solid var(--ink);border-radius:14px;padding:10px;margin-bottom:10px;background:var(--cream)}
+.rn-shop img{display:block;width:100%;height:auto;border-radius:10px;border:1.5px solid var(--ink);margin:2px 0 8px}
+.rn-shop ul{margin:0;padding-left:18px;font-size:14px}
+.rn-shop li{margin:2px 0}
+.rn-shop a{color:var(--navy);font-weight:700}
+.rn-h{margin-top:12px!important}
+.rn-crab{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:14px;padding:8px;margin-top:8px;background:#fff}
+.rn-crab svg{width:56px;height:56px;background:var(--sky2);border-radius:12px}
+.rn-crab b{display:block;font-size:16px}
+.rn-crab small{font-size:12.5px;color:var(--ink2)}
+.rn-crab .smallbtn{min-height:32px!important;padding:3px 10px!important;font-size:12px!important}
