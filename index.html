@@ -1203,6 +1203,40 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 @media(prefers-reduced-motion:reduce){.dream *{animation:none!important;opacity:1!important}.dr-bit,.dr-fall,.dr-bokeh,.dr-twinkle,.dr-rays{display:none}}
 .lg-sum .lg-bar{grid-column:1/3!important;margin:0 12px 12px!important;height:10px!important;border:1.5px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;overflow:hidden}
 .lg-sum .lg-bar i{border-right:0!important;border-radius:999px}
+/* v6 phrases + emergency */
+.ph-tip{margin:-6px 0 10px!important;font-size:13px}
+.ph-hotel{display:block;width:100%;text-align:left;background:var(--sky2)!important;border:2px solid var(--ink)!important;border-radius:16px!important;padding:10px 14px;font-size:13px;color:var(--ink)!important;box-shadow:0 2px 0 rgba(91,75,67,.5);line-height:1.6}
+.ph-hotel b{font-size:18px}
+.ph-list{display:flex;flex-direction:column;gap:8px}
+.ph-card{position:relative;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:9px 48px 9px 12px;cursor:pointer;box-shadow:0 2px 0 rgba(91,75,67,.35)}
+.ph-card small{display:block;font-size:12px;color:var(--ink2)}
+.ph-card b{display:block;font-size:16.5px;line-height:1.45;font-family:'Hiragino Maru Gothic ProN','Hiragino Sans',var(--font)}
+.ph-card:active{transform:translateY(2px);box-shadow:none}
+.ph-say{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:1.5px solid var(--ink)!important;border-radius:50%!important;background:var(--pink2)!important;font-size:15px;padding:0}
+.ph-big{position:fixed;inset:0;z-index:85;background:rgba(91,75,67,.4);display:none;place-items:center;padding:16px}
+.ph-big.open{display:grid;animation:drIn .25s ease}
+.ph-big-card{width:100%;max-width:560px;background:#fff;border:3px solid var(--ink);border-radius:24px;padding:22px 18px 16px;text-align:center}
+.ph-big-card small{display:block;font-size:14px;color:var(--ink2);margin-bottom:12px}
+.ph-big-card b{display:block;white-space:pre-line;font-size:clamp(30px,9vw,46px);line-height:1.35;font-family:'Hiragino Maru Gothic ProN','Hiragino Sans',var(--font);color:var(--ink)}
+.ph-big-btns{display:flex;gap:10px;justify-content:center;margin-top:18px}
+.ph-big-btns button{min-height:44px;padding:6px 18px;border:2px solid var(--ink)!important;border-radius:999px!important;background:var(--cream)!important;font-size:15px;color:var(--ink)!important}
+.ph-big-say{background:var(--pink)!important}
+.em-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.em-card{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:10px 12px;text-decoration:none;color:var(--ink);box-shadow:0 2px 0 rgba(91,75,67,.35)}
+.em-card:nth-child(-n+2){background:var(--pink2)}
+.em-ic{font-size:26px;text-align:center}
+.em-card b{display:block;font-size:14px}
+.em-card strong{display:block;font-size:20px;color:var(--coral);font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.em-card small{display:block;font-size:11.5px;color:var(--ink2);line-height:1.4}
+.em-mine{margin-top:14px!important;background:var(--cream)!important}
+.em-mine h3{margin:0 0 2px!important;font-size:16px!important}
+.em-mine label{display:block;font-size:13px;margin-top:8px}
+.em-mine input,.em-mine textarea{display:block;width:100%;margin-top:4px;font:inherit;font-size:15px;padding:8px 10px;border:1.5px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink)}
+.em-call{margin-top:10px}
+.lg-steps{margin:0 0 10px;padding-left:20px;font-size:13.5px;line-height:1.7}
+.lg-share{width:100%;min-height:48px!important}
+.lg-hint{font-size:12px;color:var(--ink2);margin:10px 0 0;line-height:1.6}
+@media(min-width:640px){.em-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1883,6 +1917,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const CATS=[['food','🍜','餐飲'],['move','🚗','交通'],['shop','🛍️','購物'],['stay','🏨','住宿'],['ticket','🎟️','門票'],['other','✨','其他']];
  const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
  const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('手機儲存空間暫時無法保存')}};
+ const DK='hk-ledger-del-v1';let DEL=load(DK,[]);
  let L=load(LK,[]),S=Object.assign({budget:0,rate:0.21,a:'我',b:'陳肥肥'},load(SK,{}));if(S.b==='旅伴'){S.b='陳肥肥';save(SK,S);}
  let cur='JPY',cat='food',payer='a',shared=true;
  const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
@@ -1925,6 +1960,11 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
     <div class="lg-list">${list.length?list.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `<div class="lg-item"><span class="lg-ic">${c[1]}</span><div><b>${esc(e.note||c[2])}</b><small>${e.day<0?'出發前':'D'+(e.day+1)}・${esc(e.payer==='a'?S.a:S.b)}付${e.shared?'・平分':''}</small></div><strong>${e.cur==='TWD'?'NT$'+e.amt.toLocaleString():yen(e.amt)}</strong><button type="button" class="lg-del" data-del="${e.t}" aria-label="刪除">×</button></div>`}).join(''):'<p class="muted">還沒有紀錄，從上面記第一筆吧！</p>'}</div>
     ${list.length?'<button type="button" class="smallbtn" id="lgCopy">複製全部明細</button>':''}
    </details>
+   <details class="fold lg-sync"><summary><span>🔄 和${esc(S.b)}合併帳本</span><i>展開</i></summary>
+    <ol class="lg-steps"><li>兩個人各自在自己手機記帳就好。</li><li>按下面按鈕，把連結用 LINE 傳給${esc(S.b)}。</li><li>${esc(S.b)}點開連結 → 按「合併」，兩邊的帳就合在一起了。對方也傳一次給你，兩支手機就一模一樣。</li></ol>
+    <button type="button" class="lg-add lg-share" id="lgShare">📤 傳送我的帳本</button>
+    <p class="lg-hint">⚠️ 第一次使用前：${esc(S.b)}的手機要到 ⚙️ 設定把「名字 1」改成自己的名字、「名字 2」填你的名字，誰付錢才不會對調。</p>
+   </details>
    <details class="fold lg-set"><summary><span>⚙️ 預算與設定</span><i>展開</i></summary>
     <label>總預算（日圓）<input id="lgBudget" inputmode="numeric" value="${budget||''}" placeholder="例如 300000"></label>
     <label>匯率：1 日圓 ＝ ? 台幣<input id="lgRate" inputmode="decimal" value="${S.rate}"></label>
@@ -1941,19 +1981,59 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    const p=t.closest('[data-payer]');if(p){payer=p.dataset.payer;p.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===p));updOpt();return;}
    const s=t.closest('[data-shared]');if(s){shared=s.dataset.shared==='1';s.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===s));updOpt();return;}
    if(t.id==='lgCur'){cur=cur==='JPY'?'TWD':'JPY';t.textContent=cur==='JPY'?'¥':'NT$';return;}
-   const d=t.closest('[data-del]');if(d){if(confirmDel(d)){L=L.filter(e=>String(e.t)!==d.dataset.del);save(LK,L);renderLedger();openList();}return;}
+   const d=t.closest('[data-del]');if(d){if(confirmDel(d)){L=L.filter(e=>String(e.t)!==d.dataset.del);DEL.push(+d.dataset.del);save(DK,DEL);save(LK,L);renderLedger();openList();}return;}
    if(t.id==='lgCopy'){copyText(L.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `${e.day<0?'出發前':'D'+(e.day+1)}\t${c[2]}\t${e.note||''}\t${e.cur==='TWD'?'NT$':'¥'}${e.amt}\t${e.payer==='a'?S.a:S.b}付${e.shared?'(平分)':''}`}).join('\n'));return;}
    if(t.id==='lgSaveSet'){S.budget=+($q('#lgBudget').value.replace(/[^\d.]/g,''))||0;S.rate=+$q('#lgRate').value||S.rate;S.a=$q('#lgNA').value.trim()||'我';S.b=$q('#lgNB').value.trim()||'陳肥肥';save(SK,S);renderLedger();toast('設定已儲存');return;}
-   if(t.id==='lgClear'){if(t.dataset.sure){L=[];save(LK,L);renderLedger();toast('已清除全部紀錄');}else{t.dataset.sure='1';t.textContent='再按一次確認清除';setTimeout(()=>{t.textContent='清除全部紀錄';delete t.dataset.sure},3000);}return;}
+   if(t.id==='lgClear'){if(t.dataset.sure){DEL=DEL.concat(L.map(e=>e.t));save(DK,DEL);L=[];save(LK,L);renderLedger();toast('已清除全部紀錄');}else{t.dataset.sure='1';t.textContent='再按一次確認清除';setTimeout(()=>{t.textContent='清除全部紀錄';delete t.dataset.sure},3000);}return;}
   });
   function confirmDel(btn){if(btn.dataset.sure)return true;btn.dataset.sure='1';btn.textContent='刪?';btn.classList.add('sure');setTimeout(()=>{if(btn.isConnected){btn.textContent='×';btn.classList.remove('sure');delete btn.dataset.sure}},2500);return false;}
   function updOpt(){const o=$q('#lgOptTxt');if(o)o.textContent=`${payer==='a'?S.a:S.b} 付・${shared?'兩人平分':'自己的'}`;}
   function openList(){const d=host.querySelector('.lg-listbox');if(d)d.open=true;}
+  async function pack(){
+   const obj={v:1,n:[S.a,S.b],r:S.rate,e:L.map(e=>[e.t,e.amt,e.cur==='TWD'?1:0,e.cat,e.payer,e.shared?1:0,e.day,e.note||'']),d:DEL.slice(-500)};
+   let bytes=new TextEncoder().encode(JSON.stringify(obj)),tag='j';
+   if(window.CompressionStream){try{const cs=new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'));bytes=new Uint8Array(await new Response(cs).arrayBuffer());tag='z';}catch(e){}}
+   let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
+   return tag+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  async function unpack(str){
+   const tag=str[0];let b=str.slice(1).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';
+   let bytes=Uint8Array.from(atob(b),c=>c.charCodeAt(0));
+   if(tag==='z'){const ds=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));bytes=new Uint8Array(await new Response(ds).arrayBuffer());}
+   return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  host.addEventListener('click',async ev=>{
+   if(ev.target.id!=='lgShare')return;
+   const url=location.origin+location.pathname+'#merge='+await pack();
+   const text=`北海道大暴吃帳本（${S.a}，${L.length} 筆）點開就能合併：`;
+   if(navigator.share){try{await navigator.share({title:'北海道大暴吃帳本',text,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+   copyText(text+'\n'+url);
+  });
+  async function tryMerge(){
+   const m=location.hash.match(/#merge=([A-Za-z0-9_-]+)/);if(!m)return;
+   history.replaceState(null,'',location.pathname+location.search);
+   let o;try{o=await unpack(m[1]);}catch(e){toast('合併連結讀取失敗，請對方重新傳一次');return;}
+   const [na,nb]=o.n||['',''];
+   if(na===S.a){toast(`兩支手機的「名字 1」都是「${S.a}」，請對方先到 ⚙️ 設定改成自己的名字再傳一次`);return;}
+   const swap=p=>p==='a'?'b':'a';
+   const mapP=p=>{const name=p==='a'?na:nb;if(name===S.a)return'a';if(name===S.b)return'b';return swap(p);};
+   const del=new Set(DEL.concat(o.d||[]));
+   const have=new Set(L.map(e=>e.t));
+   const inc=(o.e||[]).filter(x=>!have.has(x[0])&&!del.has(x[0]));
+   const gone=L.filter(e=>del.has(e.t)).length;
+   if(!inc.length&&!gone){toast('帳本已經是最新的，不需要合併');return;}
+   if(!confirm(`收到「${na}」的帳本\n新增 ${inc.length} 筆${gone?`、刪除 ${gone} 筆`:''}\n要合併到這支手機嗎？`))return;
+   inc.forEach(x=>L.push({t:x[0],amt:x[1],cur:x[2]?'TWD':'JPY',cat:x[3],payer:mapP(x[4]),shared:!!x[5],day:x[6],note:x[7]}));
+   L=L.filter(e=>!del.has(e.t));DEL=[...del];save(DK,DEL);save(LK,L);renderLedger();
+   toast(`合併完成！新增 ${inc.length} 筆`);
+   const sec=document.getElementById('ledger');if(sec)sec.scrollIntoView({block:'start'});
+  }
+  setTimeout(tryMerge,600);window.addEventListener('hashchange',tryMerge);
   host.addEventListener('submit',ev=>{
    ev.preventDefault();
    const amt=parseFloat(($q('#lgAmt').value||'').replace(/[^\d.]/g,''));
    if(!amt){toast('請先輸入金額');$q('#lgAmt').focus();return;}
-   L.push({t:Date.now(),amt,cur,cat,payer,shared,day:+$q('#lgDay').value,note:$q('#lgNote').value.trim()});
+   L.push({t:Date.now()*10+Math.floor(Math.random()*10),amt,cur,cat,payer,shared,day:+$q('#lgDay').value,note:$q('#lgNote').value.trim()});
    save(LK,L);renderLedger();toast('記好了！'+(cur==='JPY'?yen(amt):'NT$'+amt));
    const b=host.querySelector('.lg-add');if(b&&!RM){const r=b.getBoundingClientRect();document.dispatchEvent(new CustomEvent('sb-burst',{detail:{x:r.left+r.width/2,y:r.top}}));}
   });
@@ -2025,5 +2105,98 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const id=Object.keys(LISTS).find(k=>e.target.closest&&e.target.closest('#'+k));if(!id)return;
   setTimeout(()=>{const f=isFull(id);if(f&&!full[id])celebrate(LISTS[id]);full[id]=f;},30);
  });
+})();
+</script>
+<script>/* ===== v6：日文溝通卡、緊急資訊 ===== */
+(function(){
+ const $=s=>document.querySelector(s);
+ const ic=id=>`<svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#${id}"></use></svg>`;
+ const PH=[
+  ['🍜 餐廳',[
+   ['兩位，沒有預約','2人です。予約はしていません。'],
+   ['有中文或英文菜單嗎？','中国語か英語のメニューはありますか？'],
+   ['請給我這個','これをください。'],
+   ['不要芥末','わさび抜きでお願いします。'],
+   ['麻煩結帳','お会計をお願いします。'],
+   ['可以分開結帳嗎？','お会計は別々にできますか？'],
+   ['可以刷卡嗎？','カードは使えますか？']]],
+  ['🦀 市場・螃蟹',[
+   ['這個多少錢？','これはいくらですか？'],
+   ['請幫我挑一隻毛蟹','毛ガニを一杯選んでください。'],
+   ['可以在這裡煮好直接吃嗎？','ここで調理して食べられますか？'],
+   ['料理費是多少？','調理代はいくらですか？']]],
+  ['🛍️ 購物・退稅',[
+   ['可以免稅嗎？','免税できますか？'],
+   ['這是我的護照','パスポートです。'],
+   ['可以試吃嗎？','試食できますか？'],
+   ['請給我袋子','袋をください。'],
+   ['送禮用，請分開裝','プレゼント用に、別々の袋に入れてください。']]],
+  ['🚗 自駕・加油',[
+   ['普通汽油，加滿','レギュラー満タンでお願いします。'],
+   ['用信用卡付款','カードでお願いします。'],
+   ['停車場在哪裡？','駐車場はどこですか？'],
+   ['車子被雪卡住動不了','車が雪にはまって動けません。']]],
+  ['🏨 飯店',[
+   ['我要辦入住，有預約','チェックインをお願いします。予約しています。'],
+   ['可以寄放行李嗎？','荷物を預かってもらえますか？'],
+   ['請叫一台計程車','タクシーを呼んでください。']]],
+  ['🆘 求助',[
+   ['我不會說日文','日本語が話せません。'],
+   ['請幫幫我','助けてください。'],
+   ['請叫救護車','救急車を呼んでください。'],
+   ['我身體不舒服','気分が悪いです。'],
+   ['最近的醫院在哪裡？','一番近い病院はどこですか？'],
+   ['我的護照不見了','パスポートをなくしました。']]]
+ ];
+ const HOTELS=[['Hotel Vista Sapporo Odori','ホテルビスタ札幌大通',[0,1,2,3]],['Hotel Amanek Asahikawa','ホテルアマネク旭川',[4,5]],['第一瀧本館（登別溫泉）','第一滝本館（登別温泉）',[6]],['KOKO STAY 千歲','KOKO STAY 千歳',[7,8]]];
+ const tonight=()=>{const d=typeof current==='number'?current:0;return HOTELS.find(h=>h[2].includes(d))||HOTELS[0];};
+ const EM=[
+  ['🚓','警察','110','24 小時・免費'],
+  ['🚑','救護車・消防','119','24 小時・免費'],
+  ['☎️','日本旅遊熱線（有中文）','050-3816-2787','JNTO・24 小時・生病、災害、遺失都可以問'],
+  ['🇹🇼','駐日代表處 札幌分處','011-222-2930','平日 9:00–12:00、13:00–18:00'],
+  ['🆘','札幌分處 急難專線','080-1460-2568','限重大急難（受傷就醫、被捕、重大犯罪受害）'],
+  ['📞','外交部急難救助（從日本撥）','+886-800-085-095','24 小時'],
+  ['🚗','Nippon 租車 新千歲','050-1712-2970','車子出問題先打這支（預約 G34218）'],
+  ['🛠️','JAF 道路救援','#8139','租車請先聯絡租車公司；也可撥 0570-00-8139']
+ ];
+ const sec=document.createElement('div');
+ sec.innerHTML=`<section class="section" id="phrases"><h2>${ic('i-note')}日文溝通卡</h2>
+   <p class="muted ph-tip">點一下卡片就會放大給店員看，🔊 可以直接唸出來</p>
+   <button type="button" class="ph-hotel" id="phHotel"></button>
+   ${PH.map(([cat,list],i)=>`<details class="fold ph-cat" ${i===0?'open':''}><summary><span>${cat}</span><i>展開</i></summary><div class="ph-list">${list.map(([zh,ja])=>`<div class="ph-card" data-ja="${ja}" data-zh="${zh}" role="button" tabindex="0"><small>${zh}</small><b lang="ja">${ja}</b><button type="button" class="ph-say" aria-label="唸出來">🔊</button></div>`).join('')}</div></details>`).join('')}
+  </section>
+  <section class="section" id="emergency"><h2>${ic('i-compass')}緊急資訊</h2>
+   <div class="em-grid">${EM.map(([e,n,t,d])=>`<a class="em-card" href="tel:${t.replace(/[^\d+#]/g,'').replace('#','%23')}"><span class="em-ic">${e}</span><div><b>${n}</b><strong>${t}</strong><small>${d}</small></div></a>`).join('')}</div>
+   <div class="card em-mine"><h3>🛡️ 我們的保險與重要資料</h3><p class="muted">只存在這支手機，不會上傳</p>
+    <label>旅平險／不便險公司<input data-em="ins"></label>
+    <label>保險 24 小時救援電話<input data-em="instel" inputmode="tel"></label>
+    <label>保單號碼<input data-em="pol"></label>
+    <label>其他備註（血型、過敏、家人電話）<textarea data-em="note" rows="2"></textarea></label>
+    <div class="em-call" id="emInsCall"></div>
+   </div>
+  </section>`;
+ const anchor=$('#ledger');if(!anchor)return;
+ [...sec.children].reverse().forEach(n=>anchor.insertAdjacentElement('afterend',n));
+ /* big card */
+ const big=document.createElement('div');big.className='ph-big';big.innerHTML='<div class="ph-big-card"><small></small><b lang="ja"></b><div class="ph-big-btns"><button type="button" class="ph-big-say">🔊 唸出來</button><button type="button" class="ph-big-x">關閉</button></div></div>';document.body.appendChild(big);
+ const say=t=>{try{if(!('speechSynthesis' in window)){toast('這支手機不支援朗讀');return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=.9;const v=speechSynthesis.getVoices().find(v=>/ja/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}};
+ const show=(zh,ja)=>{big.querySelector('small').textContent=zh;big.querySelector('b').textContent=ja;big.dataset.ja=ja;big.classList.add('open');};
+ document.addEventListener('click',e=>{
+  const s=e.target.closest('.ph-say');if(s){e.stopPropagation();say(s.closest('.ph-card').dataset.ja);return;}
+  const c=e.target.closest('.ph-card');if(c){show(c.dataset.zh,c.dataset.ja);return;}
+  if(e.target.closest('#phHotel')){const h=tonight();show('請帶我到這家飯店　'+h[0],h[1]+'\nまでお願いします。');return;}
+  if(e.target.closest('.ph-big-say')){say(big.dataset.ja);return;}
+  if(e.target.closest('.ph-big-x')||e.target===big){big.classList.remove('open');}
+ });
+ const upH=()=>{const h=tonight();$('#phHotel').innerHTML=`🚕 計程車卡：帶我回今晚的飯店<br><b lang="ja">${h[1]}</b>`;};
+ upH();if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(){const r=p.apply(this,arguments);try{upH()}catch(e){}return r;};}
+ /* my info */
+ const MK='hk-emergency-mine-v1';let M={};try{M=JSON.parse(localStorage.getItem(MK))||{}}catch(e){}
+ const callBtn=()=>{const t=(M.instel||'').trim();$('#emInsCall').innerHTML=t?`<a class="em-card" href="tel:${t.replace(/[^\d+]/g,'')}"><span class="em-ic">🛡️</span><div><b>${(M.ins||'保險').replace(/</g,'&lt;')} 救援</b><strong>${t.replace(/</g,'&lt;')}</strong><small>點一下直接撥打</small></div></a>`:'';};
+ document.querySelectorAll('[data-em]').forEach(el=>{el.value=M[el.dataset.em]||'';el.addEventListener('input',()=>{M[el.dataset.em]=el.value;try{localStorage.setItem(MK,JSON.stringify(M))}catch(e){}callBtn();});});
+ callBtn();
+ /* nav */
+ const nav=$('.top-nav');if(nav){const a=nav.querySelector('a[href="#flights"]');[['#phrases','日文卡'],['#emergency','緊急']].reverse().forEach(([h,t])=>{const x=document.createElement('a');x.href=h;x.textContent=t;(a||nav.lastChild).insertAdjacentElement('beforebegin',x);});}
 })();
 </script></body></html>
