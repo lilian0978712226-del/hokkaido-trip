@@ -1539,6 +1539,7 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 .mk-paw{transform-box:fill-box;transform-origin:0 100%;animation:mkWave 1.6s ease-in-out infinite}
 @keyframes mkWave{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(-18deg)}}
 @media(prefers-reduced-motion:reduce){.section h2 .jp-deco,.mk-paw{animation:none}}
+.food-card.shop .shop-walk:before,.food-card.shop .shop-walk:after{display:none!important;content:none!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1572,7 +1573,7 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 
 <symbol id="i-check" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="12" y="8" width="40" height="50" rx="6" fill="#FFFAF2"/><path d="M24 4h16v9H24Z" fill="#F2D3D6"/><rect x="18" y="20" width="8" height="8" rx="2" fill="#E8A386"/><path d="M19.5 24l2 2 3.5-4" stroke="#fff" stroke-width="2"/><rect x="18" y="34" width="8" height="8" rx="2" fill="#fff"/><path d="M30 24h15M30 38h15M30 49h10" stroke="#C9C1B6"/></g><path d="M50 40l2 4.4 4.8.6-3.5 3.3.9 4.7-4.2-2.3-4.2 2.3.9-4.7-3.5-3.3 4.8-.6Z" fill="#EBCD8A" stroke="#5B4B43" stroke-width="2" stroke-linejoin="round"/></symbol>
 
-<symbol id="i-letter" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="16" width="52" height="36" rx="5" fill="#fff"/><path d="M6 20 32 38 58 20" fill="none"/><path d="M27 34c-6-5-6-11-1-11 2 0 4 2 4 3 0-1 2-3 4-3 5 0 5 6-1 11l-3 2Z" fill="#E8A386"/></g></symbol>
+<symbol id="i-letter" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="16" width="52" height="36" rx="5" fill="#fff"/><path d="M6 20 32 38 58 20" fill="none"/><path d="M32 37C24.4 31.4 23.6 25.6 27.4 24.4C29.6 23.8 31.2 25 32 26.6C32.8 25 34.4 23.8 36.6 24.4C40.4 25.6 39.6 31.4 32 37Z" fill="#E8A386"/></g></symbol>
 
 <symbol id="i-weather" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="20" r="11" fill="#EBCD8A"/><path d="M40 3v3M54 20h3M52 8l-2 2M28 8l2 2" /><path d="M10 44c-6 0-7-9 0-10 0-7 9-9 13-4 2-6 13-7 15 1 8-1 10 13 1 13Z" fill="#fff"/></g><circle cx="29" cy="40" r="1.8" fill="#5B4B43"/><circle cx="37" cy="40" r="1.8" fill="#5B4B43"/><g fill="#C2D5E5" stroke="#5B4B43" stroke-width="1.6"><circle cx="16" cy="54" r="3"/><circle cx="30" cy="58" r="3"/><circle cx="44" cy="54" r="3"/></g></symbol>
 
@@ -3242,7 +3243,20 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    span.insertBefore(w,span.firstChild);
   });
  }
- deco();let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>deco(),80);}).observe(document.body,{childList:true,subtree:true});
+ /* 所有「📍 導航／位置」統一換成粉紅愛心地圖釘 */
+ function pins(root){
+  (root||document).querySelectorAll('button, a, .smallbtn').forEach(el=>{
+   if(el.dataset.pinDone||el.closest('.bottomnav'))return;
+   const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let t,hit=false;
+   while((t=w.nextNode())){if(t.nodeValue.includes('📍')){
+    const parts=t.nodeValue.split('📍');const frag=document.createDocumentFragment();
+    parts.forEach((p,k)=>{if(k){const s=document.createElement('span');s.className='cute-ic-wrap lead';s.innerHTML=I.pin;frag.appendChild(s);}const v=k?p.replace(/^\s+/,''):p;if(v)frag.appendChild(document.createTextNode(v));});
+    t.parentNode.replaceChild(frag,t);hit=true;break;}}
+   if(hit)el.dataset.pinDone=1;
+  });
+ }
+ pins();
+ deco();let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>{pins();deco();},80);}).observe(document.body,{childList:true,subtree:true});
 
  /* 日本／北海道小擺飾：放在每個大標題虛線的最後面 */
  const S='stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"';

@@ -35,7 +35,20 @@
    span.insertBefore(w,span.firstChild);
   });
  }
- deco();let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>deco(),80);}).observe(document.body,{childList:true,subtree:true});
+ /* 所有「📍 導航／位置」統一換成粉紅愛心地圖釘 */
+ function pins(root){
+  (root||document).querySelectorAll('button, a, .smallbtn').forEach(el=>{
+   if(el.dataset.pinDone||el.closest('.bottomnav'))return;
+   const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let t,hit=false;
+   while((t=w.nextNode())){if(t.nodeValue.includes('📍')){
+    const parts=t.nodeValue.split('📍');const frag=document.createDocumentFragment();
+    parts.forEach((p,k)=>{if(k){const s=document.createElement('span');s.className='cute-ic-wrap lead';s.innerHTML=I.pin;frag.appendChild(s);}const v=k?p.replace(/^\s+/,''):p;if(v)frag.appendChild(document.createTextNode(v));});
+    t.parentNode.replaceChild(frag,t);hit=true;break;}}
+   if(hit)el.dataset.pinDone=1;
+  });
+ }
+ pins();
+ deco();let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>{pins();deco();},80);}).observe(document.body,{childList:true,subtree:true});
 
  /* 日本／北海道小擺飾：放在每個大標題虛線的最後面 */
  const S='stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"';

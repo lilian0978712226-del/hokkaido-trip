@@ -12,3 +12,4 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 .mk-paw{transform-box:fill-box;transform-origin:0 100%;animation:mkWave 1.6s ease-in-out infinite}
 @keyframes mkWave{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(-18deg)}}
 @media(prefers-reduced-motion:reduce){.section h2 .jp-deco,.mk-paw{animation:none}}
+.food-card.shop .shop-walk:before,.food-card.shop .shop-walk:after{display:none!important;content:none!important}
