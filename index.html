@@ -1386,6 +1386,19 @@ body.cs-open{overflow:hidden}
 #dayCard .time-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
 #dayCard .time-col .tag{font-size:10.5px!important;padding:1px 5px!important;line-height:1.3!important;white-space:normal!important;text-align:center;max-width:100%;margin:0!important;border-width:1.3px!important}
 #dayCard .tags:empty,#dayCard .tags:not(:has(.tag)){display:none!important}
+/* 時間欄：時間＋一個分類，必去用星星 */
+#dayCard .event{grid-template-columns:60px minmax(0,1fr)!important}
+#dayCard .time-col{width:60px;gap:5px}
+#dayCard .time-col .time{width:100%;text-align:center;font-size:14px!important;padding:3px 0!important;position:relative;box-sizing:border-box}
+#dayCard .time-col .time.must::after{content:"★";position:absolute;top:-9px;right:-7px;width:17px;height:17px;border-radius:50%;background:#FFC94D;border:1.5px solid var(--ink);font-size:10px;line-height:15px;text-align:center;color:#fff}
+#dayCard .tags .tag:not(.hours):not(.mine):not(.mine-rep){display:none!important}
+#dayCard .cat{font-size:11px;font-weight:700;line-height:1;padding:4px 0;width:100%;text-align:center;border-radius:999px;border:1.3px solid var(--ink);white-space:nowrap;color:var(--ink)}
+#dayCard .cat-food{background:#F6E2A6}
+#dayCard .cat-stay{background:#F7D9DF}
+#dayCard .cat-move{background:#D7E7F4}
+#dayCard .cat-park{background:#ECE7E1}
+#dayCard .cat-spot{background:#DCEBD5}
+#dayCard .cat-shop{background:#E9DDF4}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2392,14 +2405,14 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const LIGHTS=[
   [{e:'❄️',n:'雪祭點燈到',t:'22:00'}],
   [{e:'🚠',n:'藻岩山纜車上山末班',t:'21:30'},{e:'❄️',n:'雪祭最後一天・點燈到',t:'22:00'}],
-  [],
+  [{e:'🕯️',n:'雪燈之路（2027 日期未公布）',t:'17:00'},{e:'🏮',n:'運河倉庫點燈到',t:'22:30'}],
   [],[],[],[],
   [{e:'✨',n:'冰濤祭點燈（到 20:00）',t:'16:30'}],
   []
  ];
  function lightRow(i){
   const [la,lo,place]=LOC[i];const ss=sunset(la,lo,2027,2,10+i);
-  const items=[{e:'🌅',n:place+' 日落'+(i===2?'・運河亮燈':''),m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t)}))).sort((a,b)=>a.m-b.m);
+  const items=[{e:'🌅',n:place+' 日落'+(i===2?'・運河煤氣燈同步亮起':''),m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t)})).sort((a,b)=>a.m-b.m));
   const today=isToday(i),now=nowJP().min;
   return `<div class="lt-list">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>剩 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<div class="lt-item"><span class="lt-e">${x.e}</span><span class="lt-n">${x.n}${cd}</span><b>${hhmm(x.m)}</b></div>`;}).join('')}</div>`;
  }
@@ -2499,7 +2512,16 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  }
 
  /* 按鈕順序：導航、複製、完成，備註在下一行 */
- function tagsToTime(){document.querySelectorAll('#dayCard .event').forEach(ev=>{const t=ev.querySelector(':scope > .time');if(!t)return;let col=t.parentNode.classList.contains('time-col')?t.parentNode:null;if(!col){col=document.createElement('div');col.className='time-col';ev.insertBefore(col,t);col.appendChild(t);}const tg=ev.querySelector('.tags');if(!tg)return;tg.querySelectorAll('.tag:not(.hours):not(.mine-rep)').forEach(x=>col.appendChild(x));});}
+ function catOf(ev){
+  const has=c=>ev.querySelector('.tags .tag.'+c),ic=(ev.querySelector('h4')||{}).textContent||'';
+  if(ev.classList.contains('custom-ev')){if(/🍜|🍣|🍰|☕/.test(ic))return['food','美食'];if(/🛍️/.test(ic))return['shop','逛街'];return['spot','景點'];}
+  if(has('food'))return['food','美食'];if(has('stay'))return['stay','住宿'];if(/🅿️/.test(ic))return['park','停車'];if(has('move'))return['move','交通'];
+  if(/🧥|🐰|🐶|🛍️|🍞/.test(ic))return['shop','逛街'];return['spot','景點'];
+ }
+ function tagsToTime(){document.querySelectorAll('#dayCard .event').forEach(ev=>{const t=ev.querySelector(':scope > .time, :scope > .time-col > .time');if(!t)return;let col=t.parentNode.classList.contains('time-col')?t.parentNode:null;if(!col){col=document.createElement('div');col.className='time-col';ev.insertBefore(col,t);col.appendChild(t);}
+  col.querySelectorAll('.cat,.tag').forEach(x=>{if(x.classList.contains('tag')&&!x.classList.contains('cat'))ev.querySelector('.tags')&&ev.querySelector('.tags').appendChild(x);else x.remove();});
+  const [k,l]=catOf(ev);col.insertAdjacentHTML('beforeend',`<span class="cat cat-${k}">${l}</span>`);
+  t.classList.toggle('must',!!ev.querySelector('.tags .tag.must'));});}
  function orderBtns(){document.querySelectorAll('#dayCard .event-actions').forEach(ac=>{if(ac.dataset.ord)return;const nav=ac.querySelector('[data-map-place],[data-cmap]'),cp=ac.querySelector('[data-copy-place]'),dn=ac.querySelector('label'),dl=ac.querySelector('[data-cdel]'),nt=ac.querySelector('[data-note-title]');[nav,cp,dn,dl].forEach(x=>x&&ac.appendChild(x));if(nt){nt.classList.add('note-row');ac.appendChild(nt);}ac.dataset.ord=1;});}
  /* ---------- 新增表單 ---------- */
  const sh=document.createElement('div');sh.className='cs-sheet';sh.hidden=true;
