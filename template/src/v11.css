@@ -62,3 +62,4 @@ html.night .cs-sheet{background:rgba(20,14,18,.55)}
 .night-btn svg{width:20px;height:20px}
 .night-btn i{position:absolute;right:-4px;bottom:-4px;font-style:normal;font-size:8.5px;font-weight:700;background:#fff;border:1.2px solid var(--ink);border-radius:999px;padding:0 3px;line-height:1.3;color:var(--ink)}
 html.night .night-btn{background:#4A3E57!important;border-color:#F6E9DC!important;box-shadow:0 2px 0 #1E181B}
+a.text-link{display:inline-flex;align-items:center;min-height:36px;padding:4px 2px}
