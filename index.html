@@ -1382,6 +1382,10 @@ body.cs-open{overflow:hidden}
 .fp-badge.full{animation:fpTw 3s ease-in-out infinite}
 .em-fold2{margin-top:6px}
 .em-fold2 .em-grid{margin-top:10px}
+/* 標籤移到時間下面 */
+#dayCard .time-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+#dayCard .time-col .tag{font-size:10.5px!important;padding:1px 5px!important;line-height:1.3!important;white-space:normal!important;text-align:center;max-width:100%;margin:0!important;border-width:1.3px!important}
+#dayCard .tags:empty,#dayCard .tags:not(:has(.tag)){display:none!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2308,7 +2312,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  sec.innerHTML=`<section class="section" id="phrases"><h2>${ic('i-note')}日文溝通卡</h2>
    <p class="muted ph-tip">點一下卡片就會放大給店員看，🔊 可以直接唸出來</p>
    <button type="button" class="ph-hotel" id="phHotel"></button>
-   ${PH.map(([cat,list],i)=>`<details class="fold ph-cat" ${i===0?'open':''}><summary><span>${cat}</span><i>展開</i></summary><div class="ph-list">${list.map(([zh,ja])=>`<div class="ph-card" data-ja="${ja}" data-zh="${zh}" role="button" tabindex="0"><small>${zh}</small><b lang="ja">${ja}</b><button type="button" class="ph-say" aria-label="唸出來">🔊</button></div>`).join('')}</div></details>`).join('')}
+   ${PH.map(([cat,list],i)=>`<details class="fold ph-cat"><summary><span>${cat}</span><i>展開</i></summary><div class="ph-list">${list.map(([zh,ja])=>`<div class="ph-card" data-ja="${ja}" data-zh="${zh}" role="button" tabindex="0"><small>${zh}</small><b lang="ja">${ja}</b><button type="button" class="ph-say" aria-label="唸出來">🔊</button></div>`).join('')}</div></details>`).join('')}
   </section>
   <section class="section" id="emergency"><h2>${ic('i-compass')}緊急資訊</h2>
    <div class="em-grid">${EM.map(([e,n,t,d])=>`<a class="em-card" href="tel:${t.replace(/[^\d+#]/g,'').replace('#','%23')}"><span class="em-ic">${e}</span><div><b>${n}</b><strong>${t}</strong><small>${d}</small></div></a>`).join('')}</div>
@@ -2490,11 +2494,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    else{const ref=k<0?orig[orig.length-1]:orig[k-1];let after=ref;while(after.nextElementSibling&&after.nextElementSibling.classList.contains('custom-ev'))after=after.nextElementSibling;after.insertAdjacentHTML('afterend',html);}
   });
   const last=[...dc.querySelectorAll('.event')].pop();
-  orderBtns();
+  orderBtns();tagsToTime();
   if(last)last.insertAdjacentHTML('afterend',`<div class="cs-addbar"><button type="button" class="cs-add" data-cadd="${i}">＋ 新增行程・改去別家</button></div>`);
  }
 
  /* 按鈕順序：導航、複製、完成，備註在下一行 */
+ function tagsToTime(){document.querySelectorAll('#dayCard .event').forEach(ev=>{const t=ev.querySelector(':scope > .time');if(!t)return;let col=t.parentNode.classList.contains('time-col')?t.parentNode:null;if(!col){col=document.createElement('div');col.className='time-col';ev.insertBefore(col,t);col.appendChild(t);}const tg=ev.querySelector('.tags');if(!tg)return;tg.querySelectorAll('.tag:not(.hours):not(.mine-rep)').forEach(x=>col.appendChild(x));});}
  function orderBtns(){document.querySelectorAll('#dayCard .event-actions').forEach(ac=>{if(ac.dataset.ord)return;const nav=ac.querySelector('[data-map-place],[data-cmap]'),cp=ac.querySelector('[data-copy-place]'),dn=ac.querySelector('label'),dl=ac.querySelector('[data-cdel]'),nt=ac.querySelector('[data-note-title]');[nav,cp,dn,dl].forEach(x=>x&&ac.appendChild(x));if(nt){nt.classList.add('note-row');ac.appendChild(nt);}ac.dataset.ord=1;});}
  /* ---------- 新增表單 ---------- */
  const sh=document.createElement('div');sh.className='cs-sheet';sh.hidden=true;
