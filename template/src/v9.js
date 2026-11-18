@@ -206,3 +206,39 @@
   window.hkPreviewDeparture=party;
  })();
 })();
+/* ===== 美食街：雪丸走進餐廳 ===== */
+(function(){
+ const host=document.getElementById('foodBook');if(!host)return;
+ const RMv=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const w=document.createElement('div');w.className='fs-walker';w.setAttribute('aria-hidden','true');
+ w.innerHTML='<svg viewBox="-4 -14 76 88"><use href="#i-maru"></use></svg>';
+ host.appendChild(w);
+ let x=12,busy=false;
+ const groundY=()=>{const d=host.querySelector('.shop-door');if(!d)return 0;const hr=host.getBoundingClientRect(),dr=d.getBoundingClientRect();return dr.bottom-hr.top-w.offsetHeight+2;};
+ const place=(nx,flip)=>{x=nx;w.style.transform=`translateX(${x}px) scaleX(${flip?-1:1})`;};
+ const init=()=>{w.style.top=groundY()+'px';const d=host.querySelector('.shop-door');if(d&&!init.done){const hr=host.getBoundingClientRect(),dr=d.getBoundingClientRect();x=dr.right-hr.left+host.scrollLeft-w.offsetWidth*0.15;init.done=1;}place(x,false);};
+ init();addEventListener('resize',init);setTimeout(init,800);
+ function walkTo(card,then){
+  const d=card.querySelector('.shop-door');if(!d){then&&then();return;}
+  const hr=host.getBoundingClientRect(),dr=d.getBoundingClientRect();
+  const tx=dr.left-hr.left+host.scrollLeft+dr.width/2-w.offsetWidth/2;
+  if(RMv){place(tx,false);then&&setTimeout(then,150);return;}
+  busy=true;const dist=Math.abs(tx-x),dur=Math.min(2600,Math.max(500,dist*3.2)),back=tx<x;
+  w.classList.remove('enter');w.style.opacity='';w.classList.add('walking');
+  w.style.transition=`transform ${dur}ms linear`;place(tx,back);
+  const vis=Math.max(0,Math.min(tx-host.clientWidth/2+w.offsetWidth/2,host.scrollWidth));
+  host.scrollTo({left:vis,behavior:'smooth'});
+  setTimeout(()=>{w.classList.remove('walking');w.style.transition='';w.classList.add('enter');
+   d.classList.add('door-open');
+   setTimeout(()=>{then&&then();},700);
+   setTimeout(()=>{d.classList.remove('door-open');w.classList.remove('enter');busy=false;},2200);
+  },dur);
+ }
+ host.addEventListener('click',e=>{
+  const card=e.target.closest('.food-card.shop');if(!card||busy)return;
+  const btn=e.target.closest('[data-food-day],[data-food-map]');
+  if(btn&&!btn.dataset.walked){e.stopImmediatePropagation();e.preventDefault();
+   walkTo(card,()=>{btn.dataset.walked=1;btn.click();delete btn.dataset.walked;});return;}
+  if(!btn)walkTo(card);
+ },true);
+})();
