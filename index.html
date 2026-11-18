@@ -1320,7 +1320,7 @@ body.cs-open{overflow:hidden}
 .fp-top em{font-style:normal;font-size:13px;font-weight:700;background:#FFF1D6;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px;margin-left:4px}
 .fp-bar{height:12px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:8px 4px 10px}
 .fp-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#F6C7A9 0 6px,#F0A57E 6px 12px);transition:width .6s}
-.fp-map svg{width:100%;height:auto;display:block;border-radius:16px;border:2px solid var(--ink)}
+.fp-map svg{width:100%;height:auto;display:block}
 .fp-lit{animation:fpTw 2.6s ease-in-out infinite}
 @keyframes fpTw{50%{opacity:.65}}
 .fp-dot,.fp-lit{cursor:pointer}
@@ -1378,6 +1378,10 @@ body.cs-open{overflow:hidden}
 .lg-form select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%)!important;background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%!important;background-size:6px 6px!important;background-repeat:no-repeat!important;padding-right:34px!important}
 #ledgerApp details.fold>summary{border-radius:999px!important;background:#FFF7F0!important}
 #ledgerApp details.fold[open]>summary{background:#FDE3EA!important}
+.fp-dot{transition:transform .2s}
+.fp-badge.full{animation:fpTw 3s ease-in-out infinite}
+.em-fold2{margin-top:6px}
+.em-fold2 .em-grid{margin-top:10px}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2533,7 +2537,14 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  });
 
  /* ---------- 點亮北海道 ---------- */
- const C={sapporo:[122,210],takino:[146,222],otaru:[94,198],biei:[196,181],shirogane:[214,191],furano:[199,205],asahikawa:[190,160],toya:[80,262],shiraoi:[128,266],noboribetsu:[104,272],shikotsu:[118,240],chitose:[150,243]};
+ const C={asahikawa:[282,64],biei:[262,130],shirogane:[322,152],furano:[282,200],sapporo:[150,172],otaru:[64,148],takino:[208,234],shikotsu:[138,272],chitose:[236,300],toya:[60,292],noboribetsu:[114,344],shiraoi:[184,350]};
+ const ICON={asahikawa:'i-penguin',biei:'i-tree',furano:'i-house',sapporo:'i-clock',otaru:'i-lamp',chitose:'i-plane',toya:'s-gondola',noboribetsu:'i-onsen',shiraoi:'s-cow'};
+ const CUSTOM_IC={
+  takino:'<g transform="translate(-9 -10)"><circle cx="9" cy="14" r="6" fill="#fff" stroke="#5B4B43" stroke-width="1.4"/><circle cx="9" cy="5.5" r="4.2" fill="#fff" stroke="#5B4B43" stroke-width="1.4"/><circle cx="7.6" cy="5" r=".7" fill="#5B4B43"/><circle cx="10.4" cy="5" r=".7" fill="#5B4B43"/><path d="M8.6 6.6h1.6l-.8 1z" fill="#E8977A"/><path d="M5.2 8.8h7.6" stroke="#E8977A" stroke-width="1.6" stroke-linecap="round"/></g>',
+  shirogane:'<g><path d="M0 -9C4 -3 7 0 7 3.5A7 7 0 0 1 -7 3.5C-7 0 -4 -3 0 -9Z" fill="#9FD3E8" stroke="#5B4B43" stroke-width="1.4"/><path d="M-3 2a3.5 3.5 0 0 0 3 3.5" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round"/></g>',
+  shikotsu:'<g stroke="#5B4B43" stroke-width="1.3" stroke-linejoin="round"><path d="M-6 6L-3 -6 1 -1 4 -8 7 6Z" fill="#D7ECF8"/><path d="M-3 -6L-1 2M4 -8L3 3" stroke="#fff" stroke-width="1"/></g>'
+ };
+ const ROADS=[['chitose','takino'],['takino','sapporo'],['sapporo','otaru'],['sapporo','biei'],['biei','asahikawa'],['biei','shirogane'],['shirogane','furano'],['furano','biei'],['sapporo','toya'],['toya','noboribetsu'],['noboribetsu','shiraoi'],['shiraoi','chitose'],['chitose','shikotsu'],['shikotsu','sapporo']];
  function city(n,i){
   if(/台中/.test(n))return null;
   if(/新千歲|Nippon|KOKO|山線/.test(n))return'chitose';if(/支笏/.test(n))return'shikotsu';if(/滝野/.test(n))return'takino';
@@ -2551,55 +2562,89 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   days.forEach((d,i)=>{const rep=new Set(CS.filter(c=>c.d===i&&c.rep>=0).map(c=>c.rep));
    d.events.forEach((e,j)=>{if(rep.has(j))return;const c=city(e[1],i);if(!c)return;const key=e[1];
     let s=map.get(key);if(!s){s={n:e[1],c,keys:[],o:i*10000+toMin(e[0])};map.set(key,s);out.push(s);}s.keys.push(`event-${i}-${j}`);});
-   CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&!/sapporo/.test(ct))?ct:DEF[i],keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
+   CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&ct!=='sapporo')?ct:DEF[i],keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
   });
   out.forEach(s=>s.done=s.keys.some(isDone));
-  const per={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>{const k=per[s.c]=(per[s.c]||0);per[s.c]++;const a=k*2.39996,r=k?3.4*Math.sqrt(k):0;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
-  const P=new Path2D(LAND),cx=document.createElement('canvas').getContext('2d'),IN=(x,y)=>[[0,0],[2.6,0],[-2.6,0],[0,2.6],[0,-2.6]].every(([a,b])=>cx.isPointInPath(P,x+a,y+b));
-  out.forEach(s=>{let n=0;while(!IN(s.x,s.y)&&n<60){const dx=172-s.x,dy=228-s.y,L=Math.hypot(dx,dy)||1;s.x+=dx/L;s.y+=dy/L;n++;}});
-  return out;
+  const groups={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>(groups[s.c]=groups[s.c]||[]).push(s));
+  Object.entries(groups).forEach(([c,arr])=>{
+   const [cx,cy]=C[c];const n=arr.length;
+   const rings=n<=6?[[21,n]]:n<=12?[[25,n]]:[[25,Math.min(13,Math.ceil(n*0.55))],[35,0]];
+   if(rings.length>1)rings[1][1]=n-rings[0][1];
+   let k=0;rings.forEach(([r,m],ri)=>{for(let q=0;q<m;q++,k++){const a=-Math.PI/2+(q+(ri?0.5:0))*2*Math.PI/m;arr[k].x=cx+Math.cos(a)*r;arr[k].y=cy+Math.sin(a)*r;}});
+  });
+  return {S:out,G:groups};
  }
- const LAND='M150 52 L172 46 L196 60 L214 72 L236 98 L262 112 L288 124 L318 110 L340 120 L358 132 L352 160 L336 176 L352 186 L366 198 L352 210 L318 222 L290 238 L262 268 L246 288 L236 306 L218 300 L196 288 L172 276 L150 262 L134 256 L118 262 L104 276 L92 286 L80 300 L70 312 L56 304 L64 288 L76 276 L68 262 L58 248 L64 232 L80 216 L94 206 L106 200 L116 186 L126 160 L132 122 L140 84Z';
- const BIRD=()=>{const s=document.getElementById('i-enaga');return s?s.outerHTML:'';};
- function svg(S,exp){
-  const done=S.filter(s=>s.done);
-  const vb=exp?'40 108 220 240':'48 140 200 160';
-  const flakes=[[60,150],[84,168],[230,150],[240,240],[70,330],[214,282],[56,212],[236,170],[176,296],[226,262]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.1" fill="#fff"/>`).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" ${exp?'width="880" height="960"':''}>
-  <defs><radialGradient id="fpGlow"><stop offset="0" stop-color="#FFF6C9"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
-  <linearGradient id="fpSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCEBF7"/><stop offset="1" stop-color="#EEF5FB"/></linearGradient></defs>
-  ${exp?`<rect x="40" y="108" width="220" height="240" fill="#FFFAF2"/>`:''}
-  <rect x="${exp?46:48}" y="${exp?132:140}" width="${exp?208:200}" height="${exp?188:160}" rx="10" fill="url(#fpSea)"/>
-  ${flakes}
-  <path d="${LAND}" fill="#FFFDF8" stroke="#5B4B43" stroke-width="1.5" stroke-linejoin="round"/>
-  <g opacity=".55"><path d="M168 236l7-11 7 11z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M172.5 229l2.5-4 2.5 4z" fill="#fff"/><path d="M226 158l6-9 6 9z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M164 182l-2 5h4zM164 179l-3 6h6z" fill="#B9D3B9"/></g>
-  ${S.filter(s=>!s.done).map(s=>`<circle class="fp-dot" data-fpn="${esc3(s.n)}" cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.3" fill="#fff" stroke="#D6CBC1" stroke-width=".55"/>`).join('')}
-  ${done.map((s,k)=>`<g class="fp-lit" data-fpn="${esc3(s.n)}" style="animation-delay:${(k%9*.18).toFixed(2)}s"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="5" fill="url(#fpGlow)"/><path transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})" d="M0 -3.4 L1 -1.1 L3.3 -1 L1.5 0.5 L2.1 2.8 L0 1.5 L-2.1 2.8 L-1.5 0.5 L-3.3 -1 L-1 -1.1Z" fill="${s.mine?'#F4A7BE':'#FFC94D'}" stroke="${s.mine?'#C76F8C':'#E0904A'}" stroke-width=".55" stroke-linejoin="round"/></g>`).join('')}
-  ${exp?`<text x="150" y="124" text-anchor="middle" font-size="10" font-weight="700" fill="#5B4B43" font-family="sans-serif">北海道大暴吃・點亮地圖</text><text x="150" y="336" text-anchor="middle" font-size="7.5" fill="#86756A" font-family="sans-serif">點亮 ${done.length} / ${S.length} 個地方・2027 冬</text>`:''}
+ /* 柔和海岸線（Catmull-Rom 轉平滑曲線） */
+ const smooth=(pts,close)=>{const P=close?[pts[pts.length-1],...pts,pts[0],pts[1]]:[pts[0],...pts,pts[pts.length-1]];let d=`M${pts[0][0]} ${pts[0][1]}`;for(let i=1;i<P.length-2;i++){const [p0,p1,p2,p3]=[P[i-1],P[i],P[i+1],P[i+2]];d+=` C${(p1[0]+(p2[0]-p0[0])/6).toFixed(1)} ${(p1[1]+(p2[1]-p0[1])/6).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])/6).toFixed(1)} ${(p2[1]-(p3[1]-p1[1])/6).toFixed(1)} ${p2[0]} ${p2[1]}`;}return d+(close?'Z':'');};
+ const LANDPTS=[[222,-30],[380,-30],[380,300],[330,318],[288,334],[248,352],[214,384],[170,392],[120,388],[90,398],[72,420],[50,392],[28,360],[-30,330],[-30,110],[22,104],[66,100],[104,112],[136,124],[176,116],[198,92],[210,46]];
+ const LAND=smooth(LANDPTS,true);
+ const HK=[[141.94,45.52],[142.6,44.95],[143.3,44.45],[144.27,44.02],[144.9,44.0],[145.33,44.35],[145.15,43.75],[145.58,43.33],[144.85,43.03],[144.07,42.95],[143.33,42.28],[143.25,41.92],[142.37,42.33],[141.6,42.63],[141.0,42.32],[140.7,42.58],[140.38,42.52],[140.82,42.03],[140.73,41.77],[140.1,41.43],[139.85,42.45],[140.5,42.98],[140.4,43.38],[141.0,43.2],[141.38,43.4],[141.65,43.95],[141.75,44.88],[141.65,45.4]];
+ const mini=(x0,y0,w)=>{const s=w/((145.85-139.8)*0.731);const pts=HK.map(([lo,la])=>[+(x0+(lo-139.8)*0.731*s).toFixed(1),+(y0+(45.6-la)*s).toFixed(1)]);const bx=x0+(140.6-139.8)*0.731*s,by=y0+(45.6-43.95)*s,bw=(142.9-140.6)*0.731*s,bh=(43.95-42.3)*s;return `<g><path d="${smooth(pts,true)}" fill="#FFFBF3" stroke="#5B4B43" stroke-width="1.1"/><rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="2" fill="#F6C7A9" fill-opacity=".45" stroke="#E8977A" stroke-width="1"/></g>`;};
+ const STAR='M0 -4.2 L1.25 -1.35 L4.1 -1.25 L1.9 0.65 L2.6 3.5 L0 1.85 L-2.6 3.5 L-1.9 0.65 L-4.1 -1.25 L-1.25 -1.35Z';
+ const wave=(x,y)=>`<path d="M${x} ${y}q3 -3 6 0t6 0" fill="none" stroke="#B9D4EA" stroke-width="1.3" stroke-linecap="round"/>`;
+ function svg(R,exp){
+  const {S,G}=R,done=S.filter(s=>s.done);
+  const lit=c=>(G[c]||[]).some(s=>s.done),full=c=>(G[c]||[]).length&&(G[c]||[]).every(s=>s.done);
+  const syms=exp?[...new Set(Object.values(ICON))].map(id=>{const el=document.getElementById(id);return el?el.outerHTML:'';}).join(''):'';
+  const roads=ROADS.map(([a,b])=>{const [x1,y1]=C[a],[x2,y2]=C[b],mx=(x1+x2)/2+(y2-y1)*.12,my=(y1+y2)/2-(x2-x1)*.12,on=lit(a)&&lit(b);return `<path d="M${x1} ${y1}Q${mx.toFixed(1)} ${my.toFixed(1)} ${x2} ${y2}" fill="none" stroke="${on?'#F3B497':'#EADFD3'}" stroke-width="5" stroke-linecap="round"/><path d="M${x1} ${y1}Q${mx.toFixed(1)} ${my.toFixed(1)} ${x2} ${y2}" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="3 4" stroke-linecap="round"/>`;}).join('');
+  const badges=Object.keys(C).filter(c=>G[c]).map(c=>{const [x,y]=C[c],f=full(c),l=lit(c);
+   const ic=ICON[c]?`<use href="#${ICON[c]}" xlink:href="#${ICON[c]}" x="${x-11}" y="${y-11}" width="22" height="22"/>`:`<g transform="translate(${x} ${y})">${CUSTOM_IC[c]}</g>`;
+   return `<g class="fp-badge${f?' full':''}">${f?`<circle cx="${x}" cy="${y}" r="19" fill="url(#fpGlow)"/>`:''}<circle cx="${x}" cy="${y}" r="14.5" fill="${f?'#FFF1C9':l?'#FFF6EE':'#fff'}" stroke="#5B4B43" stroke-width="1.8"/>${ic}${f?`<path transform="translate(${x+11} ${y-11}) scale(.8)" d="${STAR}" fill="#FFC94D" stroke="#E0904A" stroke-width=".7"/>`:''}</g>`;}).join('');
+  const stars=S.map((s,k)=>s.done
+   ?`<g class="fp-lit" data-fpn="${esc3(s.n)}" style="animation-delay:${(k%9*.2).toFixed(1)}s"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="6.5" fill="url(#fpGlow)"/><path transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})" d="${STAR}" fill="${s.mine?'#F6AFC4':'#FFC94D'}" stroke="${s.mine?'#C76F8C':'#D98A45'}" stroke-width=".8" stroke-linejoin="round"/></g>`
+   :`<path class="fp-dot" data-fpn="${esc3(s.n)}" transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)}) scale(.85)" d="${STAR}" fill="#fff" stroke="${s.mine?'#E3A7BA':'#D3C5B8'}" stroke-width="1" stroke-linejoin="round"/>`).join('');
+  const pct=S.length?Math.round(done.length/S.length*100):0;
+  const H=exp?580:400,Y0=exp?-82:0;
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${exp?-16:0} ${Y0} ${exp?392:360} ${H}" ${exp?'width="1080" height="1598"':''} font-family="'Huninn','jf open 粉圓','PingFang TC','Noto Sans TC',sans-serif">
+  <defs>${syms}<radialGradient id="fpGlow"><stop offset="0" stop-color="#FFF4C2"/><stop offset=".5" stop-color="#FFDB8E" stop-opacity=".7"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
+  <linearGradient id="fpSea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D6E8F6"/><stop offset="1" stop-color="#E9F2FA"/></linearGradient>
+  <clipPath id="fpClip"><rect x="0" y="0" width="360" height="400" rx="22"/></clipPath></defs>
+  ${exp?`<rect x="-16" y="${Y0}" width="392" height="${H}" fill="#FFF8EF"/><text x="180" y="-46" text-anchor="middle" font-size="22" font-weight="700" fill="#5B4B43">北海道大暴吃 ✦ 點亮地圖</text><text x="180" y="-22" text-anchor="middle" font-size="11" fill="#9A8A7E" letter-spacing="2">2027.02.10 – 02.18 ・ 冬天的北海道</text>`:''}
+  <g clip-path="url(#fpClip)">
+   <rect x="0" y="0" width="360" height="400" fill="url(#fpSea)"/>
+   ${[[22,40],[70,62],[120,36],[160,72],[30,250],[20,390],[300,380],[250,392],[340,345],[120,20]].map(([x,y])=>wave(x,y)).join('')}
+   ${[[48,22],[96,80],[150,50],[10,300],[280,365]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`).join('')}
+   <path d="${LAND}" fill="#FFFBF3" stroke="#5B4B43" stroke-width="2.2" stroke-linejoin="round"/>
+   <path d="${LAND}" fill="none" stroke="#F3E6D6" stroke-width="7" stroke-linejoin="round" clip-path="url(#fpClip)" opacity=".0"/>
+   <g opacity=".9"><ellipse cx="90" cy="226" rx="34" ry="16" fill="#EEF4E6"/><ellipse cx="236" cy="174" rx="40" ry="18" fill="#EEF4E6"/><ellipse cx="320" cy="250" rx="36" ry="20" fill="#EEF4E6"/><ellipse cx="200" cy="40" rx="30" ry="14" fill="#EEF4E6"/></g>
+   <g stroke="#5B4B43" stroke-width="1.4" stroke-linejoin="round"><path d="M88 236l14-24 14 24z" fill="#E4EDF4"/><path d="M96 222l6-10 6 10-3-2-3 3-3-3z" fill="#fff"/><path d="M322 108l16-26 16 26z" fill="#E4EDF4"/><path d="M331 93l7-11 7 11-3-2-4 3-3-3z" fill="#fff"/></g>
+   <g fill="#B7D3B0" stroke="#5B4B43" stroke-width="1.1" stroke-linejoin="round"><path d="M226 262l6-11 6 11z"/><path d="M234 262l5-9 5 9z"/><path d="M40 196l5-9 5 9z"/><path d="M326 228l6-11 6 11z"/></g>
+   <ellipse cx="60" cy="292" rx="30" ry="25" fill="#CFE4F3" stroke="#9CBFD9" stroke-width="1.2"/><ellipse cx="138" cy="272" rx="23" ry="19" fill="#CFE4F3" stroke="#9CBFD9" stroke-width="1.2"/>
+   ${roads}
+   ${badges}
+   ${stars}
+   <g transform="translate(300 342)"><rect x="-8" y="-8" width="62" height="56" rx="12" fill="#fff" fill-opacity=".75" stroke="#5B4B43" stroke-width="1.2"/>${mini(-2,-3,50)}</g>
+   <g transform="translate(18 384)" stroke="#5B4B43" stroke-width="1.2"><circle r="11" fill="#fff"/><path d="M0 -8L2.6 0 0 8 -2.6 0Z" fill="#F3B497"/><path d="M0 -8L2.6 0H-2.6Z" fill="#E8977A"/><circle r="1.3" fill="#5B4B43" stroke="none"/></g>
+  </g>
+  <rect x="1" y="1" width="358" height="398" rx="21" fill="none" stroke="#5B4B43" stroke-width="2.4"/>
+  ${exp?`<g transform="translate(180 452)"><rect x="-130" y="-24" width="260" height="48" rx="24" fill="#fff" stroke="#5B4B43" stroke-width="2"/><path transform="translate(-100 0) scale(1.7)" d="${STAR}" fill="#FFC94D" stroke="#D98A45" stroke-width=".8"/><text x="-80" y="7" font-size="18" font-weight="700" fill="#5B4B43">點亮 ${done.length} / ${S.length} 個地方</text><text x="112" y="7" text-anchor="end" font-size="16" font-weight="700" fill="#E8977A">${pct}%</text></g>`:''}
   </svg>`;
  }
  const fp=document.createElement('section');fp.className='section';fp.id='footprints';
- fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>點亮北海道</h2><div class="card fp-card"><div class="fp-top"><b id="fpNum">0</b><span id="fpOf">/ 0</span><em id="fpPct">0%</em></div><div class="fp-bar"><i id="fpBar"></i></div><div class="fp-map" id="fpMap"></div><p class="fp-hint">✨ 行程按「完成」那個點就會亮起來・點小點看名字</p><div class="fp-acts"><button type="button" class="fp-btn" id="fpAdd">＋ 新增行程</button><button type="button" class="fp-btn pri" id="fpSave">📸 存圖分享</button></div></div>`;
+ fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>點亮北海道</h2><div class="card fp-card"><div class="fp-top"><b id="fpNum">0</b><span id="fpOf">/ 0</span><em id="fpPct">0%</em></div><div class="fp-bar"><i id="fpBar"></i></div><div class="fp-map" id="fpMap"></div><p class="fp-hint">按「完成」小星星就會亮起來 ✦ 點星星看是哪裡</p><div class="fp-acts"><button type="button" class="fp-btn" id="fpAdd">＋ 新增行程</button><button type="button" class="fp-btn pri" id="fpSave">📸 存圖分享</button></div></div>`;
  const anchor=$('#food-book')||$('#stay');if(anchor)anchor.insertAdjacentElement('beforebegin',fp);
  const topn=$('.top-nav');if(topn){const a=topn.querySelector('a[href="#food-book"]');if(a&&!topn.querySelector('a[href="#footprints"]')){const x=document.createElement('a');x.href='#footprints';x.textContent='地圖';a.insertAdjacentElement('beforebegin',x);}}
  let lastDone=-1;
  function renderMap(bump){
-  const S=stops(),n=S.filter(s=>s.done).length,p=S.length?Math.round(n/S.length*100):0;
-  $('#fpMap').innerHTML=svg(S,false);$('#fpNum').textContent=n;$('#fpOf').textContent='/ '+S.length+' 個地方';$('#fpPct').textContent=p+'%';$('#fpBar').style.width=p+'%';
+  const R=stops(),S=R.S,n=S.filter(s=>s.done).length,p=S.length?Math.round(n/S.length*100):0;
+  $('#fpMap').innerHTML=svg(R,false);$('#fpNum').textContent=n;$('#fpOf').textContent='/ '+S.length+' 個地方';$('#fpPct').textContent=p+'%';$('#fpBar').style.width=p+'%';
   if(bump&&n>lastDone&&lastDone>=0){const c=$('.fp-card');c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');}
   lastDone=n;
  }
  $('#fpMap').addEventListener('click',e=>{const g=e.target.closest('[data-fpn]');if(g)toast((g.classList.contains('fp-lit')?'✨ ':'○ ')+g.dataset.fpn);});
  $('#fpAdd').addEventListener('click',()=>openSheet(typeof current==='number'?current:0));
  $('#fpSave').addEventListener('click',async()=>{
-  try{const S=stops();const blob=new Blob([svg(S,true)],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
-   const img=new Image();img.src=url;await img.decode();const cv=document.createElement('canvas');cv.width=880;cv.height=960;cv.getContext('2d').drawImage(img,0,0,880,960);URL.revokeObjectURL(url);
+  try{const blob=new Blob([svg(stops(),true)],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+   const img=new Image();img.src=url;await img.decode();const cv=document.createElement('canvas');cv.width=1080;cv.height=1598;cv.getContext('2d').drawImage(img,0,0,1080,1598);URL.revokeObjectURL(url);
    const png=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([png],'hokkaido-map.png',{type:'image/png'});
    if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'點亮北海道'});
    else{const a=document.createElement('a');a.href=URL.createObjectURL(png);a.download=file.name;a.click();}
   }catch(e){if(!e||e.name!=='AbortError')toast('這支手機無法直接存圖，請用截圖分享');}
  });
 
+ /* ---------- 緊急電話收合 ---------- */
+ const eg=$('#emergency .em-grid');
+ if(eg&&!eg.closest('details')){const n=eg.querySelectorAll('.em-card').length;const d=document.createElement('details');d.className='fold em-fold2';d.innerHTML=`<summary><span>📞 緊急電話（${n} 支，點了可以直接撥）</span><i>展開</i></summary>`;eg.parentNode.insertBefore(d,eg);d.appendChild(eg);}
  /* ---------- 保險收合 ---------- */
  const em=$('.em-mine');
  if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 我們的保險與重要資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
