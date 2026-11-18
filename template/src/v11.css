@@ -23,17 +23,25 @@ body.cs-open .yen-fab{display:none}
 .yen-pad button.yk-op{background:#F4F8FC!important;font-size:15px}
 .yen-pad button.yk-go{background:#FBE1EA!important;font-size:14px}
 .yen-pad button:active{transform:translateY(2px);box-shadow:none}
-.dy-box{margin-top:14px;background:#FFFBF5;border:1.8px dashed #E3C9B8;border-radius:20px;padding:12px}
-.dy-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.dy-head svg{width:24px;height:24px;flex:0 0 24px}
-.dy-head b{font-size:15.5px}
-.dy-head small{margin-left:auto;font-size:12px;color:var(--ink2)}
-.dy-moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px}
-.dy-m{display:flex;flex-direction:column;align-items:center;gap:1px;min-height:54px;border:1.5px solid var(--ink3)!important;border-radius:14px!important;background:#fff!important;padding:4px 0;transition:transform .2s}
-.dy-m span{font-size:22px;line-height:1.1}
-.dy-m small{font-size:11px;color:var(--ink2)}
-.dy-m.on{border-color:var(--ink)!important;background:#FFE6A3!important;transform:translateY(-3px) rotate(-4deg);box-shadow:0 3px 0 var(--ink)}
-.dy-text{width:100%;box-sizing:border-box;min-height:44px;border:1.5px solid var(--ink3);border-radius:999px;padding:6px 14px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
 .mem-btn{width:100%;margin-top:8px;background:#F6F1FB!important}
 @media(prefers-reduced-motion:reduce){.yen-fab{animation:none}}
 #hkIcs{grid-column:1/-1}
+
+/* 防止點兩下放大 */
+html,button,a,input,select,label{touch-action:manipulation}
+.yen-expr{font-size:13px;color:var(--ink2);min-height:18px;overflow-wrap:anywhere}
+.yen-pad button.yk-f{background:#FFE6A3!important;font-size:22px}
+.yen-pad button.yk-eq{background:#D9ECF7!important;font-size:22px}
+/* 評價 */
+#dayCard .rt-btn{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;padding:3px 0 2px;border:0!important;background:none!important;box-shadow:none!important;min-height:0}
+#dayCard .rt-btn svg{width:28px;height:28px;display:block;transition:transform .2s}
+#dayCard .rt-btn small{font-size:10.5px;color:var(--ink3);font-weight:700;line-height:1.1}
+#dayCard .rt-btn.on small{color:var(--ink)}
+#dayCard .rt-btn.r3 small{color:#C9894A}
+#dayCard .rt-btn:active svg{transform:scale(1.2) rotate(-8deg)}
+#dayCard .rt-note{margin:2px 0 6px;font-size:13px;color:#8A6A55;background:#FFF7E3;border-radius:10px;padding:3px 8px;display:inline-block}
+.rt-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}
+.rt-pick button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;border:1.8px solid var(--ink3)!important;border-radius:18px!important;background:#fff!important;transition:transform .2s}
+.rt-pick button svg{width:46px;height:46px}
+.rt-pick button b{font-size:14px;color:var(--ink)}
+.rt-pick button.on{border-color:var(--ink)!important;background:#FFF4DA!important;transform:translateY(-3px);box-shadow:0 3px 0 var(--ink)}

@@ -1573,20 +1573,28 @@ body.cs-open .yen-fab{display:none}
 .yen-pad button.yk-op{background:#F4F8FC!important;font-size:15px}
 .yen-pad button.yk-go{background:#FBE1EA!important;font-size:14px}
 .yen-pad button:active{transform:translateY(2px);box-shadow:none}
-.dy-box{margin-top:14px;background:#FFFBF5;border:1.8px dashed #E3C9B8;border-radius:20px;padding:12px}
-.dy-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.dy-head svg{width:24px;height:24px;flex:0 0 24px}
-.dy-head b{font-size:15.5px}
-.dy-head small{margin-left:auto;font-size:12px;color:var(--ink2)}
-.dy-moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px}
-.dy-m{display:flex;flex-direction:column;align-items:center;gap:1px;min-height:54px;border:1.5px solid var(--ink3)!important;border-radius:14px!important;background:#fff!important;padding:4px 0;transition:transform .2s}
-.dy-m span{font-size:22px;line-height:1.1}
-.dy-m small{font-size:11px;color:var(--ink2)}
-.dy-m.on{border-color:var(--ink)!important;background:#FFE6A3!important;transform:translateY(-3px) rotate(-4deg);box-shadow:0 3px 0 var(--ink)}
-.dy-text{width:100%;box-sizing:border-box;min-height:44px;border:1.5px solid var(--ink3);border-radius:999px;padding:6px 14px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
 .mem-btn{width:100%;margin-top:8px;background:#F6F1FB!important}
 @media(prefers-reduced-motion:reduce){.yen-fab{animation:none}}
 #hkIcs{grid-column:1/-1}
+
+/* 防止點兩下放大 */
+html,button,a,input,select,label{touch-action:manipulation}
+.yen-expr{font-size:13px;color:var(--ink2);min-height:18px;overflow-wrap:anywhere}
+.yen-pad button.yk-f{background:#FFE6A3!important;font-size:22px}
+.yen-pad button.yk-eq{background:#D9ECF7!important;font-size:22px}
+/* 評價 */
+#dayCard .rt-btn{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;padding:3px 0 2px;border:0!important;background:none!important;box-shadow:none!important;min-height:0}
+#dayCard .rt-btn svg{width:28px;height:28px;display:block;transition:transform .2s}
+#dayCard .rt-btn small{font-size:10.5px;color:var(--ink3);font-weight:700;line-height:1.1}
+#dayCard .rt-btn.on small{color:var(--ink)}
+#dayCard .rt-btn.r3 small{color:#C9894A}
+#dayCard .rt-btn:active svg{transform:scale(1.2) rotate(-8deg)}
+#dayCard .rt-note{margin:2px 0 6px;font-size:13px;color:#8A6A55;background:#FFF7E3;border-radius:10px;padding:3px 8px;display:inline-block}
+.rt-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}
+.rt-pick button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;border:1.8px solid var(--ink3)!important;border-radius:18px!important;background:#fff!important;transition:transform .2s}
+.rt-pick button svg{width:46px;height:46px}
+.rt-pick button b{font-size:14px;color:var(--ink)}
+.rt-pick button.on{border-color:var(--ink)!important;background:#FFF4DA!important;transform:translateY(-3px);box-shadow:0 3px 0 var(--ink)}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3394,7 +3402,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
     <button type="button" class="bk-btn" id="hkBackup">${IC.save}備份全部資料</button>
     <button type="button" class="bk-btn" id="hkRestore">${IC.load}還原備份</button>
    </div>
-   <p class="bk-note">備份包含記帳、打勾、行程調整、小日記和設定。換手機或怕資料不見時用。</p>
+   <p class="bk-note">備份包含記帳、打勾、行程調整、評價和設定。換手機或怕資料不見時用。</p>
    <input type="file" id="hkRestoreFile" accept=".json,application/json,text/plain" hidden>`;
   tools.appendChild(box);
   const setPN=()=>box.querySelectorAll('.pn').forEach(x=>x.textContent=partner());setPN();
@@ -3470,42 +3478,82 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  document.body.appendChild(fab);
  const cs=document.createElement('div');cs.className='cs-sheet yen-sheet';cs.hidden=true;
  cs.innerHTML=`<div class="cs-panel yen-panel" role="dialog" aria-modal="true" aria-label="日圓計算機"><div class="yen-top"><button type="button" class="yen-swap" id="yenSwap">¥ → NT$</button><small id="yenRate"></small></div>
-  <div class="yen-disp"><div class="yen-in" id="yenIn">0</div><div class="yen-out" id="yenOut">≈ NT$ 0</div></div>
-  <div class="yen-pad">${['7','8','9','⌫','4','5','6','C','1','2','3','×1.1','0','00','000','記帳'].map(k=>`<button type="button" data-k="${k}" class="${k==='記帳'?'yk-go':isNaN(+k)&&k!=='00'&&k!=='000'?'yk-op':''}">${k==='×1.1'?'＋稅10%':k==='記帳'?'記進帳本':k}</button>`).join('')}</div></div>`;
+  <div class="yen-disp"><div class="yen-expr" id="yenExpr">&nbsp;</div><div class="yen-in" id="yenIn">0</div><div class="yen-out" id="yenOut">≈ NT$ 0</div></div>
+  <div class="yen-pad">${[['C','yk-op'],['⌫','yk-op'],['tax','yk-op'],['÷','yk-f'],['7'],['8'],['9'],['×','yk-f'],['4'],['5'],['6'],['−','yk-f'],['1'],['2'],['3'],['+','yk-f'],['0'],['00'],['=','yk-eq'],['go','yk-go']].map(([k,c])=>`<button type="button" data-k="${k}" class="${c||''}">${k==='tax'?'＋稅10%':k==='go'?'記帳':k}</button>`).join('')}</div></div>`;
  document.body.appendChild(cs);
- let val='0',toNT=true;
- const draw=()=>{const v=+val||0,r=rate();$('#yenIn').textContent=(toNT?'¥ ':'NT$ ')+v.toLocaleString();
+ let expr='',toNT=true;
+ const calc=x=>{const t=x.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');if(!/^[\d.+\-*/]*$/.test(t))return 0;
+  const tk=t.match(/\d+(?:\.\d+)?|[+\-*/]/g)||[];const out=[],ops=[],P={'+':1,'-':1,'*':2,'/':2};
+  const ap=()=>{const o=ops.pop(),b=out.pop()||0,a=out.pop()||0;out.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:(b?a/b:0));};
+  tk.forEach(x=>{if(/\d/.test(x))out.push(+x);else{while(ops.length&&P[ops[ops.length-1]]>=P[x])ap();ops.push(x);}});
+  while(ops.length&&out.length>1)ap();return out.length?out[out.length-1]:0;};
+ const val=()=>{const e=expr.replace(/[+\-×÷−]$/,'');return Math.round(calc(e)*100)/100;};
+ const draw=()=>{const v=val(),r=rate();$('#yenExpr').textContent=/[+×÷−]/.test(expr)?expr:' ';$('#yenIn').textContent=(toNT?'¥ ':'NT$ ')+v.toLocaleString();
   $('#yenOut').textContent=toNT?`≈ NT$ ${(v*r).toLocaleString(undefined,{maximumFractionDigits:0})}`:`≈ ¥ ${(v/r).toLocaleString(undefined,{maximumFractionDigits:0})}`;
   $('#yenRate').textContent=`匯率 1 日圓 ≈ ${r} 台幣（可在記帳設定改）`;$('#yenSwap').textContent=toNT?'¥ → NT$':'NT$ → ¥';};
  fab.addEventListener('click',()=>{cs.hidden=false;document.body.classList.add('cs-open');draw();});
  cs.addEventListener('click',e=>{
   if(e.target===cs){cs.hidden=true;document.body.classList.remove('cs-open');return;}
-  if(e.target.closest('#yenSwap')){toNT=!toNT;val='0';draw();return;}
+  if(e.target.closest('#yenSwap')){toNT=!toNT;expr='';draw();return;}
   const b=e.target.closest('[data-k]');if(!b)return;const k=b.dataset.k;
-  if(k==='C')val='0';else if(k==='⌫')val=val.length>1?val.slice(0,-1):'0';
-  else if(k==='×1.1')val=String(Math.round((+val||0)*1.1));
-  else if(k==='記帳'){const amt=toNT?+val:Math.round((+val||0)/rate());if(!amt){toast('先輸入金額');return;}
-   cs.hidden=true;document.body.classList.remove('cs-open');const a=$('#lgAmt');if(a){a.value=amt;a.dispatchEvent(new Event('input',{bubbles:true}));const sec=$('#ledger');if(sec)sec.scrollIntoView({block:'start'});setTimeout(()=>a.focus(),400);toast('金額填好了，選分類後按 ＋');}return;}
-  else{val=(val==='0'?'':val)+k;if(val.length>9)val=val.slice(0,9);val=String(+val||0);}
+  if(k==='C')expr='';
+  else if(k==='⌫')expr=expr.slice(0,-1);
+  else if(k==='tax')expr=String(Math.round(val()*1.1));
+  else if(k==='=')expr=String(val());
+  else if(/[+×÷−]/.test(k)){if(!expr)expr='0';expr=expr.replace(/[+×÷−]$/,'')+k;}
+  else if(k==='go'){const v=val(),amt=toNT?v:Math.round(v/rate());if(!amt){toast('先輸入金額');return;}
+   cs.hidden=true;document.body.classList.remove('cs-open');const a=$('#lgAmt');if(a){a.value=Math.round(amt);a.dispatchEvent(new Event('input',{bubbles:true}));const sec=$('#ledger');if(sec)sec.scrollIntoView({block:'start'});setTimeout(()=>a.focus(),400);toast('金額填好了，選分類後按 ＋');}return;}
+  else{const last=expr.split(/[+×÷−]/).pop();if(last.replace('.','').length>=9)return;expr=(last==='0'&&k!=='00'?expr.slice(0,-1):expr)+k;if(/^0+\d/.test(expr))expr=expr.replace(/^0+/,'');}
   draw();
  });
 
- /* ---------- 4. 每日小日記 ---------- */
- const DK='hk-diary-v1';let DI={};try{DI=JSON.parse(localStorage.getItem(DK)||'{}')}catch(e){}
- const saveDI=()=>{try{localStorage.setItem(DK,JSON.stringify(DI))}catch(e){}};
- const MOODS=[['😋','好吃'],['🥰','幸福'],['🤩','好興奮'],['🥶','好冷'],['😴','好累']];
- function diary(i){
-  const dc=$('#dayCard');if(!dc)return;const old=dc.querySelector('.dy-box');if(old)old.remove();
-  const o=DI[i]||{};
-  dc.insertAdjacentHTML('beforeend',`<div class="dy-box"><div class="dy-head"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="15" height="18" rx="2.6" fill="#FBE1EA" ${K}/><path d="M8 3v18" ${K}/><path d="M11 8h5M11 11.4h4" ${K}/></svg><b>D${i+1} 的小日記</b><small>${o.t||o.m?'已存好 ✓':'寫一句今天的心情'}</small></div>
-   <div class="dy-moods">${MOODS.map(([e,l])=>`<button type="button" class="dy-m${o.m===e?' on':''}" data-mood="${e}" aria-label="${l}"><span>${e}</span><small>${l}</small></button>`).join('')}</div>
-   <input class="dy-text" maxlength="60" placeholder="例：螃蟹好大隻，陳肥肥吃到不說話" value="${esc5(o.t||'')}" enterkeyhint="done"></div>`);
-  const box=dc.querySelector('.dy-box');
-  box.addEventListener('click',e=>{const b=e.target.closest('[data-mood]');if(!b)return;const m=b.dataset.mood;DI[i]=Object.assign({},DI[i],{m:DI[i]&&DI[i].m===m?'':m});saveDI();box.querySelectorAll('.dy-m').forEach(x=>x.classList.toggle('on',x.dataset.mood===DI[i].m));box.querySelector('.dy-head small').textContent='已存好 ✓';});
-  let tm;box.querySelector('.dy-text').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{DI[i]=Object.assign({},DI[i],{t:e.target.value.trim()});saveDI();box.querySelector('.dy-head small').textContent='已存好 ✓';},400);});
+ /* ---------- 4. 每一站的評價（好吃／好玩／踩雷） ---------- */
+ const RK='hk-rate-v1';let RT={};try{RT=JSON.parse(localStorage.getItem(RK)||'{}')}catch(e){}
+ const saveRT=()=>{try{localStorage.setItem(RK,JSON.stringify(RT))}catch(e){}};
+ const FACE={
+  3:`<circle cx="12" cy="12" r="9.6" fill="#FFD98A" ${K}/><path d="M7.6 9.4c-.9-.8-.3-2 .7-1.6.3-.9 1.7-.8 1.6.4-.1.9-1.1 1.5-1.6 1.9-.3-.2-.5-.4-.7-.7ZM16.4 9.4c.9-.8.3-2-.7-1.6-.3-.9-1.7-.8-1.6.4.1.9 1.1 1.5 1.6 1.9.3-.2.5-.4.7-.7Z" fill="#E8708A"/><path d="M8.2 13.6Q12 17.6 15.8 13.6Z" fill="#fff" stroke="#5B4B43" stroke-width="1.3" stroke-linejoin="round"/><ellipse cx="6.6" cy="13.4" rx="1.3" ry=".8" fill="#F5A8A8"/><ellipse cx="17.4" cy="13.4" rx="1.3" ry=".8" fill="#F5A8A8"/>`,
+  2:`<circle cx="12" cy="12" r="9.6" fill="#D9ECF7" ${K}/><circle cx="9" cy="10.4" r="1.1" fill="#5B4B43"/><circle cx="15" cy="10.4" r="1.1" fill="#5B4B43"/><path d="M9.4 14.8h5.2" ${K}/><ellipse cx="6.8" cy="13" rx="1.2" ry=".7" fill="#F5A8A8"/><ellipse cx="17.2" cy="13" rx="1.2" ry=".7" fill="#F5A8A8"/>`,
+  1:`<circle cx="12" cy="12" r="9.6" fill="#E6E1EE" ${K}/><path d="M7.8 9.8l2.2.8M16.2 9.8l-2.2.8" ${K}/><path d="M8.8 15.8q1.6-1.6 3.2 0t3.2 0" fill="none" ${K}/><path d="M18.4 5.6c.9 1.2 1.3 2 1.3 2.6a1.3 1.3 0 0 1-2.6 0c0-.6.4-1.4 1.3-2.6Z" fill="#AFCDEB" stroke="#5B4B43" stroke-width="1"/>`,
+  0:`<circle cx="12" cy="12" r="9.6" fill="#fff" stroke="#C9BDB2" stroke-width="1.4" stroke-dasharray="2.4 2.2"/><path d="M12 7.6l1.3 2.7 3 .4-2.2 2.1.5 3-2.6-1.4-2.6 1.4.5-3-2.2-2.1 3-.4Z" fill="#FFE6A3" stroke="#C9A35A" stroke-width="1" stroke-linejoin="round"/>`
+ };
+ const face=r=>`<svg viewBox="0 0 24 24" aria-hidden="true">${FACE[r||0]}</svg>`;
+ const WORDS=food=>food?{3:'超好吃',2:'還可以',1:'踩雷'}:{3:'超好玩',2:'還可以',1:'不推'};
+ function keyOf(ev){const cb=ev.querySelector('input[data-check]');if(cb)return cb.dataset.check;const c=ev.querySelector('[data-ccheck]');return c?c.dataset.ccheck:null;}
+ function nameOf(ev){const h=ev.querySelector('h4');return h?h.textContent.replace(/^\s*\S+\s/,'').trim():'';}
+ function rates(){
+  const dc=$('#dayCard');if(!dc)return;
+  dc.querySelectorAll('.event').forEach(ev=>{
+   const k=keyOf(ev),col=ev.querySelector('.time-col');if(!k||!col)return;
+   const old=col.querySelector('.rt-btn');if(old)old.remove();
+   const food=/美食/.test((col.querySelector('.cat')||{}).textContent||''),o=RT[k]||{};
+   col.insertAdjacentHTML('beforeend',`<button type="button" class="rt-btn${o.r?' on r'+o.r:''}" data-rate="${k}" data-food="${food?1:0}" aria-label="評價這一站">${face(o.r)}<small>${o.r?WORDS(food)[o.r]:'評價'}</small></button>`);
+   ev.querySelectorAll('.rt-note').forEach(x=>x.remove());
+   if(o.n){const p=ev.querySelector('h4');if(p)p.parentNode.querySelector('.event-actions').insertAdjacentHTML('beforebegin',`<p class="rt-note">「${esc5(o.n)}」</p>`);}
+  });
  }
- if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{diary(i)}catch(e){console.warn(e)}return r;};}
- try{diary(current)}catch(e){}
+ const rs=document.createElement('div');rs.className='cs-sheet rt-sheet';rs.hidden=true;document.body.appendChild(rs);
+ let rk=null,rname='';
+ function openRate(btn){
+  rk=btn.dataset.rate;const food=btn.dataset.food==='1',W=WORDS(food),o=RT[rk]||{};
+  rname=nameOf(btn.closest('.event')).replace(/（.*?）/g,'').trim();
+  rs.innerHTML=`<div class="cs-panel" role="dialog" aria-modal="true" aria-label="評價"><h3>${food?'好不好吃？':'好不好玩？'}</h3><p class="adj-name">${esc5(rname)}</p>
+   <div class="rt-pick">${[3,2,1].map(r=>`<button type="button" data-r="${r}" class="${o.r===r?'on':''}">${face(r)}<b>${W[r]}</b></button>`).join('')}</div>
+   <label>一句話筆記（選填）<input id="rtNote" maxlength="40" placeholder="${food?'例：湯頭超濃，下次點加麵':'例：企鵝走超可愛，排隊 20 分'}" value="${esc5(o.n||'')}" enterkeyhint="done"></label>
+   <div class="cs-btns"><button type="button" class="cs-cancel">${o.r?'清除評價':'取消'}</button><button type="button" class="cs-save rt-save">儲存</button></div></div>`;
+  rs.hidden=false;document.body.classList.add('cs-open');
+ }
+ const closeRate=()=>{rs.hidden=true;document.body.classList.remove('cs-open');};
+ rs.addEventListener('click',e=>{
+  if(e.target===rs){closeRate();return;}
+  const p=e.target.closest('[data-r]');if(p){rs.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x===p));return;}
+  if(e.target.closest('.cs-cancel')){if(RT[rk]&&RT[rk].r){delete RT[rk];saveRT();rates();}closeRate();return;}
+  if(e.target.closest('.rt-save')){const on=rs.querySelector('[data-r].on');const n=($('#rtNote').value||'').trim();
+   if(!on&&!n){toast('先選一個表情');return;}
+   RT[rk]={r:on?+on.dataset.r:0,n,name:rname,d:current};saveRT();closeRate();rates();toast('記下來了 ✨');}
+ });
+ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.rt-btn');if(b)openRate(b);});
+ if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{rates()}catch(e){console.warn(e)}return r;};}
+ try{rates()}catch(e){}
 
  /* ---------- 5. 北海道回憶卡 ---------- */
  const acts=$('#footprints .fp-acts');
@@ -3514,15 +3562,23 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   if(!(e.target.closest&&e.target.closest('#hkMemory')))return;
   const lit=(($('#fpNum')||{}).textContent||'0'),of=(($('#fpOf')||{}).textContent||'').replace(/[^\d]/g,'');
   let spent=0;try{const r=rate();JSON.parse(localStorage.getItem('hk-ledger-v1')||'[]').forEach(x=>{spent+=x.cur==='TWD'?(+x.amt||0)/r:(+x.amt||0);});}catch(err){}
-  const rows=days.map((d,i)=>{const o=DI[i]||{};const t=(o.t||'').slice(0,26);return `<g transform="translate(0 ${190+i*74})"><rect x="40" y="0" width="640" height="62" rx="18" fill="${i%2?'#FFF7F0':'#F4F8FC'}" stroke="#E6DACE" stroke-width="2"/><text x="66" y="40" font-size="22" font-weight="700" fill="#E8977A">D${i+1}</text><text x="118" y="40" font-size="18" fill="#9A8A7E">${d.date.slice(5).replace('-','/')}</text><text x="200" y="42" font-size="30">${o.m||'·'}</text><text x="250" y="27" font-size="16" font-weight="700" fill="#5B4B43">${esc5(d.label.split('・')[0])}</text><text x="250" y="49" font-size="17" fill="#6B5A50">${esc5(t||'—')}</text></g>`;}).join('');
-  const H=190+9*74+130;
+  const all=Object.values(RT).filter(o=>o&&o.r);
+  const grp=[[3,'超讚推薦','#FFE6A3','#C99A4A'],[2,'還可以','#D9ECF7','#7FA6C6'],[1,'踩雷／不推','#ECE7F3','#A897C2']].map(([r,t,bg,ed])=>[r,t,bg,ed,all.filter(o=>o.r===r).sort((a,b)=>(a.d||0)-(b.d||0))]).filter(g=>g[4].length);
+  let y=190,rows='';
+  if(!grp.length)rows=`<text x="360" y="260" text-anchor="middle" font-size="20" fill="#9A8A7E">在行程卡片左邊點「評價」，這裡就會出現你的推薦清單</text>`,y=320;
+  grp.forEach(([r,t,bg,ed,items])=>{
+   rows+=`<g transform="translate(40 ${y})"><rect width="640" height="${58+items.length*44}" rx="22" fill="${bg}" fill-opacity=".55" stroke="${ed}" stroke-width="2"/><svg x="18" y="12" width="34" height="34" viewBox="0 0 24 24">${FACE[r]}</svg><text x="62" y="37" font-size="22" font-weight="700" fill="#5B4B43">${t}</text>`+
+    items.map((o,k)=>`<text x="62" y="${80+k*44}" font-size="18" fill="#5B4B43"><tspan fill="#E8977A" font-weight="700">D${(o.d||0)+1}</tspan>  ${esc5((o.name||'').slice(0,16))}${o.n?`<tspan fill="#8A7A70">「${esc5(o.n.slice(0,16))}」</tspan>`:''}</text>`).join('')+`</g>`;
+   y+=58+items.length*44+18;
+  });
+  const H=y+110;
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="${Math.round(H*1.5)}" viewBox="0 0 720 ${H}" font-family="'Huninn','PingFang TC','Noto Sans TC',sans-serif">
    <defs>${['i-enaga'].map(id=>{const el=document.getElementById(id);return el?el.outerHTML:'';}).join('')}<linearGradient id="mbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDEFF3"/><stop offset=".5" stop-color="#FFF9F1"/><stop offset="1" stop-color="#EEF5FB"/></linearGradient></defs>
    <rect width="720" height="${H}" fill="url(#mbg)"/>
    ${Array.from({length:26},(_,k)=>`<circle cx="${(k*97)%720}" cy="${(k*53)%H}" r="${2+k%3}" fill="#fff" opacity=".9"/>`).join('')}
    <use href="#i-enaga" xlink:href="#i-enaga" x="570" y="26" width="110" height="110"/>
    <text x="44" y="70" font-size="40" font-weight="700" fill="#5B4B43">北海道大暴吃</text>
-   <text x="46" y="104" font-size="18" fill="#9A8A7E" letter-spacing="3">2027.02.10 – 02.18 ・ 回憶卡</text>
+   <text x="46" y="104" font-size="18" fill="#9A8A7E" letter-spacing="3">2027.02.10 – 02.18 ・ 吃喝玩樂回憶卡</text>
    <g transform="translate(44 126)"><rect width="200" height="44" rx="22" fill="#FFE6A3" stroke="#C99A4A" stroke-width="2"/><text x="100" y="29" text-anchor="middle" font-size="18" font-weight="700" fill="#5B4B43">★ 點亮 ${lit}/${of}</text>
     <rect x="216" width="230" height="44" rx="22" fill="#D9ECF7" stroke="#7FA6C6" stroke-width="2"/><text x="331" y="29" text-anchor="middle" font-size="18" font-weight="700" fill="#5B4B43">一起花了 ¥${Math.round(spent).toLocaleString()}</text></g>
    ${rows}
