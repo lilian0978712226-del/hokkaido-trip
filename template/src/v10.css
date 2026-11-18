@@ -16,3 +16,8 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 .fp-btn.pri{background:#FBE1EA!important;color:var(--ink)!important}
 .fp-btn .cute-ic{width:20px;height:20px}
 .fp-btn .cute-ic-wrap.lead{vertical-align:-4px;margin-right:6px}
+.fp-tip{animation:fpTipIn .25s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:50% 100%;pointer-events:none}
+@keyframes fpTipIn{from{transform:scale(.4);opacity:0}}
+.fp-ring{animation:fpRing 1s ease-out infinite;transform-box:fill-box;transform-origin:center;pointer-events:none}
+@keyframes fpRing{from{transform:scale(.6);opacity:1}to{transform:scale(1.6);opacity:0}}
+#fpMap svg{cursor:pointer;-webkit-tap-highlight-color:transparent}
