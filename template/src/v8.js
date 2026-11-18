@@ -208,10 +208,11 @@
   if(bb&&bbd<=17&&!(best&&bd<5)){const c=bb.dataset.city,R=stops(),arr=R.G[c]||[],dn=arr.filter(s=>s.done).length;
    label=`${NAME[c]}・點亮 ${dn}/${arr.length}`;x=+bb.dataset.x;y=+bb.dataset.y-19;lit=dn>0;}
   else if(best&&bd<=16){label=best.dataset.fpn.replace(/（.*?）/g,'');x=+best.dataset.x;y=+best.dataset.y;lit=best.classList.contains('fp-lit');
-   svg.insertAdjacentHTML('beforeend',`<circle class="fp-ring" cx="${x}" cy="${y}" r="6" fill="none" stroke="#E8977A" stroke-width="1.6"/>`);}
+   svg.insertAdjacentHTML('beforeend',`<circle class="fp-ring" cx="${x}" cy="${y}" r="6" fill="none" stroke="#7FA6C6" stroke-width="1.6"/>`);}
   else return;
   const w=Math.min(150,label.length*8.2+16),tx=Math.max(w/2+4,Math.min(356-w/2,x)),ty=y-12;
-  svg.insertAdjacentHTML('beforeend',`<g class="fp-tip"><rect x="${(tx-w/2).toFixed(1)}" y="${(ty-14).toFixed(1)}" width="${w.toFixed(1)}" height="15" rx="7.5" fill="${lit?'#FFF1C9':'#fff'}" stroke="#5B4B43" stroke-width="1.1"/><text x="${tx.toFixed(1)}" y="${(ty-3.6).toFixed(1)}" text-anchor="middle" font-size="8.6" font-weight="700" fill="#5B4B43">${esc3(label.length>17?label.slice(0,16)+'…':label)}</text></g>`);
+  const bg=lit?'#FFE6A3':'#D9ECF7',ed=lit?'#C99A4A':'#7FA6C6',ax=Math.max(tx-w/2+8,Math.min(tx+w/2-8,x));
+  svg.insertAdjacentHTML('beforeend',`<g class="fp-tip"><path d="M${(ax-3.4).toFixed(1)} ${(ty+0.6).toFixed(1)}L${ax.toFixed(1)} ${(ty+4.6).toFixed(1)}L${(ax+3.4).toFixed(1)} ${(ty+0.6).toFixed(1)}Z" fill="${bg}" stroke="${ed}" stroke-width="1" stroke-linejoin="round"/><rect x="${(tx-w/2-6).toFixed(1)}" y="${(ty-14).toFixed(1)}" width="${(w+12).toFixed(1)}" height="15" rx="7.5" fill="${bg}" stroke="${ed}" stroke-width="1"/><path d="M${(ax-3.4).toFixed(1)} ${(ty+0.4).toFixed(1)}H${(ax+3.4).toFixed(1)}" stroke="${bg}" stroke-width="1.6"/><path transform="translate(${(tx-w/2+1.4).toFixed(1)} ${(ty-6.5).toFixed(1)}) scale(.62)" d="M0 -4.2 L1.25 -1.35 L4.1 -1.25 L1.9 0.65 L2.6 3.5 L0 1.85 L-2.6 3.5 L-1.9 0.65 L-4.1 -1.25 L-1.25 -1.35Z" fill="${lit?'#FFC94D':'#fff'}" stroke="${ed}" stroke-width="1"/><text x="${(tx+3.5).toFixed(1)}" y="${(ty-3.6).toFixed(1)}" text-anchor="middle" font-size="8.6" font-weight="700" fill="#5B4B43">${esc3(label.length>17?label.slice(0,16)+'…':label)}</text></g>`);
   clearTimeout(window.__fpTipT);window.__fpTipT=setTimeout(()=>svg.querySelectorAll('.fp-tip,.fp-ring').forEach(x=>x.remove()),2600);
  });
  $('#fpAdd').addEventListener('click',()=>openSheet(typeof current==='number'?current:0));
