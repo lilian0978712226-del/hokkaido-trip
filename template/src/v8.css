@@ -155,3 +155,8 @@ body.cs-open{overflow:hidden}
 .adj-reset{width:100%;margin-top:10px;min-height:42px;border:1.5px dashed var(--ink3)!important;border-radius:999px!important;background:transparent!important;color:var(--ink2)!important;font-size:14px}
 .adj-sync{margin:8px 0 2px}
 .adj-share{width:100%;min-height:44px;border:2px solid #C9B8DD!important;border-radius:16px!important;background:#F6F1FB!important;color:#6F5C8A!important;font-size:14.5px;font-weight:700}
+/* 美食街屋頂：一體成形的 SVG 屋頂與積雪 */
+.food-card.shop .shop-roof{position:absolute!important;left:-8px!important;right:-8px!important;top:-40px!important;height:44px!important;background:none!important;border:0!important;border-radius:0!important;transform:none!important;clip-path:none!important;z-index:2}
+.food-card.shop .shop-roof::before,.food-card.shop .shop-roof::after{display:none!important;content:none!important}
+.food-card.shop .shop-roof svg{display:block;width:100%;height:100%;overflow:visible}
+.food-card.shop .shop-top{border-top:0!important;padding-top:14px!important;margin-top:40px}

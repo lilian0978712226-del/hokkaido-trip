@@ -63,6 +63,7 @@
    });
   }
   syncBar(dc);
+  if(window.hkHours)window.hkHours(i);
  }
  function nameOf(el){const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);return days[a].events[b][1];}const c=CSget().find(x=>x.id===el.dataset.cid);return c?c.n:'';}
  function mark(el,t,why){

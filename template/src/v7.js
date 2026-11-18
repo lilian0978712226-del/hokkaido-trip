@@ -60,19 +60,28 @@
   const dc=$('#dayCard');if(!dc)return;
   const th=dc.querySelector('.day-theme');if(th&&!th.querySelector('.lt-list')){th.classList.add('lt-mode');th.insertAdjacentHTML('beforeend',lightRow(i));}
   const today=isToday(i),now=nowJP().min;
+  hoursPass(i);
+ }
+ function hoursPass(i){
+  const dc=$('#dayCard');if(!dc)return;
+  const today=isToday(i),now=nowJP().min;
   dc.querySelectorAll('.event:not(.custom-ev)').forEach((ev,j)=>{
-   const e=days[i].events[j];if(!e)return;const h=findH(e[1],i);if(!h)return;
-   const tags=ev.querySelector('.tags');if(!tags||tags.querySelector('.tag.hours'))return;
-   const arr=toMin(e[0]),open=h[1]?toMin(h[1]):null,close=toMin(h[2]);
+   let oi=i,oj=j;if(ev.dataset.k){[oi,oj]=ev.dataset.k.split('-').map(Number);}
+   const e=days[oi]&&days[oi].events[oj];if(!e)return;const h=findH(e[1],oi);
+   const tags=ev.querySelector('.tags');if(!tags)return;
+   tags.querySelectorAll('.tag.hours').forEach(x=>x.remove());if(!h)return;
+   const tt=ev.querySelector('.time');const arr=toMin(tt?tt.textContent.trim():e[0]),open=h[1]?toMin(h[1]):null,close=toMin(h[2]);
    let cls='',warn='';
    if(open!=null&&arr<open-15)warn=`・比開門早到 ${open-arr} 分`;
-   if(arr>close-30)warn=`・抵達時已接近關門`;
+   if(arr>close-30)warn=arr>=close?`・抵達時已經關門`:`・抵達時已接近關門`;
    if(today){const left=close-now;if(left<0)cls='closed',warn='・今天已關門';else if(left<=60)cls='soon',warn=`・剩 ${left} 分鐘`;}
    if(warn&&!cls)cls='soon';
-   tags.insertAdjacentHTML('beforeend',`<span class="tag hours ${cls}">🕒 ${h[3]}${warn}</span>`);
+   const html=`<span class="tag hours ${cls}">🕒 ${h[3]}${warn}</span>`;
+   const adj=tags.querySelector('.tag.adj');if(adj)adj.insertAdjacentHTML('beforebegin',html);else tags.insertAdjacentHTML('beforeend',html);
    tags.style.display='flex';
   });
  }
+ window.hkHours=hoursPass;
 
  /* ---------- 首頁：下一站 ---------- */
  const hero=$('.departure-countdown');
