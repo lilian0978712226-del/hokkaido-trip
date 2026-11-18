@@ -1320,23 +1320,20 @@ body.cs-open{overflow:hidden}
 .fp-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#F6C7A9 0 6px,#F0A57E 6px 12px);transition:width .6s}
 .fp-map svg{width:100%;height:auto;display:block;border-radius:16px;border:2px solid var(--ink)}
 .fp-lit{animation:fpTw 2.6s ease-in-out infinite}
-@keyframes fpTw{50%{opacity:.7}}
+@keyframes fpTw{50%{opacity:.65}}
 .fp-dot,.fp-lit{cursor:pointer}
-.fp-bird{animation:fpHop 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
-@keyframes fpHop{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-2px)}}
 .fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 10px}
 .fp-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .fp-btn{min-height:46px;border:2px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:15px;font-weight:700;box-shadow:0 2px 0 var(--ink)}
 .fp-btn.pri{background:var(--coral)!important;color:#fff!important}
 .fp-btn:active{transform:translateY(2px);box-shadow:none}
-@media(prefers-reduced-motion:reduce){.fp-lit,.fp-bird,.fp-card.pop,.cs-panel{animation:none}}
+@media(prefers-reduced-motion:reduce){.fp-lit,.fp-card.pop,.cs-panel{animation:none}}
 
 /* 保險收合 */
 .em-fold{margin-top:14px}
 .em-fold .em-mine{margin-top:8px!important}
 
 /* 記帳：更可愛一點 */
-.lg-mascot{position:absolute;right:22px;margin-top:-30px;width:46px;height:46px;z-index:2;filter:drop-shadow(0 2px 0 rgba(91,75,67,.15))}
 .lg-sum{background:linear-gradient(135deg,#FFF1E8,#FDE8EF)!important;border-radius:20px!important}
 .lg-sum>div:first-child b{color:var(--coral)}
 .lg-form{background:#fff!important;border-radius:22px!important;background-image:radial-gradient(#F4E9DF 1.2px,transparent 1.3px)!important;background-size:14px 14px!important}
@@ -1359,6 +1356,26 @@ body.cs-open{overflow:hidden}
 .lg-seg button.on{background:#FDE3EA!important;color:var(--ink)!important}
 .lg-form select,.lg-form input#lgNote{border-radius:999px!important;border-width:1.5px!important;background:#FFFCF8!important}
 .lg-settle{border-radius:20px!important;background:#FFF9EC!important;border-style:solid!important;border-width:1.5px!important;position:relative}
+
+/* 行程按鈕：導航・複製・完成 一排，備註在下一排 */
+#dayCard .event-actions{display:grid!important;grid-template-columns:repeat(3,max-content);gap:6px!important;overflow:visible!important}
+#dayCard .event-actions .note-row{grid-column:1/-1;justify-self:start}
+
+/* 記帳功能鍵：可愛版 */
+.lg-seg{border:0!important;background:none!important;gap:8px;overflow:visible!important}
+.lg-seg button{border:1.8px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;box-shadow:0 2px 0 var(--ink);transition:transform .15s}
+.lg-seg button+button{border-left:1.8px solid var(--ink)!important}
+.lg-seg button.on{background:#FDE3EA!important;color:var(--ink)!important;font-weight:800}
+.lg-seg button.on:before{content:'♥ '!important;color:#E57F9A}
+.lg-seg button:active,.lg-chip:active,.lg-cur:active{transform:translateY(2px)!important;box-shadow:none!important}
+.lg-chip{box-shadow:0 2px 0 rgba(91,75,67,.35)}
+.lg-chip.on{transform:translateY(-3px)!important}
+.lg-cur{box-shadow:0 2px 0 var(--ink)!important;font-size:20px!important}
+.lg-amt .lg-add{background:radial-gradient(circle at 35% 30%,#F6B9A0,#E8977A)!important;box-shadow:0 3px 0 var(--ink)!important}
+.lg-amt .lg-add::after{content:"✦";position:absolute;top:4px;right:7px;font-size:10px;color:#FFF3C4}
+.lg-form select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%)!important;background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%!important;background-size:6px 6px!important;background-repeat:no-repeat!important;padding-right:34px!important}
+#ledgerApp details.fold>summary{border-radius:999px!important;background:#FFF7F0!important}
+#ledgerApp details.fold[open]>summary{background:#FDE3EA!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2468,9 +2485,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    else{const ref=k<0?orig[orig.length-1]:orig[k-1];let after=ref;while(after.nextElementSibling&&after.nextElementSibling.classList.contains('custom-ev'))after=after.nextElementSibling;after.insertAdjacentHTML('afterend',html);}
   });
   const last=[...dc.querySelectorAll('.event')].pop();
+  orderBtns();
   if(last)last.insertAdjacentHTML('afterend',`<div class="cs-addbar"><button type="button" class="cs-add" data-cadd="${i}">＋ 新增行程・改去別家</button></div>`);
  }
 
+ /* 按鈕順序：導航、複製、完成，備註在下一行 */
+ function orderBtns(){document.querySelectorAll('#dayCard .event-actions').forEach(ac=>{if(ac.dataset.ord)return;const nav=ac.querySelector('[data-map-place],[data-cmap]'),cp=ac.querySelector('[data-copy-place]'),dn=ac.querySelector('label'),dl=ac.querySelector('[data-cdel]'),nt=ac.querySelector('[data-note-title]');[nav,cp,dn,dl].forEach(x=>x&&ac.appendChild(x));if(nt){nt.classList.add('note-row');ac.appendChild(nt);}ac.dataset.ord=1;});}
  /* ---------- 新增表單 ---------- */
  const sh=document.createElement('div');sh.className='cs-sheet';sh.hidden=true;
  sh.innerHTML=`<div class="cs-panel" role="dialog" aria-modal="true" aria-labelledby="csTitle"><h3 id="csTitle">✏️ 新增行程</h3>
@@ -2533,26 +2553,27 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&!/sapporo/.test(ct))?ct:DEF[i],keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
   });
   out.forEach(s=>s.done=s.keys.some(isDone));
-  const per={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>{const k=per[s.c]=(per[s.c]||0);per[s.c]++;const a=k*2.39996,r=k?3.1*Math.sqrt(k):0;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
+  const per={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>{const k=per[s.c]=(per[s.c]||0);per[s.c]++;const a=k*2.39996,r=k?3.4*Math.sqrt(k):0;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
+  const P=new Path2D(LAND),cx=document.createElement('canvas').getContext('2d'),IN=(x,y)=>[[0,0],[2.6,0],[-2.6,0],[0,2.6],[0,-2.6]].every(([a,b])=>cx.isPointInPath(P,x+a,y+b));
+  out.forEach(s=>{let n=0;while(!IN(s.x,s.y)&&n<60){const dx=172-s.x,dy=228-s.y,L=Math.hypot(dx,dy)||1;s.x+=dx/L;s.y+=dy/L;n++;}});
   return out;
  }
  const LAND='M150 52 L172 46 L196 60 L214 72 L236 98 L262 112 L288 124 L318 110 L340 120 L358 132 L352 160 L336 176 L352 186 L366 198 L352 210 L318 222 L290 238 L262 268 L246 288 L236 306 L218 300 L196 288 L172 276 L150 262 L134 256 L118 262 L104 276 L92 286 L80 300 L70 312 L56 304 L64 288 L76 276 L68 262 L58 248 L64 232 L80 216 L94 206 L106 200 L116 186 L126 160 L132 122 L140 84Z';
  const BIRD=()=>{const s=document.getElementById('i-enaga');return s?s.outerHTML:'';};
  function svg(S,exp){
-  const done=S.filter(s=>s.done),last=done.slice().sort((a,b)=>b.o-a.o)[0];
+  const done=S.filter(s=>s.done);
   const vb=exp?'40 108 220 240':'48 140 200 160';
   const flakes=[[60,150],[84,168],[230,150],[240,240],[70,330],[214,282],[56,212],[236,170],[176,296],[226,262]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.1" fill="#fff"/>`).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" ${exp?'width="880" height="960"':''}>
-  <defs>${exp?BIRD():''}<radialGradient id="fpGlow"><stop offset="0" stop-color="#FFF6C9"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
+  <defs><radialGradient id="fpGlow"><stop offset="0" stop-color="#FFF6C9"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
   <linearGradient id="fpSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCEBF7"/><stop offset="1" stop-color="#EEF5FB"/></linearGradient></defs>
   ${exp?`<rect x="40" y="108" width="220" height="240" fill="#FFFAF2"/>`:''}
   <rect x="${exp?46:48}" y="${exp?132:140}" width="${exp?208:200}" height="${exp?188:160}" rx="10" fill="url(#fpSea)"/>
   ${flakes}
   <path d="${LAND}" fill="#FFFDF8" stroke="#5B4B43" stroke-width="1.5" stroke-linejoin="round"/>
   <g opacity=".55"><path d="M168 236l7-11 7 11z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M172.5 229l2.5-4 2.5 4z" fill="#fff"/><path d="M226 158l6-9 6 9z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M164 182l-2 5h4zM164 179l-3 6h6z" fill="#B9D3B9"/></g>
-  ${S.filter(s=>!s.done).map(s=>`<circle class="fp-dot" data-fpn="${esc3(s.n)}" cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.45" fill="#fff" stroke="#C9BDB2" stroke-width=".6"/>`).join('')}
-  ${done.map((s,k)=>`<g class="fp-lit" data-fpn="${esc3(s.n)}" style="animation-delay:${(k%9*.18).toFixed(2)}s"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="4.2" fill="url(#fpGlow)"/><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.55" fill="${s.mine?'#F2A0B6':'#F0A57E'}" stroke="#fff" stroke-width=".5"/></g>`).join('')}
-  ${last?`<use href="#i-enaga" xlink:href="#i-enaga" x="${(last.x-6).toFixed(1)}" y="${(last.y-14).toFixed(1)}" width="12" height="12" class="fp-bird"/>`:''}
+  ${S.filter(s=>!s.done).map(s=>`<circle class="fp-dot" data-fpn="${esc3(s.n)}" cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.3" fill="#fff" stroke="#D6CBC1" stroke-width=".55"/>`).join('')}
+  ${done.map((s,k)=>`<g class="fp-lit" data-fpn="${esc3(s.n)}" style="animation-delay:${(k%9*.18).toFixed(2)}s"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="5" fill="url(#fpGlow)"/><path transform="translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})" d="M0 -3.4 L1 -1.1 L3.3 -1 L1.5 0.5 L2.1 2.8 L0 1.5 L-2.1 2.8 L-1.5 0.5 L-3.3 -1 L-1 -1.1Z" fill="${s.mine?'#F4A7BE':'#FFC94D'}" stroke="${s.mine?'#C76F8C':'#E0904A'}" stroke-width=".55" stroke-linejoin="round"/></g>`).join('')}
   ${exp?`<text x="150" y="124" text-anchor="middle" font-size="10" font-weight="700" fill="#5B4B43" font-family="sans-serif">北海道大暴吃・點亮地圖</text><text x="150" y="336" text-anchor="middle" font-size="7.5" fill="#86756A" font-family="sans-serif">點亮 ${done.length} / ${S.length} 個地方・2027 冬</text>`:''}
   </svg>`;
  }
@@ -2581,10 +2602,6 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* ---------- 保險收合 ---------- */
  const em=$('.em-mine');
  if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 我們的保險與重要資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
-
- /* ---------- 記帳小鳥 ---------- */
- const la=$('#ledgerApp');
- if(la&&!la.parentNode.querySelector('.lg-mascot')){la.style.position='relative';la.insertAdjacentHTML('beforebegin','<svg class="lg-mascot" aria-hidden="true" viewBox="0 0 100 100"><use href="#i-enaga"></use></svg>');la.parentNode.style.position='relative';}
 
  /* ---------- 掛上 showDay ---------- */
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
