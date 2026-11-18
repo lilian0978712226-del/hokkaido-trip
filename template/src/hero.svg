@@ -3,8 +3,8 @@
 <style>
 .hg-tram{animation:hgTram 17s linear infinite}
 @keyframes hgTram{0%{transform:translateX(-140px)}100%{transform:translateX(430px)}}
-.hg-steam circle{transform-box:fill-box;transform-origin:center;animation:hgSteam 2.8s ease-out infinite;opacity:0}
-@keyframes hgSteam{0%{transform:translate(0,0) scale(.35);opacity:0}20%{opacity:.95}100%{transform:translate(5px,-30px) scale(1.5);opacity:0}}
+.hg-steam circle{transform-box:fill-box;transform-origin:center;animation:hgSteam 3.5s ease-out infinite;opacity:0}
+@keyframes hgSteam{0%{transform:translate(0,0) scale(.4);opacity:0}12%{opacity:1}60%{opacity:.85}100%{transform:translate(var(--dx,6px),-46px) scale(2.1);opacity:0}}
 .hg-glow{animation:hgGlow 2.6s ease-in-out infinite}
 @keyframes hgGlow{50%{opacity:.65}}
 .hg-tw{animation:hgTw 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes hgTw{50%{opacity:.3;transform:scale(.6)}}
@@ -72,9 +72,7 @@
 <path d="M114.6 135Q115 129 123 129Q131 129 131.4 135Q127 133.6 123 134.4Q119 133.6 114.6 135ZM136.6 135Q137 129 145 129Q153 129 153.4 135Q149 133.6 145 134.4Q141 133.6 136.6 135Z" fill="#fff" stroke-width="1.6"/></g>
 <!-- 小樽蒸汽鐘 -->
 <g>
-<g class="hg-steam" fill="#fff" stroke="#C9D3DC" stroke-width="1">
-<circle cx="296" cy="100" r="4" style="animation-delay:0s"/><circle cx="302" cy="98" r="4.6" style="animation-delay:.7s"/><circle cx="308" cy="100" r="4" style="animation-delay:1.4s"/><circle cx="300" cy="96" r="3.6" style="animation-delay:2.1s"/>
-<circle cx="296" cy="100" r="3.4" style="animation-delay:1.05s"/><circle cx="308" cy="100" r="3.4" style="animation-delay:.35s"/></g>
+<g class="hg-steam" fill="#fff" stroke="#D5D2E4" stroke-width="1"><circle cx="295.2" cy="100.2" r="5.5" style="animation-delay:-0.00s;--dx:9.1px"/><circle cx="301.0" cy="97.1" r="6.0" style="animation-delay:-0.22s;--dx:1.4px"/><circle cx="306.9" cy="100.6" r="5.3" style="animation-delay:-0.44s;--dx:-4.2px"/><circle cx="311.4" cy="99.2" r="4.2" style="animation-delay:-0.66s;--dx:3.2px"/><circle cx="294.0" cy="98.1" r="4.2" style="animation-delay:-0.88s;--dx:8.7px"/><circle cx="301.0" cy="100.2" r="4.0" style="animation-delay:-1.10s;--dx:-3.8px"/><circle cx="306.2" cy="97.0" r="3.9" style="animation-delay:-1.32s;--dx:7.9px"/><circle cx="310.9" cy="100.9" r="4.2" style="animation-delay:-1.54s;--dx:8.0px"/><circle cx="294.6" cy="99.2" r="6.1" style="animation-delay:-1.76s;--dx:4.8px"/><circle cx="299.9" cy="99.8" r="6.0" style="animation-delay:-1.98s;--dx:9.5px"/><circle cx="306.8" cy="98.4" r="4.4" style="animation-delay:-2.20s;--dx:-3.3px"/><circle cx="310.8" cy="98.2" r="3.8" style="animation-delay:-2.42s;--dx:3.6px"/><circle cx="294.0" cy="98.4" r="5.4" style="animation-delay:-2.64s;--dx:-1.0px"/><circle cx="301.1" cy="98.3" r="4.8" style="animation-delay:-2.86s;--dx:1.7px"/><circle cx="306.4" cy="100.9" r="3.7" style="animation-delay:-3.08s;--dx:-5.6px"/><circle cx="312.0" cy="97.1" r="5.8" style="animation-delay:-3.30s;--dx:6.6px"/></g>
 <g fill="#4F5D57" stroke-width="2"><rect x="293.5" y="102" width="3" height="10"/><rect x="299" y="100" width="3" height="12"/><rect x="304.5" y="100" width="3" height="12"/><rect x="310" y="102" width="3" height="10"/></g>
 <path d="M290 116L303 108L316 116Z" fill="#4F5D57"/><path d="M288.5 115Q288 110 294 110H312Q318 110 317.5 115Q313 118 309 115.6Q305.6 118.6 301.7 115.6Q297.8 118.6 294.68 115.6Q294 118 288.5 115Z" fill="#fff" stroke-width="2"/>
 <rect x="292" y="116" width="22" height="58" rx="2" fill="#4F5D57"/>
