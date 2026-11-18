@@ -284,3 +284,32 @@
  }
  new MutationObserver(draw).observe(t,{childList:true,characterData:true,subtree:true});draw();
 })();
+/* ===== 用我現在的位置查天氣 ===== */
+(function(){
+ const card=document.querySelector('#weather .card');const wx=document.querySelector('#weather .weather');if(!card||!wx)return;
+ const TOWNS=[['札幌',43.062,141.354],['小樽',43.19,141.0],['新千歲機場',42.775,141.692],['千歲',42.82,141.65],['美瑛',43.588,142.467],['白金',43.48,142.64],['富良野',43.342,142.383],['旭川',43.771,142.365],['洞爺湖',42.565,140.82],['登別',42.49,141.147],['白老',42.55,141.355],['支笏湖',42.773,141.405],['台中',24.147,120.674]];
+ const km=(a,b,c,d)=>{const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.sqrt(x*x+y*y)*6371;};
+ const ICON=c=>c>=95?'⛈️':[75,86].includes(c)?'❄️':c>=71&&c<=86&&c!==80&&c!==81&&c!==82?'🌨️':c>=51?'🌧️':c>=45?'🌫️':c===3?'☁️':c===2?'⛅':c<=1?'☀️':'🌤️';
+ const btn=document.createElement('button');btn.type='button';btn.className='wx-here-btn';btn.textContent='📍 用我現在的位置查天氣';
+ const out=document.createElement('div');out.className='wx-here';out.hidden=true;
+ wx.insertAdjacentElement('afterend',btn);btn.insertAdjacentElement('afterend',out);
+ btn.addEventListener('click',()=>{
+  if(!navigator.geolocation){toast('這支手機不支援定位');return;}
+  btn.disabled=true;btn.textContent='定位中…';
+  navigator.geolocation.getCurrentPosition(async pos=>{
+   const {latitude:la,longitude:lo}=pos.coords;
+   try{
+    const u=`https://api.open-meteo.com/v1/forecast?latitude=${la.toFixed(3)}&longitude=${lo.toFixed(3)}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,snowfall&daily=temperature_2m_min,temperature_2m_max,snowfall_sum,precipitation_probability_max&timezone=auto&forecast_days=1`;
+    const r=await fetch(u);if(!r.ok)throw 0;const d=await r.json();const c=d.current,dy=d.daily;
+    const near=TOWNS.map(t=>[t[0],km(la,lo,t[1],t[2])]).sort((a,b)=>a[1]-b[1])[0];
+    const place=near&&near[1]<25?`${near[0]}附近`:'你現在的位置';
+    const name=(typeof wxNames!=='undefined'&&wxNames[c.weather_code])||'天氣變化';
+    const t=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false});
+    out.innerHTML=`<div class="wxh-top"><span class="wxh-ic">${ICON(c.weather_code)}</span><div><small>📍 ${place}・${t} 現在</small><b>${name} ${Math.round(c.temperature_2m)}°C</b><span>體感 ${Math.round(c.apparent_temperature)}°・今天 ${Math.round(dy.temperature_2m_min[0])}° / ${Math.round(dy.temperature_2m_max[0])}°C</span></div></div>
+     <div class="wxp-chips"><span><i>❄️</i>今天降雪<b>${dy.snowfall_sum[0]??'—'} cm</b></span><span><i>☂️</i>降水<b>${dy.precipitation_probability_max[0]??'—'}%</b></span><span><i>🌬️</i>現在風速<b>${Math.round(c.wind_speed_10m)} km/h</b></span></div>`;
+    out.hidden=false;btn.textContent='📍 重新用我的位置查';
+   }catch(e){toast('查不到天氣，請確認網路後再試一次');btn.textContent='📍 用我現在的位置查天氣';}
+   btn.disabled=false;
+  },err=>{btn.disabled=false;btn.textContent='📍 用我現在的位置查天氣';toast(err.code===1?'需要允許「位置」權限才能查，請到 Safari 設定開啟':'定位失敗，請到戶外或稍後再試');},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+ });
+})();
