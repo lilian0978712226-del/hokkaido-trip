@@ -216,3 +216,43 @@
   }catch(err){toast('這支手機無法直接存圖，請用截圖分享');}
  });
 })();
+/* ===== 主圖依時間變天色：清晨／早上／中午／下午／傍晚／夜晚 ===== */
+(function(){
+ const art=document.getElementById('heroArt');if(!art)return;
+ const P={
+  dawn:{n:'清晨',sky:['#8F9BD0','#D9B8D3','#F7CBC4','#FFE3C6'],mt:['#B6B2D6','#928EBC'],cap:'#F4EEF7',cl:'#F6DDE6',st:'#E4DCE9',h:'#A7A3C8',sun:[262,128]},
+  day:{n:'早上',sky:['#86BCE6','#B7D8F0','#DDEDF8','#F0F6FB'],mt:['#C4D5E6','#9FB4C9'],cap:'#FFFFFF',cl:'#FFFFFF',st:'#E6ECF2',h:'#B4C2D2',sun:[110,52]},
+  noon:{n:'中午',sky:['#74B4E6','#A9D3F1','#D4EAF8','#EEF6FC'],mt:['#C8D8E8','#A3B7CB'],cap:'#FFFFFF',cl:'#FFFFFF',st:'#E8EEF3',h:'#B9C6D5',sun:[200,30]},
+  pm:{n:'下午',sky:['#93BDE2','#C4D7EA','#EADFE0','#FBE6CF'],mt:['#C8D0E2','#A3ACC6'],cap:'#FDFAFB',cl:'#FFF6EE',st:'#E8E3EA',h:'#B3B6CF',sun:[262,60]},
+  eve:{n:'傍晚',sky:['#A7AEDB','#D9C3DD','#F6D2C6','#FBE3CF'],mt:['#C9C4DE','#A39DC0'],cap:'#FBF4F8',cl:'#FBE6EE',st:'#E6DFEA',h:'#A9A4CA',sun:[262,130]},
+  night:{n:'夜晚',sky:['#5E6AA6','#8E8DC2','#C9A9C9','#F2C7B8'],mt:['#9F9CC6','#7F7BAA'],cap:'#E9E6F5',cl:'#B9B4DA',st:'#DCD5E6',h:'#8784B4',moon:[96,40]}
+ };
+ const ORDER=['dawn','day','noon','pm','eve','night'];
+ const pick=h=>h<5?'night':h<7?'dawn':h<11?'day':h<14?'noon':h<16.5?'pm':h<18.5?'eve':'night';
+ let forced=null,lab=null;
+ const $i=id=>document.getElementById(id);
+ function apply(k){
+  const p=P[k];ORDER.forEach(x=>art.classList.remove('tod-'+x));art.classList.add('tod-'+k);
+  p.sky.forEach((c,i)=>{const e=$i('hgS'+i);if(e)e.setAttribute('stop-color',c);});
+  const m=$i('hgMtn');if(m){m.setAttribute('fill',p.mt[0]);m.setAttribute('stroke',p.mt[1]);}
+  const cp=$i('hgCaps');if(cp)cp.setAttribute('fill',p.cap);
+  const cl=$i('hgCloud');if(cl){cl.setAttribute('fill',p.cl);cl.setAttribute('opacity',k==='night'?.75:.92);}
+  const st=$i('hgStreet');if(st)st.setAttribute('fill',p.st);
+  art.querySelectorAll('.hg-house').forEach(e=>e.setAttribute('fill',p.h));
+  const sun=$i('hgSun'),moon=$i('hgMoon');
+  if(sun){sun.style.display=p.sun?'':'none';if(p.sun)sun.setAttribute('transform',`translate(${p.sun[0]} ${p.sun[1]})`);}
+  if(moon){moon.style.display=p.moon?'':'none';if(p.moon)moon.setAttribute('transform',`translate(${p.moon[0]} ${p.moon[1]})`);}
+  if(forced){if(!lab){lab=document.createElement('span');lab.className='tod-label';art.appendChild(lab);}lab.textContent='預覽：'+p.n;}
+  else if(lab){lab.remove();lab=null;}
+ }
+ const now=()=>{const d=new Date();return d.getHours()+d.getMinutes()/60;};
+ const tick=()=>apply(forced||pick(now()));
+ tick();setInterval(()=>{if(!forced)tick();},5*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!forced)tick();});
+ const stamp=art.querySelector('.cover-stamp');
+ if(stamp)stamp.addEventListener('click',()=>{
+  const cur=forced||pick(now());const nx=ORDER[(ORDER.indexOf(cur)+1)%ORDER.length];
+  forced=nx===pick(now())?null:nx;tick();
+  clearTimeout(window.__todT);if(forced)window.__todT=setTimeout(()=>{forced=null;tick();},20000);
+ });
+})();

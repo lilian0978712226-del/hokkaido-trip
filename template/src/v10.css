@@ -21,3 +21,13 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 .fp-ring{animation:fpRing 1s ease-out infinite;transform-box:fill-box;transform-origin:center;pointer-events:none}
 @keyframes fpRing{from{transform:scale(.6);opacity:1}to{transform:scale(1.6);opacity:0}}
 #fpMap svg{cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* 主圖：依時間換天色 */
+.hero-art svg [data-l]{transition:opacity 1.2s}
+.hero-art.tod-day svg [data-l],.hero-art.tod-noon svg [data-l],.hero-art.tod-pm svg [data-l]{display:none}
+.hero-art.tod-dawn svg [data-l]{opacity:.35!important}
+.hero-art.tod-day .hg-tw,.hero-art.tod-noon .hg-tw,.hero-art.tod-pm .hg-tw,.hero-art.tod-eve .hg-tw{display:none}
+.hero-art.tod-day #hgWins,.hero-art.tod-noon #hgWins,.hero-art.tod-pm #hgWins{fill:#8F86A0}
+.hero-art.tod-day .hg-win,.hero-art.tod-noon .hg-win,.hero-art.tod-pm .hg-win{fill:#C3CCD8;animation:none}
+.hero-art.tod-day #hgTramW,.hero-art.tod-noon #hgTramW,.hero-art.tod-pm #hgTramW{fill:#DCEBF5}
+.hero-art .cover-stamp{cursor:pointer}
+.tod-label{position:absolute;left:12px;bottom:10px;z-index:3;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.85);border:1.4px solid var(--ink);border-radius:999px;padding:2px 9px;color:var(--ink);pointer-events:none}
