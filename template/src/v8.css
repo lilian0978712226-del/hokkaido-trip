@@ -131,14 +131,15 @@ body.cs-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.stage-tree{animation:none}}
 /* 翻頁倒數 */
 .departure-countdown-units .flip-src{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.flip{position:relative;width:100%;height:1.3em;line-height:1.3em;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);margin:2px 0 0}
-.fl-h{position:absolute;left:4%;right:4%;height:50%;overflow:hidden;background:#FFFDF9;backface-visibility:hidden;border:1.6px solid var(--ink)}
-.fl-h i{display:block;height:200%;font-style:normal;text-align:center;margin-top:-1.6px;color:#5B4B43!important;opacity:1!important}
-.fl-top{top:0;border-radius:12px 12px 0 0;border-bottom:0;background:linear-gradient(#FFFFFF,#FBF6EF)}
-.fl-bot{bottom:0;border-radius:0 0 12px 12px;border-top:0;background:#F7F1E8;box-shadow:0 2px 0 rgba(91,75,67,.25)}
-.fl-bot i{transform:translateY(-50%);margin-top:0}
-.flip::after{content:"";position:absolute;left:4%;right:4%;top:50%;height:1.6px;margin-top:-.8px;background:var(--ink);opacity:.55;z-index:3}
-.flip::before{content:"";position:absolute;left:1%;top:50%;width:5px;height:9px;margin-top:-4.5px;border-radius:3px;background:var(--ink);z-index:4;box-shadow:calc(var(--fw,60px) - 7px) 0 0 var(--ink);opacity:.7}
+.flip{position:relative;box-sizing:border-box;width:92%;margin:2px auto 0;height:1.36em;border:1.6px solid var(--ink);border-radius:12px;overflow:hidden;background:#F7F1E8;box-shadow:0 2px 0 rgba(91,75,67,.22);font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fl-h{position:absolute;left:0;right:0;height:50%;overflow:hidden;backface-visibility:hidden}
+.fl-h i{position:absolute;left:0;right:0;height:200%;display:flex;align-items:center;justify-content:center;font-style:normal;color:#5B4B43!important;opacity:1!important}
+.fl-top{top:0;background:linear-gradient(#FFFFFF,#FBF6EF)}
+.fl-top i{top:0}
+.fl-bot{bottom:0;background:#F7F1E8}
+.fl-bot i{bottom:0}
+.flip::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;margin-top:-.5px;background:var(--ink);opacity:.12;z-index:3}
+.flip::before{display:none}
 .fl-f1{transform-origin:50% 100%;animation:flTop .26s ease-in forwards;z-index:2}
 .fl-f2{transform-origin:50% 0;transform:scaleY(0);animation:flBot .26s .24s ease-out forwards;z-index:2}
 @keyframes flTop{to{transform:scaleY(0);filter:brightness(.88)}}
@@ -167,8 +168,6 @@ body.cs-open{overflow:hidden}
 #dayCard .adj-corner svg{width:17px;height:17px}
 #dayCard .adj-corner:active{transform:translateY(1.5px);box-shadow:none}
 /* 翻頁鐘中線淡一點 */
-.flip::after{opacity:.14!important;height:1px!important;margin-top:-.5px!important}
-.flip::before{opacity:.22!important}
 /* 出發大動畫 */
 .go-party{position:fixed;inset:0;z-index:500;overflow:hidden;display:grid;place-items:center;cursor:pointer;animation:gpIn .6s ease-out both}
 .go-party.out{animation:gpOut .6s ease-in forwards}
@@ -209,7 +208,7 @@ body.cs-open{overflow:hidden}
 .food-card.shop.r-slant2 .shop-top{margin-top:22px;padding-top:30px!important;clip-path:polygon(0 1px,100% 17px,100% 100%,0 100%)}
 /* 雪丸走進餐廳 */
 #foodBook{position:relative}
-.fs-walker{position:absolute;left:0;top:0;width:44px;height:51px;z-index:4;pointer-events:none;transform-origin:50% 100%}
+.fs-walker{position:absolute;left:0;top:0;width:48px;height:56px;z-index:9;pointer-events:none;transform-origin:50% 100%}
 .fs-walker svg{width:100%;height:100%;display:block}
 .fs-walker.walking svg{animation:fsWaddle .32s ease-in-out infinite alternate}
 @keyframes fsWaddle{from{transform:rotate(-6deg) translateY(0)}to{transform:rotate(6deg) translateY(-3px)}}
