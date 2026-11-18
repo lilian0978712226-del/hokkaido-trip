@@ -1498,6 +1498,20 @@ body.cs-open{overflow:hidden}
 .del-item{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink2);background:#fff;border:1.5px dashed var(--ink3);border-radius:14px;padding:6px 6px 6px 12px}
 .del-item span{text-decoration:line-through;text-decoration-color:#C9908A;min-width:0;overflow-wrap:anywhere}
 .del-item button{flex:0 0 auto;min-height:34px;border:1.5px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:13px;padding:0 10px}
+/* 天氣卡 */
+#weather .weather.wxp-on #homeWeatherText{display:none}
+.wx-pretty:empty{display:none}
+.wxp-main{display:flex;align-items:center;gap:12px}
+.wxp-ic{flex:0 0 58px;height:58px;border-radius:50%;background:#fff;border:1.8px solid var(--ink);display:grid;place-items:center;font-size:32px;box-shadow:0 2px 0 rgba(91,75,67,.2)}
+.wxp-name{display:block;font-size:19px;line-height:1.25}
+.wxp-temp{display:block;white-space:nowrap;font-size:16px;color:var(--ink2)}
+.wxp-temp em{font-style:normal;color:#6E8FB8;font-weight:700}
+.wxp-temp strong{color:#D9826A}
+.wxp-sub{display:block;font-size:13px;color:var(--ink2);line-height:1.4}
+.wxp-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 4px}
+.wxp-chips span{display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:1.5px solid var(--ink3);border-radius:14px;padding:6px 2px;font-size:11.5px;color:var(--ink2)}
+.wxp-chips i{font-style:normal;font-size:17px}
+.wxp-chips b{font-size:14px;color:var(--ink)}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3090,5 +3104,27 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
    walkTo(card,()=>{btn.dataset.walked=1;btn.click();delete btn.dataset.walked;});return;}
   if(!btn)walkTo(card);
  },true);
+})();
+/* ===== 天氣卡：預報出來後用圖示＋數字呈現 ===== */
+(function(){
+ const t=document.getElementById('homeWeatherText');if(!t)return;
+ const box=t.parentNode;const pretty=document.createElement('div');pretty.className='wx-pretty';box.insertBefore(pretty,t);
+ const ICON=n=>/雷/.test(n)?'⛈️':/大雪|大陣雪/.test(n)?'❄️':/雪/.test(n)?'🌨️':/雨/.test(n)?'🌧️':/霧/.test(n)?'🌫️':/陰/.test(n)?'☁️':/多雲/.test(n)?'⛅':/晴/.test(n)?'☀️':'🌤️';
+ function draw(){
+  const s=t.textContent.trim();
+  const m=s.match(/^(.+?)｜(-?[\d.]+)–(-?[\d.]+)°C｜降雪 ([\d.—]+) cm｜降水機率 ([\d—]+)%｜最大風速 ([\d.—]+) km\/h/);
+  const far=s.match(/距離出發約 (\d+) 天/);
+  if(m){
+   const [,name,lo,hi,snow,pop,wind]=m;
+   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">${ICON(name)}</span><div><b class="wxp-name">${name}</b><span class="wxp-temp"><em>${Math.round(lo)}°</em> / <strong>${Math.round(hi)}°C</strong></span></div></div>
+    <div class="wxp-chips"><span><i>❄️</i>降雪<b>${snow} cm</b></span><span><i>☂️</i>降水<b>${pop}%</b></span><span><i>🌬️</i>風速<b>${wind} km/h</b></span></div>`;
+   box.classList.add('wxp-on');box.classList.remove('wxp-far');
+  }else if(far){
+   const n=+far[1],wait=Math.max(0,n-16);
+   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">🔭</span><div><b class="wxp-name">還沒有預報</b><span class="wxp-sub">出發前 16 天開始會自動顯示當天天氣${wait?`（大約再 ${wait} 天）`:''}</span></div></div>`;
+   box.classList.add('wxp-on','wxp-far');
+  }else{pretty.innerHTML='';box.classList.remove('wxp-on','wxp-far');}
+ }
+ new MutationObserver(draw).observe(t,{childList:true,characterData:true,subtree:true});draw();
 })();
 </script></body></html>

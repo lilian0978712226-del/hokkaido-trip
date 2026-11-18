@@ -262,3 +262,25 @@
   if(!btn)walkTo(card);
  },true);
 })();
+/* ===== 天氣卡：預報出來後用圖示＋數字呈現 ===== */
+(function(){
+ const t=document.getElementById('homeWeatherText');if(!t)return;
+ const box=t.parentNode;const pretty=document.createElement('div');pretty.className='wx-pretty';box.insertBefore(pretty,t);
+ const ICON=n=>/雷/.test(n)?'⛈️':/大雪|大陣雪/.test(n)?'❄️':/雪/.test(n)?'🌨️':/雨/.test(n)?'🌧️':/霧/.test(n)?'🌫️':/陰/.test(n)?'☁️':/多雲/.test(n)?'⛅':/晴/.test(n)?'☀️':'🌤️';
+ function draw(){
+  const s=t.textContent.trim();
+  const m=s.match(/^(.+?)｜(-?[\d.]+)–(-?[\d.]+)°C｜降雪 ([\d.—]+) cm｜降水機率 ([\d—]+)%｜最大風速 ([\d.—]+) km\/h/);
+  const far=s.match(/距離出發約 (\d+) 天/);
+  if(m){
+   const [,name,lo,hi,snow,pop,wind]=m;
+   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">${ICON(name)}</span><div><b class="wxp-name">${name}</b><span class="wxp-temp"><em>${Math.round(lo)}°</em> / <strong>${Math.round(hi)}°C</strong></span></div></div>
+    <div class="wxp-chips"><span><i>❄️</i>降雪<b>${snow} cm</b></span><span><i>☂️</i>降水<b>${pop}%</b></span><span><i>🌬️</i>風速<b>${wind} km/h</b></span></div>`;
+   box.classList.add('wxp-on');box.classList.remove('wxp-far');
+  }else if(far){
+   const n=+far[1],wait=Math.max(0,n-16);
+   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">🔭</span><div><b class="wxp-name">還沒有預報</b><span class="wxp-sub">出發前 16 天開始會自動顯示當天天氣${wait?`（大約再 ${wait} 天）`:''}</span></div></div>`;
+   box.classList.add('wxp-on','wxp-far');
+  }else{pretty.innerHTML='';box.classList.remove('wxp-on','wxp-far');}
+ }
+ new MutationObserver(draw).observe(t,{childList:true,characterData:true,subtree:true});draw();
+})();

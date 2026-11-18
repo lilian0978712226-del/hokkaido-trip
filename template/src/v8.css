@@ -225,3 +225,17 @@ body.cs-open{overflow:hidden}
 .del-item{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink2);background:#fff;border:1.5px dashed var(--ink3);border-radius:14px;padding:6px 6px 6px 12px}
 .del-item span{text-decoration:line-through;text-decoration-color:#C9908A;min-width:0;overflow-wrap:anywhere}
 .del-item button{flex:0 0 auto;min-height:34px;border:1.5px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:13px;padding:0 10px}
+/* 天氣卡 */
+#weather .weather.wxp-on #homeWeatherText{display:none}
+.wx-pretty:empty{display:none}
+.wxp-main{display:flex;align-items:center;gap:12px}
+.wxp-ic{flex:0 0 58px;height:58px;border-radius:50%;background:#fff;border:1.8px solid var(--ink);display:grid;place-items:center;font-size:32px;box-shadow:0 2px 0 rgba(91,75,67,.2)}
+.wxp-name{display:block;font-size:19px;line-height:1.25}
+.wxp-temp{display:block;white-space:nowrap;font-size:16px;color:var(--ink2)}
+.wxp-temp em{font-style:normal;color:#6E8FB8;font-weight:700}
+.wxp-temp strong{color:#D9826A}
+.wxp-sub{display:block;font-size:13px;color:var(--ink2);line-height:1.4}
+.wxp-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 4px}
+.wxp-chips span{display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:1.5px solid var(--ink3);border-radius:14px;padding:6px 2px;font-size:11.5px;color:var(--ink2)}
+.wxp-chips i{font-style:normal;font-size:17px}
+.wxp-chips b{font-size:14px;color:var(--ink)}
