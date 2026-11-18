@@ -1272,16 +1272,18 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 .fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 0}
 @media(prefers-reduced-motion:reduce){.fp-paw{animation:none}}
 /* v8 */
-/* 日落等光景：移到日期那一行的右上角 */
-#dayCard .dh-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
-#dayCard .dh-top .muted{padding-top:4px}
-#dayCard .lt-row{display:flex;gap:5px;margin:0 0 0 auto;padding:0;overflow:visible;flex-wrap:wrap;justify-content:flex-end}
-#dayCard .lt-chip{background:#FFF4E6!important;color:var(--ink)!important;border:1.5px solid var(--ink)!important;border-radius:999px!important;display:inline-flex;align-items:center;gap:3px;min-width:0;padding:3px 9px 3px 7px;border:1.5px solid var(--ink);border-radius:999px;background:#FFF4E6;font-size:13px;line-height:1.2;color:var(--ink);box-shadow:0 1.5px 0 var(--ink);flex-direction:row}
-#dayCard .lt-chip small{font-size:11px;color:var(--ink2)}
-#dayCard .lt-chip b{font-size:13px;font-variant-numeric:tabular-nums}
-#dayCard .lt-chip em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--coral);margin-left:2px}
-#dayCard .lt-chip em.past{color:var(--ink3)}
-
+/* 每天的時間點：取代原本主題文字那格 */
+#dayCard .day-theme.lt-mode{display:grid!important;grid-template-columns:64px 1fr;align-items:center;gap:12px;text-align:left}
+#dayCard .day-theme.lt-mode>span{display:none!important}
+#dayCard .day-theme.lt-mode .day-illus{width:58px;height:58px}
+#dayCard .lt-list{display:flex;flex-direction:column;gap:6px;min-width:0}
+#dayCard .lt-item{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:6px;font-size:14px;line-height:1.25}
+#dayCard .lt-item+.lt-item{border-top:1.5px dashed rgba(91,75,67,.18);padding-top:6px}
+#dayCard .lt-e{font-size:17px;text-align:center}
+#dayCard .lt-n{color:var(--ink2);min-width:0;overflow-wrap:anywhere}
+#dayCard .lt-n em{display:block;font-style:normal;font-size:11.5px;font-weight:700;color:var(--coral)}
+#dayCard .lt-n em.past{color:var(--ink3)}
+#dayCard .lt-item b{font-size:17px;font-variant-numeric:tabular-nums;color:var(--ink)}
 /* 自己加的行程 */
 #dayCard .custom-ev{background:#FFF7FA!important;border-style:dashed!important}
 #dayCard .tag.mine{background:#FBE1EA!important;color:#A65A73!important;border-color:#D9A0B3!important}
@@ -2345,7 +2347,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const esc2=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const toMin=t=>{const [h,m]=String(t).split(':').map(Number);return h*60+(m||0);};
  const fmt=m=>{m=Math.round(m);const s=m<0?'-':'';m=Math.abs(m);const h=Math.floor(m/60),mm=m%60;return s+(h?h+' 小時 ':'')+mm+' 分';};
- const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.round(m%60)).padStart(2,'0');
+ const hhmm=m=>{m=Math.round(m);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');};
  const nowJP=()=>{const p=japanParts();return {key:`${p.year}-${p.month}-${p.day}`,min:+p.hour*60+ +p.minute};};
  const tripState=()=>{const k=nowJP().key;return k<'2027-02-10'?'before':k>'2027-02-18'?'after':'during';};
  const isToday=i=>tripState()==='during'&&todayDayIndex()===i;
@@ -2380,25 +2382,24 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   return (((T-lngH+9)%24+24)%24)*60;
  }
  const LIGHTS=[
-  [{e:'❄️',n:'雪祭',t:'22:00',f:'雪祭點燈到 22:00'}],
-  [{e:'❄️',n:'雪祭',t:'22:00',f:'雪祭最後一天，點燈到 22:00'},{e:'🚠',n:'末班',t:'21:30',f:'藻岩山纜車上山末班 21:30'}],
+  [{e:'❄️',n:'雪祭點燈到',t:'22:00'}],
+  [{e:'🚠',n:'藻岩山纜車上山末班',t:'21:30'},{e:'❄️',n:'雪祭最後一天・點燈到',t:'22:00'}],
   [],
   [],[],[],[],
-  [{e:'✨',n:'點燈',t:'16:30',f:'冰濤祭點燈 16:30–20:00'}],
+  [{e:'✨',n:'冰濤祭點燈（到 20:00）',t:'16:30'}],
   []
  ];
  function lightRow(i){
   const [la,lo,place]=LOC[i];const ss=sunset(la,lo,2027,2,10+i);
-  const items=[{e:'🌅',n:i===2?'日落・運河亮燈':'日落',m:ss,f:place+' 日落'+(i===2?'，運河煤氣燈差不多這時亮起':'')}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t),f:x.f})));
+  const items=[{e:'🌅',n:place+' 日落'+(i===2?'・運河亮燈':''),m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t)}))).sort((a,b)=>a.m-b.m);
   const today=isToday(i),now=nowJP().min;
-  return `<div class="lt-row">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>剩 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<button type="button" class="lt-chip" data-ltf="${esc2(x.f)}">${x.e}<small>${x.n}</small><b>${hhmm(x.m)}</b>${cd}</button>`;}).join('')}</div>`;
+  return `<div class="lt-list">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>剩 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<div class="lt-item"><span class="lt-e">${x.e}</span><span class="lt-n">${x.n}${cd}</span><b>${hhmm(x.m)}</b></div>`;}).join('')}</div>`;
  }
- document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('.lt-chip');if(c)toast(c.dataset.ltf);});
 
  /* ---------- 每天卡片：營業時間＋光景倒數 ---------- */
  function decorate(i){
   const dc=$('#dayCard');if(!dc)return;
-  const dt=dc.querySelector('.dayhead .muted');if(dt&&!dc.querySelector('.lt-row')){let w=dt.parentNode.classList.contains('dh-top')?dt.parentNode:null;if(!w){w=document.createElement('div');w.className='dh-top';dt.parentNode.insertBefore(w,dt);w.appendChild(dt);}w.insertAdjacentHTML('beforeend',lightRow(i));}
+  const th=dc.querySelector('.day-theme');if(th&&!th.querySelector('.lt-list')){th.classList.add('lt-mode');th.insertAdjacentHTML('beforeend',lightRow(i));}
   const today=isToday(i),now=nowJP().min;
   dc.querySelectorAll('.event:not(.custom-ev)').forEach((ev,j)=>{
    const e=days[i].events[j];if(!e)return;const h=findH(e[1],i);if(!h)return;
@@ -2441,7 +2442,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
  try{decorate(current)}catch(e){}
  renderNext();window.hkRenderNext=renderNext;
- setInterval(()=>{renderNext();if(isToday(current)){const dc=$('#dayCard');dc.querySelectorAll('.tag.hours').forEach(t=>t.remove());const lr=dc.querySelector('.lt-row');if(lr)lr.remove();decorate(current);}},60000);
+ setInterval(()=>{renderNext();if(isToday(current)){const dc=$('#dayCard');dc.querySelectorAll('.tag.hours').forEach(t=>t.remove());const lr=dc.querySelector('.lt-list');if(lr)lr.remove();decorate(current);}},60000);
 
 })();
 </script>
