@@ -1399,6 +1399,9 @@ body.cs-open{overflow:hidden}
 #dayCard .cat-park{background:#ECE7E1}
 #dayCard .cat-spot{background:#DCEBD5}
 #dayCard .cat-shop{background:#E9DDF4}
+.stage-tree{position:absolute;left:0;top:0;animation:treePop .6s ease-out both}
+@keyframes treePop{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){.stage-tree{animation:none}}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1979,7 +1982,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   {id:'s-gondola',vb:'0 0 64 72',w:46,h:52,mode:'cable',cap:'D2・藻岩山纜車',say:'好高～'},
   {id:'s-boat',vb:'0 0 90 70',w:78,h:61,mode:'boat',cap:'D3・小樽運河遊船',say:'咕嚕咕嚕♪'},
   {id:'s-fox',vb:'0 0 90 64',w:72,h:51,ft:.91,mode:'walk',cap:'D4・札幌夜散步',say:'♪',night:true},
-  {id:'s-cow',vb:'0 0 96 72',w:70,h:52,ft:.89,mode:'walk',cap:'D5・美瑛牧場',say:'哞～'},
+  {id:'s-cow',vb:'0 0 96 72',w:70,h:52,ft:.89,mode:'walk',cap:'D5・美瑛牧場',say:'哞～',tree:true},
   {id:'i-penguin',vb:'0 0 64 64',w:42,h:42,ft:.9,mode:'parade',cap:'D6・旭山企鵝散步',say:'啪噠啪噠'},
   {id:'i-bird',vb:'0 0 80 72',w:56,h:50,ft:.96,mode:'onsen',cap:'D7・登別泡湯',say:'好舒服～'},
   {id:'s-car',vb:'0 0 80 64',w:68,h:54,ft:.82,mode:'drive',cap:'D8・地獄谷・還車',say:'還車囉！'},
@@ -2012,6 +2015,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   $q('.map-dots',stage).innerHTML=Object.entries(PTS).map(([k,[x,y]])=>(REG[i]||[]).includes(k)?`<circle class="ring" cx="${x}" cy="${y}" r="26" fill="#E8A386" opacity=".35"/><circle cx="${x}" cy="${y}" r="13" fill="#E8A386" stroke="#5B4B43" stroke-width="5"/>`:`<circle cx="${x}" cy="${y}" r="8" fill="#C2D5E5" stroke="#5B4B43" stroke-width="4"/>`).join('');
   const W=band.clientWidth||260,H=band.clientHeight||92,G=H*0.72,ft=s.ft||.9,gy=G-s.h*ft+1;
   const endX=W*0.6-s.w/2;let f,dur=1700,bx=endX+s.w*0.72,by=gy-16;
+  if(s.tree){const th=Math.min(58,H*0.66),tw=th,tr=document.createElement('div');tr.className='stage-sprite stage-tree';tr.style.width=tw+'px';tr.style.height=th+'px';tr.style.transform=`translate(${Math.min(W-tw-6,W*0.84-tw/2)}px,${G-th*0.93}px)`;tr.innerHTML=art('i-tree','0 0 64 64');extra.appendChild(tr);}
   if(s.mode==='cable'){
    const y=x=>8*H/90+(50*H/90)*((x+s.w/2)/W)-3;
    f=[{transform:`translate(${-s.w-10}px,${y(-s.w-10)}px)`},{transform:`translate(${endX}px,${y(endX)}px)`}];by=y(endX)-10;dur=1900;

@@ -126,3 +126,6 @@ body.cs-open{overflow:hidden}
 #dayCard .cat-park{background:#ECE7E1}
 #dayCard .cat-spot{background:#DCEBD5}
 #dayCard .cat-shop{background:#E9DDF4}
+.stage-tree{position:absolute;left:0;top:0;animation:treePop .6s ease-out both}
+@keyframes treePop{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){.stage-tree{animation:none}}
