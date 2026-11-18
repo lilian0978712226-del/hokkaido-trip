@@ -1540,6 +1540,9 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 @keyframes mkWave{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(-18deg)}}
 @media(prefers-reduced-motion:reduce){.section h2 .jp-deco,.mk-paw{animation:none}}
 .food-card.shop .shop-walk:before,.food-card.shop .shop-walk:after{display:none!important;content:none!important}
+.fp-btn.pri{background:#FBE1EA!important;color:var(--ink)!important}
+.fp-btn .cute-ic{width:20px;height:20px}
+.fp-btn .cute-ic-wrap.lead{vertical-align:-4px;margin-right:6px}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2811,7 +2814,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   </svg>`;
  }
  const fp=document.createElement('section');fp.className='section';fp.id='footprints';
- fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>點亮北海道</h2><div class="card fp-card"><div class="fp-top"><b id="fpNum">0</b><span id="fpOf">/ 0</span><em id="fpPct">0%</em></div><div class="fp-bar"><i id="fpBar"></i></div><div class="fp-map" id="fpMap"></div><p class="fp-hint">按「完成」小星星就會亮起來 ✦ 點星星看是哪裡</p><div class="fp-acts"><button type="button" class="fp-btn" id="fpAdd">＋ 新增行程</button><button type="button" class="fp-btn pri" id="fpSave">📸 存圖分享</button></div></div>`;
+ fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>點亮北海道</h2><div class="card fp-card"><div class="fp-top"><b id="fpNum">0</b><span id="fpOf">/ 0</span><em id="fpPct">0%</em></div><div class="fp-bar"><i id="fpBar"></i></div><div class="fp-map" id="fpMap"></div><p class="fp-hint">按「完成」小星星就會亮起來 ✦ 點星星看是哪裡</p><div class="fp-acts"><button type="button" class="fp-btn" id="fpAdd"><span class="cute-ic-wrap lead"><svg class="cute-ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="#FBE1EA" stroke="#5B4B43" stroke-width="1.5"/><path d="M10 6.4v7.2M6.4 10h7.2" stroke="#5B4B43" stroke-width="1.8" stroke-linecap="round"/></svg></span>新增行程</button><button type="button" class="fp-btn pri" id="fpSave"><span class="cute-ic-wrap lead"><svg class="cute-ic cam" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 8.4h3.2l1.6-2.4h6l1.6 2.4h3.2a1.8 1.8 0 0 1 1.8 1.8v7.6a1.8 1.8 0 0 1-1.8 1.8H4.2a1.8 1.8 0 0 1-1.8-1.8v-7.6a1.8 1.8 0 0 1 1.8-1.8Z" fill="#fff" stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.6" r="3.6" fill="#CFE1F2" stroke="#5B4B43" stroke-width="1.6"/><circle cx="10.9" cy="12.6" r="1" fill="#fff"/><circle cx="17.6" cy="10.8" r=".9" fill="#F4A9A0"/><path d="M5 10.6h1.8" stroke="#F4A9A0" stroke-width="1.6" stroke-linecap="round"/></svg></span>存圖分享</button></div></div>`;
  const anchor=$('#food-book')||$('#stay');if(anchor)anchor.insertAdjacentElement('beforebegin',fp);
  const topn=$('.top-nav');if(topn){const a=topn.querySelector('a[href="#food-book"]');if(a&&!topn.querySelector('a[href="#footprints"]')){const x=document.createElement('a');x.href='#footprints';x.textContent='地圖';a.insertAdjacentElement('beforebegin',x);}}
  let lastDone=-1;

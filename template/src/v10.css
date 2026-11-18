@@ -13,3 +13,6 @@ button:active .cute-ic,a:active .cute-ic{animation:icWig .35s}
 @keyframes mkWave{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(-18deg)}}
 @media(prefers-reduced-motion:reduce){.section h2 .jp-deco,.mk-paw{animation:none}}
 .food-card.shop .shop-walk:before,.food-card.shop .shop-walk:after{display:none!important;content:none!important}
+.fp-btn.pri{background:#FBE1EA!important;color:var(--ink)!important}
+.fp-btn .cute-ic{width:20px;height:20px}
+.fp-btn .cute-ic-wrap.lead{vertical-align:-4px;margin-right:6px}
