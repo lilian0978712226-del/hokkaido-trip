@@ -88,7 +88,7 @@ body.cs-open{overflow:hidden}
 
 /* 行程按鈕：導航・複製・完成 一排，備註在下一排 */
 #dayCard .event-actions{display:grid!important;grid-template-columns:repeat(3,max-content);gap:6px!important;overflow:visible!important}
-#dayCard .event-actions .note-row{grid-column:1/-1;justify-self:start}
+#dayCard .event-actions .note-row{grid-column:1}
 
 /* 記帳功能鍵：可愛版 */
 .lg-seg{border:0!important;background:none!important;gap:8px;overflow:visible!important}
@@ -144,3 +144,14 @@ body.cs-open{overflow:hidden}
 @keyframes flTop{to{transform:rotateX(-90deg)}}
 @keyframes flBot{to{transform:rotateX(0)}}
 @media(prefers-reduced-motion:reduce){.fl-f1,.fl-f2{animation:none}}
+/* 行程調整 */
+#dayCard .adj-btn{background:#F3EEF8!important}
+#dayCard .tag.adj{background:#EFE7F7!important;color:#7D6A96!important;border-color:#C9B8DD!important}
+#dayCard .ev-adj .time{background:#F4EEFA!important}
+.adj-name{font-size:17px;font-weight:700;margin:0 0 6px;color:var(--ink)}
+.adj-move{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 4px}
+.adj-move button{min-height:48px;border:2px solid var(--ink)!important;border-radius:16px!important;background:#fff!important;color:var(--ink)!important;font-size:15px;font-weight:700;box-shadow:0 2px 0 var(--ink)}
+.adj-move button:active{transform:translateY(2px);box-shadow:none}
+.adj-reset{width:100%;margin-top:10px;min-height:42px;border:1.5px dashed var(--ink3)!important;border-radius:999px!important;background:transparent!important;color:var(--ink2)!important;font-size:14px}
+.adj-sync{margin:8px 0 2px}
+.adj-share{width:100%;min-height:44px;border:2px solid #C9B8DD!important;border-radius:16px!important;background:#F6F1FB!important;color:#6F5C8A!important;font-size:14.5px;font-weight:700}

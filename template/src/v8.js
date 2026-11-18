@@ -81,7 +81,8 @@
   CS.push({id:Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep});
   save(CS);closeSheet();refresh(d);toast(rep>=0?'已換成新的一站 ✨':'已加進行程 ✨');
  });
- function refresh(d){if(typeof d==='number'&&d!==current)showDay(d);else decorate(current);renderMap();if(window.hkRenderNext)window.hkRenderNext();}
+ window.hkCS={get:()=>CS,set:a=>{CS=a;save(CS);}};
+ function refresh(d){showDay(typeof d==='number'?d:current);renderMap();if(window.hkRenderNext)window.hkRenderNext();}
  document.addEventListener('click',e=>{
   const t=e.target.closest&&e.target.closest('[data-cadd],[data-cmap],[data-cdel],[data-cundo]');if(!t)return;
   if(t.dataset.cadd!=null)openSheet(+t.dataset.cadd);
@@ -217,7 +218,7 @@
  /* ---------- 掛上 showDay ---------- */
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
  try{decorate(current)}catch(e){}
- renderMap();if(window.hkRenderNext)window.hkRenderNext();
+ renderMap();if(window.hkRenderNext)window.hkRenderNext();window.hkRenderMap=renderMap;
 
  /* ---------- 翻頁倒數 ---------- */
  (function(){

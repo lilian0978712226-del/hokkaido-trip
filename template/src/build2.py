@@ -50,7 +50,7 @@ h=h.replace("e[1].includes('飯店')||e[1].includes('館')&&e[1].includes('瀧�
 h=h.replace("i===0&&j===0||e[1].includes('機場')?'交通／航班'","i===0&&j===0||e[1].includes('機場')||e[1].includes('租車')?'交通／航班'")
 h=h.replace('<p class="muted">登別溫泉｜2/16–2/17（依目前行程推定，請以訂房確認單為準）</p>','<p class="muted">登別溫泉｜2/16–2/17</p>')
 # v2 script
-rep('</script></body></html>','</script>\n<script>'+F('v2.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v5.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v6.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v7.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v8.js').read_text(encoding='utf-8')+'</script></body></html>')
+rep('</script></body></html>','</script>\n<script>'+F('v2.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v5.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v6.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v7.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v8.js').read_text(encoding='utf-8')+'</script>\n<script>'+F('v9.js').read_text(encoding='utf-8')+'</script></body></html>')
 rep('</style>\n</head>','</style>\n<style id="v5">'+F('v5.css').read_text(encoding='utf-8')+F('v6.css').read_text(encoding='utf-8')+F('v7.css').read_text(encoding='utf-8')+F('v8.css').read_text(encoding='utf-8')+'</style>\n</head>')
 import sys;sys.path.insert(0,str(W));from soften import soften
 # soften only our design layer (everything outside the original <script> data)
