@@ -218,3 +218,10 @@ body.cs-open{overflow:hidden}
 .shop-door.door-open{transform:scaleX(.3);filter:brightness(.8)}
 .food-card.shop .shop-face{cursor:pointer}
 @media(prefers-reduced-motion:reduce){.fs-walker svg{animation:none!important}}
+.adj-del{width:100%;margin-top:8px;min-height:42px;border:1.5px solid #E7B9B0!important;border-radius:999px!important;background:#FFF4F1!important;color:#B4643F!important;font-size:14px;font-weight:700}
+.adj-del.sure{background:#E58F7B!important;color:#fff!important;border-color:#E58F7B!important}
+.del-bar{margin:8px 0 2px}
+.del-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.del-item{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink2);background:#fff;border:1.5px dashed var(--ink3);border-radius:14px;padding:6px 6px 6px 12px}
+.del-item span{text-decoration:line-through;text-decoration-color:#C9908A;min-width:0;overflow-wrap:anywhere}
+.del-item button{flex:0 0 auto;min-height:34px;border:1.5px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:13px;padding:0 10px}

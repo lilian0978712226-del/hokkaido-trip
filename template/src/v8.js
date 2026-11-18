@@ -120,7 +120,7 @@
  function stops(){
   const map=new Map(),out=[];
   days.forEach((d,i)=>{const rep=new Set(CS.filter(c=>c.d===i&&c.rep>=0).map(c=>c.rep));
-   d.events.forEach((e,j)=>{if(rep.has(j))return;const c=city(e[1],i);if(!c)return;const key=e[1];
+   d.events.forEach((e,j)=>{if(rep.has(j)||(window.hkRemoved&&window.hkRemoved(i,j)))return;const c=city(e[1],i);if(!c)return;const key=e[1];
     let s=map.get(key);if(!s){s={n:e[1],c,keys:[],o:i*10000+toMin(e[0])};map.set(key,s);out.push(s);}s.keys.push(`event-${i}-${j}`);});
    CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&ct!=='sapporo')?ct:(DEF[i]||DEF[0]),keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
   });

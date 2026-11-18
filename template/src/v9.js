@@ -9,7 +9,8 @@
  const saveOV=()=>{try{localStorage.setItem(OK,JSON.stringify(OV))}catch(e){}};
  const CSget=()=>window.hkCS?window.hkCS.get():[],CSset=a=>window.hkCS&&window.hkCS.set(a);
  const live=k=>OV[k]&&!OV[k].r?OV[k]:null;
- const eff=(i,j)=>{const o=live(i+'-'+j),e=days[i].events[j];return {d:o?o.d:i,t:o?o.t:e[0],moved:!!o};};
+ const eff=(i,j)=>{const o=live(i+'-'+j),e=days[i].events[j];if(o&&o.x)return {d:-1,t:e[0],moved:true,del:true};return {d:o?o.d:i,t:o?o.t:e[0],moved:!!o};};
+ window.hkRemoved=(i,j)=>{const o=live(i+'-'+j);return !!(o&&o.x);};
  const partner=()=>{try{return (JSON.parse(localStorage.getItem('hk-ledger-set-v1')||'{}').b)||'陳肥肥'}catch(e){return '陳肥肥'}};
 
  /* 每天的實際行程（給「現在該去哪」、地圖用） */
@@ -63,6 +64,7 @@
     dc.insertBefore(el,bar);
    });
   }
+  delBar(dc,i);
   syncBar(dc);
   if(window.hkHours)window.hkHours(i);
  }
@@ -72,6 +74,13 @@
   el.classList.add('ev-adj');
   const tags=el.querySelector('.tags');if(tags&&!tags.querySelector('.tag.adj'))tags.insertAdjacentHTML('beforeend',`<span class="tag mine adj">${why||'已調整'}</span>`);
   if(tags)tags.style.display='flex';
+ }
+ function delBar(dc,i){
+  const old=dc.querySelector('.del-bar');if(old)old.remove();
+  const gone=[];days[i].events.forEach((e,j)=>{if(eff(i,j).del)gone.push([j,e]);});
+  if(!gone.length)return;
+  const html=`<details class="fold del-bar"><summary><span>🗑 這天刪掉的行程（${gone.length}）</span><i>展開</i></summary><div class="del-list">${gone.map(([j,e])=>`<div class="del-item"><span>${esc4(e[0])} ${esc4(e[1])}</span><button type="button" data-undel="${i}-${j}">↺ 加回來</button></div>`).join('')}</div></details>`;
+  const bar=dc.querySelector('.cs-addbar');if(bar)bar.insertAdjacentHTML('afterend',html);else dc.insertAdjacentHTML('beforeend',html);
  }
  function syncBar(dc){
   const old=dc.querySelector('.adj-sync');if(old)old.remove();
@@ -87,7 +96,7 @@
   <label>移到哪一天<select id="adjDay">${days.map((d,i)=>`<option value="${i}">D${i+1}・${d.date.slice(5).replace('-','/')} ${esc4(d.label.split('・')[0])}</option>`).join('')}</select></label>
   <label>時間<input id="adjTime" type="time"></label>
   <div class="cs-btns"><button type="button" class="cs-cancel">取消</button><button type="button" class="cs-save adj-save">儲存</button></div>
-  <button type="button" class="adj-reset" hidden>↺ 恢復原本的時間和日期</button></div>`;
+  <button type="button" class="adj-reset" hidden>↺ 恢復原本的時間和日期</button><button type="button" class="adj-del">🗑 刪除這一站</button></div>`;
  document.body.appendChild(sh);
  let target=null;
  const open=key=>{
@@ -95,7 +104,7 @@
   if(k==='o'){const [i,j]=id.split('-').map(Number);const f=eff(i,j);name=days[i].events[j][1];d=f.d;t=f.t;adjd=f.moved;}
   else{const c=CSget().find(x=>x.id===id);if(!c)return;name=c.n;d=c.d;t=c.t;}
   $('#adjName').textContent=name;$('#adjDay').value=d;$('#adjTime').value=t;
-  sh.querySelector('.adj-reset').hidden=!adjd;sh.hidden=false;document.body.classList.add('cs-open');
+  sh.querySelector('.adj-reset').hidden=!adjd;const db=sh.querySelector('.adj-del');db.classList.remove('sure');db.textContent='🗑 刪除這一站';sh.hidden=false;document.body.classList.add('cs-open');
  };
  const close=()=>{sh.hidden=true;document.body.classList.remove('cs-open');};
  const setPos=(key,d,t)=>{
@@ -122,11 +131,20 @@
    const d=+$('#adjDay').value,t=$('#adjTime').value||posOf(target).t;
    setPos(target,d,t);close();redraw(d);toast(d===current?'已更新時間 🕒':`已移到 D${d+1} 📅`);return;
   }
+  const del=e.target.closest('.adj-del');
+  if(del&&target){
+   if(!del.classList.contains('sure')){del.classList.add('sure');del.textContent='確定要刪除嗎？再按一次';return;}
+   const [k,id]=target.split(':');const d=posOf(target).d;
+   if(k==='o'){OV[id]={x:1,ts:Date.now()};}
+   else{CSset(CSget().filter(c=>c.id!==id));OV['c:'+id]={x:1,ts:Date.now()};}
+   saveOV();close();redraw(d>=0?d:current);toast('已刪除，想加回來可以在這天最下面找到');return;
+  }
   if(e.target.closest('.adj-reset')&&target){
    const id=target.split(':')[1];OV[id]={r:1,ts:Date.now()};saveOV();close();redraw();toast('已恢復原本行程');
   }
  });
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)close();});
+ document.addEventListener('click',e=>{const u=e.target.closest&&e.target.closest('[data-undel]');if(!u)return;OV[u.dataset.undel]={r:1,ts:Date.now()};saveOV();redraw();toast('已經加回來了 ✨');});
  document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-adj]');if(b)open(b.dataset.adj);});
 
  /* 傳給旅伴／收到時合併 */
@@ -155,7 +173,7 @@
    Object.entries(got.o||{}).forEach(([k,v])=>{if(!OV[k]||(v.ts||0)>(OV[k].ts||0)){OV[k]=v;n++;}});saveOV();
    const mine=CSget(),ids=new Set(mine.map(c=>c.id));const add=(got.c||[]).filter(c=>!ids.has(c.id));
    const upd=mine.map(c=>{const o=(got.c||[]).find(x=>x.id===c.id);return o||c;});
-   CSset(upd.concat(add));n+=add.length;
+   CSset(upd.concat(add).filter(c=>!(OV['c:'+c.id]&&OV['c:'+c.id].x)));n+=add.length;
    history.replaceState(null,'',location.pathname+location.search);
    redraw();toast(n?`已同步 ${n} 項行程調整 ✨`:'行程已經是最新的了');
   }catch(err){toast('這個連結打不開，請對方再傳一次');}
