@@ -160,3 +160,47 @@ body.cs-open{overflow:hidden}
 .food-card.shop .shop-roof::before,.food-card.shop .shop-roof::after{display:none!important;content:none!important}
 .food-card.shop .shop-roof svg{display:block;width:100%;height:100%;overflow:visible}
 .food-card.shop .shop-top{border-top:0!important;padding-top:14px!important;margin-top:40px}
+/* 調整按鈕：右上角小圓鈕 */
+#dayCard .event{position:relative}
+#dayCard .event h4{padding-right:30px}
+#dayCard .adj-corner{position:absolute;top:8px;right:8px;width:30px;height:30px;padding:0;border-radius:50%!important;border:1.5px solid #CDBFE0!important;background:#F6F1FB!important;color:#7D6A96!important;display:grid;place-items:center;box-shadow:0 1.5px 0 #CDBFE0;z-index:2}
+#dayCard .adj-corner svg{width:17px;height:17px}
+#dayCard .adj-corner:active{transform:translateY(1.5px);box-shadow:none}
+/* 翻頁鐘中線淡一點 */
+.flip::after{opacity:.14!important;height:1px!important;margin-top:-.5px!important}
+.flip::before{opacity:.22!important}
+/* 出發大動畫 */
+.go-party{position:fixed;inset:0;z-index:500;overflow:hidden;display:grid;place-items:center;cursor:pointer;animation:gpIn .6s ease-out both}
+.go-party.out{animation:gpOut .6s ease-in forwards}
+@keyframes gpIn{from{opacity:0}}@keyframes gpOut{to{opacity:0;transform:scale(1.04)}}
+.gp-sky{position:absolute;inset:0;background:linear-gradient(170deg,#FCD9E2 0%,#E9DDF7 38%,#CFE3F6 72%,#FFF4E3 100%)}
+.gp-glow{position:absolute;inset:-20%;background:radial-gradient(circle at 50% 46%,rgba(255,255,255,.95),rgba(255,236,200,.5) 22%,transparent 50%);animation:gpPulse 3s ease-in-out infinite}
+@keyframes gpPulse{50%{transform:scale(1.08);opacity:.8}}
+.gp-star{position:absolute;width:12px;height:12px;background:#FFE08A;clip-path:polygon(50% 0,61% 38%,100% 50%,61% 62%,50% 100%,39% 62%,0 50%,39% 38%);animation:gpTw 2.2s ease-in-out infinite;opacity:0}
+@keyframes gpTw{30%,70%{opacity:1}50%{transform:scale(1.4) rotate(20deg)}}
+.gp-snow{position:absolute;top:-10px;width:7px;height:7px;border-radius:50%;background:#fff;opacity:.9;animation:gpFall linear infinite}
+@keyframes gpFall{to{transform:translate(30px,110vh)}}
+.gp-cloud{position:absolute;width:140px;height:44px;background:#fff;border-radius:44px;opacity:.9;filter:blur(.3px);animation:gpDrift 12s linear infinite}
+.gp-cloud::before,.gp-cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.gp-cloud::before{width:60px;height:60px;left:22px;top:-28px}.gp-cloud::after{width:44px;height:44px;left:70px;top:-18px}
+.gp-cloud.c1{top:14%;left:-30%}.gp-cloud.c2{top:62%;left:-40%;transform:scale(.8);animation-duration:16s;animation-delay:-5s}.gp-cloud.c3{top:32%;left:-25%;transform:scale(.6);animation-duration:10s;animation-delay:-8s}
+@keyframes gpDrift{to{left:120%}}
+.gp-path{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
+.gp-path path{stroke-dashoffset:600;animation:gpDraw 2.4s ease-out .3s forwards}
+@keyframes gpDraw{to{stroke-dashoffset:0}}
+.gp-plane{position:absolute;width:76px;height:76px;offset-path:path('M-20 700 C 90 600, 160 470, 220 380 S 360 160, 480 40');offset-rotate:auto 10deg;animation:gpFly 2.6s cubic-bezier(.45,.05,.4,1) .2s both;filter:drop-shadow(0 4px 6px rgba(120,90,140,.25))}
+.gp-plane svg{width:100%;height:100%}
+@keyframes gpFly{from{offset-distance:0%}to{offset-distance:100%}}
+.gp-center{position:relative;z-index:3;text-align:center;padding:20px}
+.gp-ring{position:absolute;left:50%;top:70px;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:2px dashed rgba(255,255,255,.9);animation:gpSpin 14s linear infinite,gpPop .8s cubic-bezier(.3,1.6,.5,1) .6s both}
+@keyframes gpSpin{to{transform:rotate(360deg)}}
+.gp-bird{width:140px;height:140px;margin:0 auto;animation:gpPop .9s cubic-bezier(.3,1.6,.5,1) .7s both,gpBob 2.4s ease-in-out 1.6s infinite}
+.gp-bird svg{width:100%;height:100%;filter:drop-shadow(0 6px 10px rgba(91,75,67,.18))}
+@keyframes gpPop{from{transform:scale(0);opacity:0}}
+@keyframes gpBob{50%{transform:translateY(-8px) rotate(-3deg)}}
+.gp-title{margin:12px 0 4px;font-size:44px;letter-spacing:4px;line-height:1.1}
+.gp-title span{display:inline-block;background:linear-gradient(180deg,#E88FA6,#9B85CF);-webkit-background-clip:text;background-clip:text;color:transparent;animation:gpLetter .7s cubic-bezier(.3,1.7,.5,1) both;text-shadow:none}
+@keyframes gpLetter{from{transform:translateY(30px) scale(.3);opacity:0}}
+.gp-sub{margin:0;font-size:18px;color:#6B5A8C;font-weight:700;animation:gpPop .6s ease-out 1.9s both}
+.gp-tap{display:inline-block;margin:18px 0 0;font-size:13px;color:#7D6A96;background:rgba(255,255,255,.75);border-radius:999px;padding:4px 14px;animation:gpPop .6s ease-out 2.6s both}
+@media(prefers-reduced-motion:reduce){.go-party *{animation:none!important}.gp-plane{display:none}}

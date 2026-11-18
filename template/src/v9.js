@@ -47,9 +47,10 @@
    mark(el,f.t,`從 D${oi+1} 移過來`);dc.appendChild(el);});});
   const evs=[...dc.querySelectorAll('.event')];
   evs.forEach(el=>{
-   const acts=el.querySelector('.event-actions');if(acts&&!acts.querySelector('.adj-btn')){
+   el.querySelectorAll('.adj-btn').forEach(x=>x.remove());
+   if(!el.querySelector(':scope > .adj-corner')){
     const key=el.classList.contains('custom-ev')?'c:'+el.dataset.cid:'o:'+el.dataset.k;
-    acts.insertAdjacentHTML('beforeend',`<button type="button" class="smallbtn adj-btn" data-adj="${key}">⇅ 調整</button>`);}
+    el.insertAdjacentHTML('beforeend',`<button type="button" class="adj-corner" data-adj="${key}" aria-label="調整這一站的順序、日期或時間"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 15.5V5.5M8 5.5 5 8.6M8 5.5l3 3.1M16 8.5v10M16 18.5l-3-3.1M16 18.5l3-3.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`);}
   });
   if(touched){
    const tm=el=>toMin((el.querySelector('.time')||{}).textContent||'0');
@@ -69,7 +70,7 @@
  function mark(el,t,why){
   const tt=el.querySelector('.time');if(tt)tt.textContent=t;
   el.classList.add('ev-adj');
-  const tags=el.querySelector('.tags');if(tags&&!tags.querySelector('.tag.adj'))tags.insertAdjacentHTML('beforeend',`<span class="tag mine adj">⇅ ${why||'已調整'}</span>`);
+  const tags=el.querySelector('.tags');if(tags&&!tags.querySelector('.tag.adj'))tags.insertAdjacentHTML('beforeend',`<span class="tag mine adj">${why||'已調整'}</span>`);
   if(tags)tags.style.display='flex';
  }
  function syncBar(dc){
@@ -165,4 +166,43 @@
  capture();
  if(window.hkRenderNext)window.hkRenderNext();
  tryMerge();addEventListener('hashchange',tryMerge);
+
+ /* ---------- 倒數結束：出發大動畫，之後把倒數藏起來 ---------- */
+ (function(){
+  const box=document.querySelector('.departure-countdown');if(!box)return;
+  const FK='hk-departed-v1',RMv=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ids=['countDays','countHours','countMinutes','countSeconds'];
+  const done=()=>ids.every(id=>{const e=document.getElementById(id);return e&&/^0+$/.test(e.textContent.trim());});
+  const lab=(box.querySelector('.departure-countdown-label')||{}).textContent||'';
+  const dest=(lab.match(/距離(.+?)出發/)||[])[1]||'旅行';
+  const hide=anim=>{
+   if(!box.isConnected)return;
+   if(anim&&!RMv&&box.animate){const h=box.offsetHeight;box.style.overflow='hidden';
+    const a=box.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0,marginTop:'0px',marginBottom:'0px',paddingTop:'0px',paddingBottom:'0px'}],{duration:700,easing:'ease-in-out'});
+    a.onfinish=()=>box.remove();}else box.remove();
+  };
+  function party(){
+   const ov=document.createElement('div');ov.className='go-party';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','出發囉');
+   const word='出發囉！'.split('').map((c,k)=>`<span style="animation-delay:${(1.1+k*.12).toFixed(2)}s">${c}</span>`).join('');
+   const stars=Array.from({length:26},(_,k)=>`<i class="gp-star" style="left:${(k*37)%100}%;top:${(k*53)%70}%;animation-delay:${(k%9)*.25}s;transform:scale(${.5+(k%4)*.25})"></i>`).join('');
+   const snow=Array.from({length:22},(_,k)=>`<i class="gp-snow" style="left:${(k*29)%100}%;animation-delay:${(k%11)*.35}s;animation-duration:${5+(k%5)}s"></i>`).join('');
+   ov.innerHTML=`<div class="gp-sky"></div><div class="gp-glow"></div>${stars}${snow}
+    <div class="gp-cloud c1"></div><div class="gp-cloud c2"></div><div class="gp-cloud c3"></div>
+    <svg class="gp-path" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 360 C 90 330, 140 250, 210 200 S 330 90, 430 40" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/></svg>
+    <div class="gp-plane"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-plane"></use></svg></div>
+    <div class="gp-center"><div class="gp-ring"></div><div class="gp-bird"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-enaga"></use></svg></div>
+     <h2 class="gp-title">${word}</h2><p class="gp-sub">${dest}，我們來了 ✈️</p><p class="gp-tap">點一下開始旅程</p></div>`;
+   document.body.appendChild(ov);document.body.classList.add('cs-open');
+   const close=()=>{ov.classList.add('out');setTimeout(()=>{ov.remove();document.body.classList.remove('cs-open');hide(true);},600);};
+   ov.addEventListener('click',close);setTimeout(()=>{if(ov.isConnected)close();},RMv?2500:9000);
+  }
+  let fired=false;
+  const check=()=>{
+   if(fired||!done())return;fired=true;
+   let seen=false;try{seen=localStorage.getItem(FK)==='1';localStorage.setItem(FK,'1');}catch(e){}
+   if(seen)hide(false);else party();
+  };
+  check();if(!fired){const t=setInterval(()=>{check();if(fired)clearInterval(t);},1000);}
+  window.hkPreviewDeparture=party;
+ })();
 })();
