@@ -10,10 +10,40 @@
 .pass.jolt{animation:stJolt .45s ease-out}
 @keyframes stJolt{0%,100%{transform:none}30%{transform:translateY(3px) scale(.985)}60%{transform:translateY(-1px)}}
 #dayCard .bk-chip{display:inline-flex!important;align-items:center!important;gap:4px!important;min-height:30px!important;padding:3px 10px 3px 7px!important;border-radius:999px!important;border:1.5px dashed #D8CBC0!important;background:#FFFDF9!important;color:#A39286!important;font-size:12.5px!important;font-weight:700!important;line-height:1!important;cursor:pointer!important;font-family:inherit!important;-webkit-tap-highlight-color:transparent!important}
-#dayCard .bk-chip svg{width:18px;height:18px;flex:none}
+#dayCard .bk-chip svg{width:18px!important;height:18px!important;flex:none!important}
 #dayCard .bk-chip.on{border:1.5px solid #E2C27A!important;background:#FFF3CF!important;color:#8A6A2E!important}
-.bk-chip.pop{animation:bkPop .45s cubic-bezier(.2,1.5,.4,1)}
+html body .bk-chip.pop{animation:bkPop .45s cubic-bezier(.2,1.5,.4,1)!important}
 @keyframes bkPop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+#dayCard .bk-chip.must{border:1.5px dashed #E7A79C!important;background:#FFF4F1!important;color:#C0675B!important}
+#dayCard .bk-chip.walk{border:1.5px solid #E3DED6!important;background:#F6F3EE!important;color:#8E8278!important;padding:3px 10px!important;cursor:default!important;font-weight:600!important}
 html.night body #dayCard .bk-chip{color:#8C7B70!important}
 html.night body #dayCard .bk-chip.on{color:#7A5C24!important}
 @media (prefers-reduced-motion:reduce){.pass-stamp.thump,.pass.jolt,.bk-chip.pop{animation:none}}
+
+html body .bk-info{margin:4px 0 2px!important;font-size:12.5px!important;color:#8A6A2E!important;background:#FFF8E3!important;border-radius:10px!important;padding:5px 9px!important;display:inline-block!important}
+html body .bk-bar{display:flex!important;align-items:center!important;gap:8px!important;width:100%!important;min-height:46px!important;margin:4px 0 10px!important;padding:8px 14px!important;border-radius:16px!important;border:1.5px dashed #E2C27A!important;background:#FFFAEB!important;color:#6E5A3A!important;font-family:inherit!important;font-size:14px!important;cursor:pointer!important;text-align:left!important}
+html body .bk-bar svg{width:22px!important;height:22px!important;flex:none!important}
+html body .bk-bar span{font-weight:800!important}
+html body .bk-bar b{margin-left:auto!important;font-size:12.5px!important;font-weight:700!important;color:#C0675B!important;white-space:nowrap!important}
+html body .bk-bar.done{border-style:solid!important;background:#F2F7EF!important;border-color:#B9D0B3!important}html body .bk-bar.done b{color:#5E7F57!important}
+html body .bk-tip{font-size:13px!important;line-height:1.55!important;background:#EEF5FB!important;border-radius:12px!important;padding:8px 11px!important;color:#4F6577!important;margin:6px 0 4px!important}
+html body .bk-tip a{color:#C0675B!important;font-weight:800!important;white-space:nowrap!important}
+html body .bk-lab{font-size:13px!important;font-weight:800!important;color:#8E7A6C!important;margin:10px 0 6px!important}
+html body .bk-apps{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+html body .bk-apps button{min-height:34px!important;padding:4px 12px!important;border-radius:999px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;color:#7A685C!important;font-size:13.5px!important;font-family:inherit!important;font-weight:600!important}
+html body .bk-apps button.sug{border-color:#E8CF94!important;background:#FFFBEF!important}
+html body .bk-apps button.on{background:#FFE7A6!important;border-color:#D7AE55!important;color:#5B4520!important;font-weight:800!important}
+html body .bk-sheet label{display:block!important;font-size:13px!important;color:#8E7A6C!important;font-weight:700!important;margin-top:10px!important}
+html body .bk-sheet input{display:block!important;width:100%!important;box-sizing:border-box!important;margin-top:4px!important;min-height:42px!important;font-size:16px!important;border:1.5px solid #E5DAD0!important;border-radius:12px!important;padding:6px 11px!important;font-family:inherit!important;background:#fff!important;color:var(--ink)!important}
+html body .bk-list{max-height:82vh!important;overflow:auto!important}
+html body .bk-row{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;margin:0 0 6px!important;padding:8px 10px!important;border-radius:14px!important;border:1.5px solid #EDE4DA!important;background:#fff!important;font-family:inherit!important;text-align:left!important;color:var(--ink)!important}
+html body .bk-row i{font-style:normal!important;font-weight:800!important;font-size:12px!important;color:#fff!important;background:#D9A48F!important;border-radius:8px!important;padding:3px 6px!important;flex:none!important}
+html body .bk-row span{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+html body .bk-row b{font-size:14px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+html body .bk-row small{font-size:12px!important;color:#8E7A6C!important}
+html body .bk-row.must{border-color:#F0C3BA!important;background:#FFF6F3!important}html body .bk-row.must small{color:#C0675B!important}
+html body .bk-row.ok{background:#FFFBEF!important;border-color:#EEDCAE!important}html body .bk-row.ok small{color:#8A6A2E!important}
+html body .bk-foot{font-size:12px!important;color:#9A8B80!important;margin:10px 2px 4px!important;line-height:1.5!important}
+html body .bk-x{min-height:46px!important;width:100%!important;border-radius:999px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
+.event.bk-flash{animation:bkFlash 1.6s ease}
+@keyframes bkFlash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #FFE39A}}
