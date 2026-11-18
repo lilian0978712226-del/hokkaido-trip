@@ -1153,6 +1153,24 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 .rn-crab small{font-size:12.5px;color:var(--ink2)}
 .rn-crab .smallbtn{min-height:32px!important;padding:3px 10px!important;font-size:12px!important}
 </style>
+<style id="v5">/* v5 */
+.tabs-bottom{margin-top:14px!important;padding-top:14px!important;border-top:2px dashed var(--ink3)}
+.departure-countdown-icon svg{padding:3px!important;background:var(--sky2)!important}
+.done-party{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:rgba(91,75,67,.28);overflow:hidden;animation:dpIn .3s ease}
+.done-party.out{opacity:0;transition:opacity .35s}
+@keyframes dpIn{from{opacity:0}}
+.dp-card{display:flex;flex-direction:column;align-items:center;gap:6px;background:#FFFAF2;border:2.5px solid var(--ink);border-radius:26px;padding:22px 26px 18px;box-shadow:3px 5px 0 rgba(91,75,67,.25);animation:dpPop .6s cubic-bezier(.3,1.6,.5,1)}
+.dp-card svg{width:96px;height:96px;animation:dpHop .7s ease-in-out .5s 3}
+.dp-card b{font-size:20px}
+.dp-card small{font-size:13px;color:var(--ink2)}
+@keyframes dpPop{from{transform:scale(.4) translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes dpHop{0%,100%{transform:none}40%{transform:translateY(-12px) rotate(-6deg)}70%{transform:translateY(-4px) rotate(4deg)}}
+.dp-bit{position:absolute;top:-30px;width:18px;height:18px;animation:dpFall 2s ease-in forwards}
+.dp-star{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.8 6 6.6.8-4.9 4.5 1.3 6.5L12 16.6 6.2 19.8l1.3-6.5L2.6 8.8 9.2 8Z' fill='%23EBCD8A' stroke='%235B4B43' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.dp-snow{width:12px;height:12px;border-radius:50%;background:#fff;border:1.5px solid #C2D5E5}
+@keyframes dpFall{to{transform:translateY(110vh) rotate(var(--r))}}
+@media(prefers-reduced-motion:reduce){.done-party,.dp-card,.dp-card svg{animation:none!important}}
+</style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
 <!-- Reusable hand-drawn kawaii Hokkaido food stickers: all artwork is embedded in the website, not a flat image. -->
@@ -1212,6 +1230,7 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 <symbol id="f-milk" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M24 4h16v8l6 10v32c0 3-2 5-5 5H23c-3 0-5-2-5-5V22l6-10Z" fill="#fff"/><path d="M22 2h20v6H22Z" fill="#7690B8"/><path d="M18 34h28v14H18Z" fill="#C2D5E5"/><path d="M26 41c2-4 10-4 12 0" fill="none" stroke="#fff" stroke-width="2"/></g><circle cx="28" cy="26" r="1.6" fill="#5B4B43"/><circle cx="36" cy="26" r="1.6" fill="#5B4B43"/><ellipse cx="25" cy="29" rx="2.4" ry="1.4" fill="#F2D3D6"/><ellipse cx="39" cy="29" rx="2.4" ry="1.4" fill="#F2D3D6"/></symbol>
 <symbol id="f-sweet" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M10 34h44l-4 20c-1 3-3 4-6 4H20c-3 0-5-1-6-4Z" fill="#F2D3D6"/><path d="M16 38v16m8-16v18m8-18v18m8-18v18m8-18v16" stroke="#fff" stroke-width="2"/><path d="M8 34c0-8 6-12 12-11 2-7 10-10 16-6 6-3 14 0 14 7 4 1 6 5 6 10Z" fill="#fff"/><circle cx="34" cy="14" r="5" fill="#CF8576"/><path d="M34 9c1-3 3-4 5-4" fill="none"/></g></symbol>
 <symbol id="f-sake" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M20 6h12v8c6 4 8 10 8 18v20c0 4-3 6-7 6H19c-4 0-7-2-7-6V32c0-8 2-14 8-18Z" fill="#fff"/><path d="M12 34h28v12H12Z" fill="#7690B8"/><path d="M42 44h14l-2 12H44Z" fill="#fff"/><circle cx="49" cy="38" r="5" fill="#CF8576"/><path d="M8 30c-4-4-2-10 4-10 0 4 2 6 4 7" fill="#E8A386"/></g></symbol>
+<symbol id="i-enaga" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"><path d="M44 40c6 3 12 9 16 17-6-1-12-6-16-11Z" fill="#5B4B43"/><path d="M32 8C19 8 11 18 11 31c0 13 9 23 21 23s21-10 21-23C53 18 45 8 32 8Z" fill="#fff"/><path d="M14 26c2 6 3 13 9 19-6-2-11-8-11-15 0-1 1-3 2-4ZM50 26c-2 6-3 13-9 19 6-2 11-8 11-15 0-1-1-3-2-4Z" fill="#5B4B43" stroke="none" opacity=".85"/><path d="M26 54v5m12-5v5" stroke-width="2"/><path d="M23 59h6m6 0h6" stroke-width="2"/></g><circle cx="25.5" cy="27" r="2.6" fill="#5B4B43"/><circle cx="38.5" cy="27" r="2.6" fill="#5B4B43"/><circle cx="26.3" cy="26.2" r=".8" fill="#fff"/><circle cx="39.3" cy="26.2" r=".8" fill="#fff"/><path d="M30 30.5h4l-2 3Z" fill="#5B4B43"/><ellipse cx="21" cy="33" rx="3.2" ry="1.9" fill="#F2D3D6"/><ellipse cx="43" cy="33" rx="3.2" ry="1.9" fill="#F2D3D6"/><path d="M27 15c2-2 6-3 9-1" stroke="#E8E2DA" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
 
 
 <symbol id="s-cow" viewBox="0 0 96 72"><g stroke="#5B4B43" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M14 30c-6 2-9 8-8 14" fill="none"/><path class="leg-a" d="M24 50v14h6V52M58 50v14h6V52" fill="#fff"/><path class="leg-b" d="M34 52v12h6V52M50 52v12h6V52" fill="#fff"/><path d="M16 30c0-9 8-14 18-14h26c10 0 14 6 14 14v12c0 7-5 12-12 12H28c-7 0-12-5-12-12Z" fill="#fff"/><path d="M30 18c-2 6 2 12 9 12 6 0 8-6 6-12ZM52 34c4-2 10 0 10 6s-6 8-10 6-4-10 0-12Z" fill="#5B4B43"/><path d="M68 22c0-8 6-12 13-11 8 1 12 7 11 14-1 6-5 10-11 10h-4c-6 0-9-6-9-13Z" fill="#fff"/><path d="M70 12l-4-6 7 3M88 12l5-5-2 7" fill="#EBCD8A"/><path d="M76 14c-4-3-9-2-11 1 2 3 7 4 11 2" fill="#5B4B43"/><ellipse cx="82" cy="30" rx="10" ry="6.5" fill="#F2D3D6"/><path d="M58 50c0 3 3 6 6 6" fill="none"/><circle cx="70" cy="38" r="4" fill="#EBCD8A"/></g><circle cx="78" cy="21" r="2" fill="#5B4B43"/><circle cx="87" cy="21" r="2" fill="#5B4B43"/><circle cx="79" cy="30" r="1.4" fill="#5B4B43"/><circle cx="85" cy="30" r="1.4" fill="#5B4B43"/></symbol>
@@ -1269,7 +1288,7 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 <g fill="#fff" stroke="none" class="sb-snow"><circle cx="40" cy="22" r="2.6"/><circle cx="96" cy="72" r="2"/><circle cx="160" cy="34" r="2.4"/><circle cx="240" cy="84" r="2.2"/><circle cx="300" cy="66" r="2.4"/><circle cx="380" cy="34" r="2"/><circle cx="14" cy="150" r="2.4"/><circle cx="388" cy="128" r="2.2"/></g>
 </g></svg><span class="cover-stamp" aria-hidden="true">2027<br/>WINTER</span></div>
 
-<div class="countdown departure-countdown"><div aria-hidden="true" class="departure-countdown-icon"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg></div><div class="departure-countdown-copy"><span class="departure-countdown-label">距離北海道出發還有</span><div class="departure-countdown-units"><div><b id="countDays">—</b><small>日</small></div><i>:</i><div><b id="countHours">—</b><small>小時</small></div><i>:</i><div><b id="countMinutes">—</b><small>分鐘</small></div><i>:</i><div><b id="countSeconds">—</b><small>秒</small></div></div><small>2027.02.10 10:20　JX318 台中 → 新千歲</small></div></div><div id="flights"><div class="flightgrid boarding"><article class="pass " aria-label="去程｜2/10 JX318 台中 RMQ 10:20 到 新千歲 CTS 15:00"><div class="pass-top"><span class="sx"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg>STARLUX 星宇航空</span><small>去程｜2/10</small></div><div class="pass-route"><div class="pass-port"><b>RMQ</b><small>台中</small><em>10:20</em></div><div class="pass-path"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg></div><div class="pass-port"><b>CTS</b><small>新千歲</small><em>15:00</em></div></div><div class="pass-foot"><span>FLIGHT <b>JX318</b></span><span class="pass-tag">HOKKAIDO ♡</span></div></article><article class="pass back" aria-label="回程｜2/18 JX319 新千歲 CTS 16:00 到 台中 RMQ 19:55"><div class="pass-top"><span class="sx"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg>STARLUX 星宇航空</span><small>回程｜2/18</small></div><div class="pass-route"><div class="pass-port"><b>CTS</b><small>新千歲</small><em>16:00</em></div><div class="pass-path"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg></div><div class="pass-port"><b>RMQ</b><small>台中</small><em>19:55</em></div></div><div class="pass-foot"><span>FLIGHT <b>JX319</b></span><span class="pass-tag">HOME ♡</span></div></article></div><p class="flight-note">去程 10:20、回程 16:00；起飛前請再以航空公司通知確認。</p></div><p class="muted">行程日期依日本時間判斷；「今天」會自動定位當日。天氣預報尚未進入可預測期間，出發前再更新。</p><div aria-label="旅行功能入口" class="home-shortcuts">
+<div class="countdown departure-countdown"><div aria-hidden="true" class="departure-countdown-icon"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-enaga"></use></svg></div><div class="departure-countdown-copy"><span class="departure-countdown-label">距離北海道出發還有</span><div class="departure-countdown-units"><div><b id="countDays">—</b><small>日</small></div><i>:</i><div><b id="countHours">—</b><small>小時</small></div><i>:</i><div><b id="countMinutes">—</b><small>分鐘</small></div><i>:</i><div><b id="countSeconds">—</b><small>秒</small></div></div><small>2027.02.10 10:20　JX318 台中 → 新千歲</small></div></div><div id="flights"><div class="flightgrid boarding"><article class="pass " aria-label="去程｜2/10 JX318 台中 RMQ 10:20 到 新千歲 CTS 15:00"><div class="pass-top"><span class="sx"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg>STARLUX 星宇航空</span><small>去程｜2/10</small></div><div class="pass-route"><div class="pass-port"><b>RMQ</b><small>台中</small><em>10:20</em></div><div class="pass-path"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg></div><div class="pass-port"><b>CTS</b><small>新千歲</small><em>15:00</em></div></div><div class="pass-foot"><span>FLIGHT <b>JX318</b></span><span class="pass-tag">HOKKAIDO ♡</span></div></article><article class="pass back" aria-label="回程｜2/18 JX319 新千歲 CTS 16:00 到 台中 RMQ 19:55"><div class="pass-top"><span class="sx"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg>STARLUX 星宇航空</span><small>回程｜2/18</small></div><div class="pass-route"><div class="pass-port"><b>CTS</b><small>新千歲</small><em>16:00</em></div><div class="pass-path"><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-plane"></use></svg></div><div class="pass-port"><b>RMQ</b><small>台中</small><em>19:55</em></div></div><div class="pass-foot"><span>FLIGHT <b>JX319</b></span><span class="pass-tag">HOME ♡</span></div></article></div><p class="flight-note">去程 10:20、回程 16:00；起飛前請再以航空公司通知確認。</p></div><p class="muted">行程日期依日本時間判斷；「今天」會自動定位當日。天氣預報尚未進入可預測期間，出發前再更新。</p><div aria-label="旅行功能入口" class="home-shortcuts">
 <a href="#ledger"><span><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-wallet"></use></svg></span><b>記帳預算</b><small>隨手記一筆</small></a>
 <a href="#itinerary"><span><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-train"></use></svg></span><b>每日行程</b><small>查看及切換 D1～D9</small></a>
 <a href="#stay"><span><svg class="" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-house"></use></svg></span><b>住宿資訊</b><small>飯店日期與導航</small></a>
@@ -1902,5 +1921,38 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const io=new IntersectionObserver(es=>{es.forEach(en=>{if(!en.isIntersecting)return;const a=map.get(en.target.id);if(!a)return;links.forEach(l=>l.classList.toggle('on',l===a));nav.scrollTo({left:a.offsetLeft-nav.clientWidth/2+a.clientWidth/2,behavior:RM?'auto':'smooth'});});},{rootMargin:'-45% 0px -50% 0px'});
   map.forEach((a,id)=>{const el=document.getElementById(id);if(el)io.observe(el);});
  }
+})();
+</script>
+<script>/* ===== v5：底部日期切換、全部完成動畫 ===== */
+(function(){
+ const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ /* 1. 行程最下方再一排 D1–D9 */
+ const dc=document.getElementById('dayCard');
+ if(dc&&typeof showDay==='function'){
+  const bt=document.createElement('div');bt.className='tabs tabs-bottom';bt.id='tabsBottom';bt.setAttribute('aria-label','切換旅行日期（下方）');
+  dc.insertAdjacentElement('afterend',bt);
+  const render=()=>{bt.innerHTML=days.map((d,i)=>`<button type="button" class="daytab ${i===current?'active':''}" data-bday="${i}"><b>D${i+1}</b><small>${d.date.slice(5).replace('-','/')}</small></button>`).join('');
+   const a=bt.querySelector('.active');if(a)bt.scrollLeft=a.offsetLeft-bt.clientWidth/2+a.clientWidth/2;};
+  bt.addEventListener('click',e=>{const b=e.target.closest('[data-bday]');if(!b)return;showDay(+b.dataset.bday);const t=document.getElementById('tabs');if(t)t.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});});
+  const p=showDay;window.showDay=showDay=function(){const r=p.apply(this,arguments);try{render()}catch(e){}return r;};
+  render();
+ }
+ /* 3. 清單全部完成動畫 */
+ const LISTS={prepList:'出發前待辦',bagList:'行李清單',entryTaxList:'出國前確認'};
+ const full={};
+ const isFull=id=>{const ins=[...document.querySelectorAll('#'+id+' input[type=checkbox]')];return ins.length>0&&ins.every(x=>x.checked);};
+ Object.keys(LISTS).forEach(id=>full[id]=isFull(id));
+ function celebrate(name){
+  const o=document.createElement('div');o.className='done-party';o.setAttribute('role','status');
+  o.innerHTML=`<div class="dp-card"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-enaga"></use></svg><b>${name}全部完成！</b><small>辛苦了～準備出發去北海道 ❄️</small></div>`;
+  if(!RM){for(let k=0;k<26;k++){const s=document.createElement('i');s.className='dp-bit '+(k%3?'dp-star':'dp-snow');s.style.left=(Math.random()*100)+'%';s.style.animationDelay=(Math.random()*.6)+'s';s.style.animationDuration=(1.6+Math.random()*1.2)+'s';s.style.setProperty('--r',(Math.random()*360)+'deg');o.appendChild(s);}}
+  document.body.appendChild(o);
+  const close=()=>{o.classList.add('out');setTimeout(()=>o.remove(),400);};
+  o.addEventListener('click',close);setTimeout(close,RM?2200:3200);
+ }
+ document.addEventListener('change',e=>{
+  const id=Object.keys(LISTS).find(k=>e.target.closest&&e.target.closest('#'+k));if(!id)return;
+  setTimeout(()=>{const f=isFull(id);if(f&&!full[id])celebrate(LISTS[id]);full[id]=f;},30);
+ });
 })();
 </script></body></html>
