@@ -63,17 +63,6 @@
 <rect x="-4" y="196" width="408" height="34" fill="#E6DFEA" stroke="none"/>
 <path d="M-4 216H404M-4 224H404" stroke="#BDB2C9" stroke-width="1.6"/>
 <path d="M-4 196H404" stroke="#C8D3DD" stroke-width="1.4"/>
-<g class="hg-tram">
-<path d="M14 176V170" stroke-width="1.6"/><path d="M14 170 L40 150 M40 150 L64 150" stroke-width="1.4"/>
-<rect x="0" y="176" width="112" height="40" rx="8" fill="#6E9C84"/>
-<rect x="0" y="202" width="112" height="14" rx="0" fill="#F4F1EA" stroke="none"/><path d="M0 202H112" stroke-width="1.8"/><rect x="0" y="176" width="112" height="40" rx="8" fill="none"/>
-<g fill="#FFE9B8" stroke-width="1.6"><rect x="12" y="184" width="12" height="12" rx="2.4"/><rect x="28" y="184" width="12" height="12" rx="2.4"/><rect x="44" y="184" width="12" height="12" rx="2.4"/><rect x="60" y="184" width="12" height="12" rx="2.4"/><rect x="76" y="184" width="12" height="12" rx="2.4"/><rect x="92" y="184" width="12" height="12" rx="2.4"/></g>
-<g fill="#FFE6A3" stroke="none" opacity=".75"><rect x="30" y="186" width="8" height="8" rx="1.6"/><rect x="62" y="186" width="8" height="8" rx="1.6"/></g>
-<path d="M-1 177Q-2 168 8 168H104Q114 168 113 177Q108 181 103 178Q96 182 90 178Q82 182 76 178Q68 182 62 178Q54 182 48 178Q40 182 34 178Q26 182 20 178Q12 182 6 178Q2 181 -1 177Z" fill="#fff" stroke-width="2"/>
-<rect x="40" y="163" width="30" height="6" rx="3" fill="#fff" stroke-width="1.6"/>
-<circle cx="22" cy="218" r="4" fill="#4A3B33" stroke="none"/><circle cx="90" cy="218" r="4" fill="#4A3B33" stroke="none"/>
-<text x="56" y="212" text-anchor="middle" font-size="7" font-weight="700" fill="#6E9C84" stroke="none" font-family="sans-serif">3305</text>
-</g>
 <!-- 雙面時鐘路燈 -->
 <g><path d="M134 210V150" stroke-width="2.6"/><path d="M134 166Q126 160 124 146M134 166Q142 160 144 146" fill="none" stroke-width="2"/>
 <circle cx="123" cy="140" r="8" fill="#fff"/><circle cx="145" cy="140" r="8" fill="#fff"/>
@@ -98,13 +87,24 @@
 <g stroke="none"><rect x="333.0" y="168" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="337.2" y="168" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="341.4" y="168" width="2.8" height="5" rx="1" fill="#F6C27A"/><rect x="345.6" y="168" width="2.8" height="5" rx="1" fill="#9CC3A6"/><rect x="333.0" y="175" width="2.8" height="5" rx="1" fill="#F6C27A"/><rect x="337.2" y="175" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="341.4" y="175" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="345.6" y="175" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="333.0" y="182" width="2.8" height="5" rx="1" fill="#9CC3A6"/><rect x="337.2" y="182" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="341.4" y="182" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="345.6" y="182" width="2.8" height="5" rx="1" fill="#F6C27A"/></g>
 <rect x="333" y="194" width="16" height="7" rx="1.6" fill="#FFF0B8" stroke-width="1.4"/><rect x="333" y="203" width="16" height="4" rx="1.4" fill="#4A3B33" stroke="none"/>
 <path d="M324 162Q322 142 341 140Q360 142 358 162Q350 165 341 163Q332 165 324 162Z" fill="#fff" stroke-width="2"/>
-<rect x="360" y="160" width="30" height="50" rx="3" fill="#F7F3EC"/><rect x="365" y="166" width="20" height="22" rx="2" fill="#E7F2FA" stroke-width="1.6"/>
+<rect x="360" y="160" width="30" height="50" rx="3" fill="#BFDDF2"/><rect x="365" y="166" width="20" height="22" rx="2" fill="#F6FBFF" stroke-width="1.6"/>
 <g stroke="none"><rect x="367.0" y="168" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="371.2" y="168" width="2.8" height="5" rx="1" fill="#9CC3A6"/><rect x="375.4" y="168" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="379.6" y="168" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="367.0" y="175" width="2.8" height="5" rx="1" fill="#9CC3A6"/><rect x="371.2" y="175" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="375.4" y="175" width="2.8" height="5" rx="1" fill="#F6C27A"/><rect x="379.6" y="175" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="367.0" y="182" width="2.8" height="5" rx="1" fill="#E77B6E"/><rect x="371.2" y="182" width="2.8" height="5" rx="1" fill="#9CC3A6"/><rect x="375.4" y="182" width="2.8" height="5" rx="1" fill="#7FB1D8"/><rect x="379.6" y="182" width="2.8" height="5" rx="1" fill="#9CC3A6"/></g>
 <rect x="367" y="194" width="16" height="7" rx="1.6" fill="#FFF0B8" stroke-width="1.4"/><rect x="367" y="203" width="16" height="4" rx="1.4" fill="#4A3B33" stroke="none"/>
 <path d="M358 162Q356 142 375 140Q394 142 392 162Q384 165 375 163Q366 165 358 162Z" fill="#fff" stroke-width="2"/>
 <circle class="hg-glow" cx="341" cy="177" r="14" fill="#FFF3C9" opacity=".25" stroke="none"/><circle class="hg-glow" cx="375" cy="177" r="14" fill="#E7F4FF" opacity=".25" stroke="none" style="animation-delay:1.2s"/>
 </g>
 <g><path d="M272 212V174" stroke-width="2.2"/><ellipse cx="272" cy="212" rx="22" ry="5" fill="#FFE2A8" opacity=".55" stroke="none"/><circle cx="272" cy="170" r="16" fill="#FFE2A0" opacity=".45" stroke="none"/><circle class="hg-glow" cx="272" cy="170" r="9" fill="#FFF0C4" opacity=".95" stroke="none"/><path d="M267 174L268 166H276L277 174Z" fill="#FFE6A3" stroke-width="1.8"/><path d="M265.5 166Q272 159 278.5 166Z" fill="#fff" stroke-width="1.8"/></g><g><path d="M160 212V174" stroke-width="2.2"/><ellipse cx="160" cy="212" rx="22" ry="5" fill="#FFE2A8" opacity=".55" stroke="none"/><circle cx="160" cy="170" r="16" fill="#FFE2A0" opacity=".45" stroke="none"/><circle class="hg-glow" cx="160" cy="170" r="9" fill="#FFF0C4" opacity=".95" stroke="none"/><path d="M155 174L156 166H164L165 174Z" fill="#FFE6A3" stroke-width="1.8"/><path d="M153.5 166Q160 159 166.5 166Z" fill="#fff" stroke-width="1.8"/></g>
+<g class="hg-tram">
+<path d="M14 176V170" stroke-width="1.6"/><path d="M14 170 L40 150 M40 150 L64 150" stroke-width="1.4"/>
+<rect x="0" y="176" width="112" height="40" rx="8" fill="#6E9C84"/>
+<rect x="0" y="202" width="112" height="14" rx="0" fill="#F4F1EA" stroke="none"/><path d="M0 202H112" stroke-width="1.8"/><rect x="0" y="176" width="112" height="40" rx="8" fill="none"/>
+<g fill="#FFE9B8" stroke-width="1.6"><rect x="12" y="184" width="12" height="12" rx="2.4"/><rect x="28" y="184" width="12" height="12" rx="2.4"/><rect x="44" y="184" width="12" height="12" rx="2.4"/><rect x="60" y="184" width="12" height="12" rx="2.4"/><rect x="76" y="184" width="12" height="12" rx="2.4"/><rect x="92" y="184" width="12" height="12" rx="2.4"/></g>
+<g fill="#FFE6A3" stroke="none" opacity=".75"><rect x="30" y="186" width="8" height="8" rx="1.6"/><rect x="62" y="186" width="8" height="8" rx="1.6"/></g>
+<path d="M-1 177Q-2 168 8 168H104Q114 168 113 177Q108 181 103 178Q96 182 90 178Q82 182 76 178Q68 182 62 178Q54 182 48 178Q40 182 34 178Q26 182 20 178Q12 182 6 178Q2 181 -1 177Z" fill="#fff" stroke-width="2"/>
+<rect x="40" y="163" width="30" height="6" rx="3" fill="#fff" stroke-width="1.6"/>
+<circle cx="22" cy="218" r="4" fill="#4A3B33" stroke="none"/><circle cx="90" cy="218" r="4" fill="#4A3B33" stroke="none"/>
+<text x="56" y="212" text-anchor="middle" font-size="7" font-weight="700" fill="#6E9C84" stroke="none" font-family="sans-serif">3305</text>
+</g>
 <!-- 前景雪地 -->
 <path d="M-4 228C40 222 80 230 120 226C170 220 220 230 270 226C320 222 360 230 404 226V304H-4Z" fill="#FDF8F8" stroke="#D3C8DA" stroke-width="1.6"/>
 <g stroke="none" fill="#EEE4F0"><ellipse cx="60" cy="282" rx="50" ry="6"/><ellipse cx="320" cy="272" rx="60" ry="6"/><ellipse cx="220" cy="286" rx="40" ry="4"/></g>
