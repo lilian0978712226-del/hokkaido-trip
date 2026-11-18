@@ -1184,6 +1184,8 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 .dr-bubble{border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 18%,rgba(220,232,242,.7) 40%,rgba(230,221,243,.4) 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
 .dr-heart{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11Z' fill='%23F2D3D6'/%3E%3C/svg%3E") center/contain no-repeat}
 @media(prefers-reduced-motion:reduce){.dream *{animation:none!important;opacity:1!important}.dr-bit,.dr-fall{display:none}}
+.tabs-bottom{overflow-anchor:none}
+.tabs-bottom .daytab.active{animation:none!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1961,11 +1963,23 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  if(dc&&typeof showDay==='function'){
   const bt=document.createElement('div');bt.className='tabs tabs-bottom';bt.id='tabsBottom';bt.setAttribute('aria-label','切換旅行日期（下方）');
   dc.insertAdjacentElement('afterend',bt);
-  const render=()=>{bt.innerHTML=days.map((d,i)=>`<button type="button" class="daytab ${i===current?'active':''}" data-bday="${i}"><b>D${i+1}</b><small>${d.date.slice(5).replace('-','/')}</small></button>`).join('');
-   const a=bt.querySelector('.active');if(a)bt.scrollLeft=a.offsetLeft-bt.clientWidth/2+a.clientWidth/2;};
-  bt.addEventListener('click',e=>{const b=e.target.closest('[data-bday]');if(!b)return;const y0=bt.getBoundingClientRect().top;showDay(+b.dataset.bday);const y1=bt.getBoundingClientRect().top;window.scrollBy(0,y1-y0);});
-  const p=showDay;window.showDay=showDay=function(){const r=p.apply(this,arguments);try{render()}catch(e){}return r;};
-  render();
+  bt.innerHTML=days.map((d,i)=>`<button type="button" class="daytab" data-bday="${i}"><b>D${i+1}</b><small>${d.date.slice(5).replace('-','/')}</small></button>`).join('');
+  const btns=[...bt.children];
+  const mark=()=>{btns.forEach((x,i)=>x.classList.toggle('active',i===current));const a=btns[current];if(a){const L=a.offsetLeft-bt.clientWidth/2+a.clientWidth/2;bt.scrollTo({left:L,behavior:'auto'});}};
+  const root=document.documentElement;
+  const jump=y=>{const old=root.style.scrollBehavior;root.style.scrollBehavior='auto';window.scrollTo(0,y);root.style.scrollBehavior=old;};
+  bt.addEventListener('click',e=>{
+   const b=e.target.closest('[data-bday]');if(!b)return;
+   const i=+b.dataset.bday;if(i===current)return;
+   const y0=bt.getBoundingClientRect().top;
+   showDay(i);
+   const y1=bt.getBoundingClientRect().top;   /* forces layout of the new day */
+   jump(window.scrollY+(y1-y0));              /* keep this row exactly where the finger is, no smooth scrolling */
+   requestAnimationFrame(()=>{const y2=bt.getBoundingClientRect().top;if(Math.abs(y2-y0)>1)jump(window.scrollY+(y2-y0));});
+   b.blur();
+  });
+  const p=showDay;window.showDay=showDay=function(){const r=p.apply(this,arguments);try{mark()}catch(e){}return r;};
+  mark();
  }
  /* 3. 清單全部完成動畫 */
  const LISTS={prepList:'出發前待辦',bagList:'行李清單',entryTaxList:'出國前確認'};
