@@ -1271,6 +1271,94 @@ body{background-image:radial-gradient(rgba(201,139,94,.08) 1.2px,transparent 1.4
 .fp-save{width:100%}
 .fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 0}
 @media(prefers-reduced-motion:reduce){.fp-paw{animation:none}}
+/* v8 */
+/* 日落等光景：移到日期那一行的右上角 */
+#dayCard .dh-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
+#dayCard .dh-top .muted{padding-top:4px}
+#dayCard .lt-row{display:flex;gap:5px;margin:0 0 0 auto;padding:0;overflow:visible;flex-wrap:wrap;justify-content:flex-end}
+#dayCard .lt-chip{background:#FFF4E6!important;color:var(--ink)!important;border:1.5px solid var(--ink)!important;border-radius:999px!important;display:inline-flex;align-items:center;gap:3px;min-width:0;padding:3px 9px 3px 7px;border:1.5px solid var(--ink);border-radius:999px;background:#FFF4E6;font-size:13px;line-height:1.2;color:var(--ink);box-shadow:0 1.5px 0 var(--ink);flex-direction:row}
+#dayCard .lt-chip small{font-size:11px;color:var(--ink2)}
+#dayCard .lt-chip b{font-size:13px;font-variant-numeric:tabular-nums}
+#dayCard .lt-chip em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--coral);margin-left:2px}
+#dayCard .lt-chip em.past{color:var(--ink3)}
+
+/* 自己加的行程 */
+#dayCard .custom-ev{background:#FFF7FA!important;border-style:dashed!important}
+#dayCard .tag.mine{background:#FBE1EA!important;color:#A65A73!important;border-color:#D9A0B3!important}
+#dayCard .tag.mine-rep{background:#fff!important;color:var(--ink2)!important;border-color:var(--ink3)!important}
+#dayCard .cs-del.sure{background:#E58F7B!important;color:#fff!important}
+#dayCard .ev-replaced{opacity:.55}
+#dayCard .ev-replaced h4{text-decoration:line-through;text-decoration-color:#C9908A}
+#dayCard .rep-note{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:#A65A73;margin:2px 0 4px}
+#dayCard .rep-undo{border:1.5px solid var(--ink3)!important;background:#fff!important;border-radius:999px!important;font-size:11.5px;padding:1px 8px;color:var(--ink2)!important;min-height:0}
+.cs-addbar{margin:12px 0 2px}
+.cs-add{width:100%;min-height:46px;border:2px dashed #C9A6B3!important;border-radius:16px!important;background:#FFF7FA!important;color:#A65A73!important;font-size:15px;font-weight:700}
+.cs-sheet{position:fixed;inset:0;z-index:300;background:rgba(91,75,67,.35);display:flex;align-items:flex-end;justify-content:center}
+.cs-sheet[hidden]{display:none}
+.cs-panel{width:min(100%,520px);max-height:92vh;overflow:auto;background:#FFFAF2;border:2px solid var(--ink);border-bottom:0;border-radius:24px 24px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));animation:csUp .28s ease-out}
+@keyframes csUp{from{transform:translateY(40px);opacity:0}}
+.cs-panel h3{margin:0 0 8px;font-size:18px}
+.cs-panel label{display:block;font-size:13px;color:var(--ink2);margin-top:10px}
+.cs-panel input,.cs-panel select{display:block;width:100%;margin-top:4px;font:inherit;font-size:16px;min-height:44px;padding:6px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink)}
+.cs-icons{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:10px}
+.cs-icons button{width:100%;aspect-ratio:1;height:auto;border:2px solid var(--ink3)!important;border-radius:50%!important;background:#fff!important;font-size:20px;padding:0}
+.cs-icons button.on{border-color:var(--ink)!important;background:#FBE1EA!important;transform:scale(1.08)}
+.cs-btns{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;margin-top:16px}
+.cs-btns button{min-height:48px;border:2px solid var(--ink)!important;border-radius:999px!important;font-size:16px;font-weight:700;background:#fff!important;color:var(--ink)!important;box-shadow:0 2px 0 var(--ink)}
+.cs-btns .cs-save{background:var(--coral)!important;color:#fff!important}
+body.cs-open{overflow:hidden}
+
+/* 點亮北海道 */
+.fp-card{text-align:center;transition:transform .3s}
+.fp-card.pop{animation:fpBounce .6s}
+@keyframes fpBounce{30%{transform:scale(1.02)}60%{transform:scale(.995)}}
+.fp-top{display:flex;align-items:baseline;justify-content:center;gap:6px}
+.fp-top b{font-size:34px;color:var(--coral);line-height:1}
+.fp-top span{font-size:15px;color:var(--ink2)}
+.fp-top em{font-style:normal;font-size:13px;font-weight:700;background:#FFF1D6;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px;margin-left:4px}
+.fp-bar{height:12px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:8px 4px 10px}
+.fp-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#F6C7A9 0 6px,#F0A57E 6px 12px);transition:width .6s}
+.fp-map svg{width:100%;height:auto;display:block;border-radius:16px;border:2px solid var(--ink)}
+.fp-lit{animation:fpTw 2.6s ease-in-out infinite}
+@keyframes fpTw{50%{opacity:.7}}
+.fp-dot,.fp-lit{cursor:pointer}
+.fp-bird{animation:fpHop 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes fpHop{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-2px)}}
+.fp-hint{font-size:12px;color:var(--ink2);margin:8px 0 10px}
+.fp-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fp-btn{min-height:46px;border:2px solid var(--ink)!important;border-radius:999px!important;background:#fff!important;color:var(--ink)!important;font-size:15px;font-weight:700;box-shadow:0 2px 0 var(--ink)}
+.fp-btn.pri{background:var(--coral)!important;color:#fff!important}
+.fp-btn:active{transform:translateY(2px);box-shadow:none}
+@media(prefers-reduced-motion:reduce){.fp-lit,.fp-bird,.fp-card.pop,.cs-panel{animation:none}}
+
+/* 保險收合 */
+.em-fold{margin-top:14px}
+.em-fold .em-mine{margin-top:8px!important}
+
+/* 記帳：更可愛一點 */
+.lg-mascot{position:absolute;right:22px;margin-top:-30px;width:46px;height:46px;z-index:2;filter:drop-shadow(0 2px 0 rgba(91,75,67,.15))}
+.lg-sum{background:linear-gradient(135deg,#FFF1E8,#FDE8EF)!important;border-radius:20px!important}
+.lg-sum>div:first-child b{color:var(--coral)}
+.lg-form{background:#fff!important;border-radius:22px!important;background-image:radial-gradient(#F4E9DF 1.2px,transparent 1.3px)!important;background-size:14px 14px!important}
+.lg-amt{grid-template-columns:52px minmax(0,1fr) 52px!important}
+.lg-amt input{border-radius:18px!important;font-size:24px!important}
+.lg-amt input::placeholder{color:#CDBFB4}
+.lg-cur{border-radius:50%!important;background:#FDE3EA!important;width:52px;height:52px;min-height:52px!important;padding:0}
+.lg-amt .lg-add{width:52px;height:52px;min-height:52px!important;padding:0;border-radius:50%!important;font-size:0!important;position:relative}
+.lg-amt .lg-add::before{content:"＋";font-size:28px;line-height:1;position:absolute;inset:0;display:grid;place-items:center;color:#fff}
+.lg-cats{gap:7px!important}
+.lg-chip{border-radius:18px!important;border-width:1.5px!important;transition:transform .2s}
+.lg-chip[data-cat="food"]{background:#FFF0E6!important}
+.lg-chip[data-cat="move"]{background:#EAF3FB!important}
+.lg-chip[data-cat="shop"]{background:#F6EDFB!important}
+.lg-chip[data-cat="stay"]{background:#EAF6EF!important}
+.lg-chip[data-cat="ticket"]{background:#FFF7DC!important}
+.lg-chip[data-cat="other"]{background:#FDEDF2!important}
+.lg-chip.on{background:var(--coral)!important;color:#fff!important;border-width:2px!important;transform:translateY(-3px) rotate(-3deg)!important;box-shadow:0 3px 0 var(--ink)}
+.lg-seg{border-radius:999px!important;border-width:1.5px!important;background:#fff}
+.lg-seg button.on{background:#FDE3EA!important;color:var(--ink)!important}
+.lg-form select,.lg-form input#lgNote{border-radius:999px!important;border-width:1.5px!important;background:#FFFCF8!important}
+.lg-settle{border-radius:20px!important;background:#FFF9EC!important;border-style:solid!important;border-width:1.5px!important;position:relative}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2275,26 +2363,27 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   return (((T-lngH+9)%24+24)%24)*60;
  }
  const LIGHTS=[
-  [{e:'❄️',n:'雪祭點燈結束',t:'22:00'}],
-  [{e:'❄️',n:'雪祭最後一天・點燈到',t:'22:00'},{e:'🚠',n:'藻岩山上山末班',t:'21:30'}],
-  [{e:'🏮',n:'小樽運河煤氣燈（約日落時亮起）',sun:true}],
+  [{e:'❄️',n:'雪祭',t:'22:00',f:'雪祭點燈到 22:00'}],
+  [{e:'❄️',n:'雪祭',t:'22:00',f:'雪祭最後一天，點燈到 22:00'},{e:'🚠',n:'末班',t:'21:30',f:'藻岩山纜車上山末班 21:30'}],
+  [],
   [],[],[],[],
-  [{e:'✨',n:'冰濤祭點燈開始（到 20:00）',t:'16:30'},{e:'🌙',n:'冰濤祭閉場',t:'20:00'}],
+  [{e:'✨',n:'點燈',t:'16:30',f:'冰濤祭點燈 16:30–20:00'}],
   []
  ];
  function lightRow(i){
   const [la,lo,place]=LOC[i];const ss=sunset(la,lo,2027,2,10+i);
-  const items=[{e:'🌅',n:place+' 日落',m:ss}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:x.sun?ss:toMin(x.t)})));
+  const items=[{e:'🌅',n:i===2?'日落・運河亮燈':'日落',m:ss,f:place+' 日落'+(i===2?'，運河煤氣燈差不多這時亮起':'')}].concat(LIGHTS[i].map(x=>({e:x.e,n:x.n,m:toMin(x.t),f:x.f})));
   const today=isToday(i),now=nowJP().min;
-  return `<div class="lt-row">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>還有 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<span class="lt-chip"><b>${x.e} ${hhmm(x.m)}</b><small>${x.n}</small>${cd}</span>`;}).join('')}</div>`;
+  return `<div class="lt-row">${items.map(x=>{let cd='';if(today){const left=x.m-now;cd=left>0?`<em>剩 ${fmt(left)}</em>`:`<em class="past">已過</em>`;}return `<button type="button" class="lt-chip" data-ltf="${esc2(x.f)}">${x.e}<small>${x.n}</small><b>${hhmm(x.m)}</b>${cd}</button>`;}).join('')}</div>`;
  }
+ document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('.lt-chip');if(c)toast(c.dataset.ltf);});
 
  /* ---------- 每天卡片：營業時間＋光景倒數 ---------- */
  function decorate(i){
   const dc=$('#dayCard');if(!dc)return;
-  const theme=dc.querySelector('.day-theme');if(theme&&!dc.querySelector('.lt-row'))theme.insertAdjacentHTML('afterend',lightRow(i));
+  const dt=dc.querySelector('.dayhead .muted');if(dt&&!dc.querySelector('.lt-row')){let w=dt.parentNode.classList.contains('dh-top')?dt.parentNode:null;if(!w){w=document.createElement('div');w.className='dh-top';dt.parentNode.insertBefore(w,dt);w.appendChild(dt);}w.insertAdjacentHTML('beforeend',lightRow(i));}
   const today=isToday(i),now=nowJP().min;
-  dc.querySelectorAll('.event').forEach((ev,j)=>{
+  dc.querySelectorAll('.event:not(.custom-ev)').forEach((ev,j)=>{
    const e=days[i].events[j];if(!e)return;const h=findH(e[1],i);if(!h)return;
    const tags=ev.querySelector('.tags');if(!tags||tags.querySelector('.tag.hours'))return;
    const arr=toMin(e[0]),open=h[1]?toMin(h[1]):null,close=toMin(h[2]);
@@ -2312,17 +2401,18 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const hero=$('.departure-countdown');
  const nx=document.createElement('div');nx.className='next-stop';nx.id='whereNow';
  if(hero)hero.insertAdjacentElement('afterend',nx);
+ const EV=d=>window.hkEvents?window.hkEvents(d):days[d].events;
  function renderNext(){
   const st=tripState(),n=nowJP();let d,j,head,sub='';
   if(st==='before'){d=0;j=0;head='出發第一站';sub=`${days[0].date.slice(5).replace('-','/')} 出發後，這裡會自動顯示下一站`;}
   else if(st==='after'){nx.innerHTML=`<div class="ns-in"><span class="ns-ic">🏠</span><div><small>旅程結束</small><b>平安回家囉，北海道下次見！</b></div></div>`;return;}
   else{
-   d=todayDayIndex();const ev=days[d].events;
+   d=todayDayIndex();const ev=EV(d);
    j=ev.findIndex((e,k)=>{const t=toMin(e[0]),nt=ev[k+1]?toMin(ev[k+1][0]):t+60;return n.min<nt;});
    if(j<0){if(d<8){d=d+1;j=0;head='今天行程結束 🌙 明天第一站';}else{nx.innerHTML=`<div class="ns-in"><span class="ns-ic">✈️</span><div><small>最後一天</small><b>準備回台灣，一路平安！</b></div></div>`;return;}}
    else{const t=toMin(ev[j][0]);head=n.min>=t?'現在在':'下一站';sub=n.min>=t?`${ev[j][0]} 抵達・下一站 ${ev[j+1]?ev[j+1][0]+' '+ev[j+1][1]:'今天最後一站'}`:`${ev[j][0]} 抵達・還有 ${fmt(t-n.min)}`;}
   }
-  const e=days[d].events[j];
+  const e=EV(d)[j];
   nx.innerHTML=`<div class="ns-in"><span class="ns-ic">${e[3]||'📍'}</span><div><small>${head}・D${d+1}</small><b>${esc2(e[1])}</b><span class="ns-sub">${sub||e[0]+' 抵達'}</span></div></div><div class="ns-btns"><button type="button" class="ns-go" data-nsmap="${esc2(e[1])}" data-nsday="${d}">📍 導航</button><button type="button" class="ns-see" data-nsday2="${d}">看行程</button></div>`;
  }
  nx.addEventListener('click',ev=>{
@@ -2330,9 +2420,99 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const b=ev.target.closest('[data-nsday2]');if(b){showDay(+b.dataset.nsday2);const t=document.getElementById('itinerary');if(t)t.scrollIntoView({block:'start'});}
  });
 
- /* ---------- 北海道足跡 ---------- */
- const C={sapporo:[124,214],takino:[132,226],otaru:[104,204],biei:[196,180],shirogane:[208,190],furano:[196,204],asahikawa:[190,162],toya:[86,262],shiraoi:[126,262],noboribetsu:[108,268],shikotsu:[118,240],chitose:[144,238]};
- const CN={sapporo:'札幌',takino:'滝野',otaru:'小樽',biei:'美瑛',shirogane:'白金',furano:'富良野',asahikawa:'旭川',toya:'洞爺湖',shiraoi:'白老',noboribetsu:'登別',shikotsu:'支笏湖',chitose:'千歲'};
+ /* ---------- 掛上 showDay & 定時更新 ---------- */
+ if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
+ try{decorate(current)}catch(e){}
+ renderNext();window.hkRenderNext=renderNext;
+ setInterval(()=>{renderNext();if(isToday(current)){const dc=$('#dayCard');dc.querySelectorAll('.tag.hours').forEach(t=>t.remove());const lr=dc.querySelector('.lt-row');if(lr)lr.remove();decorate(current);}},60000);
+
+})();
+</script>
+<script>/* ===== v8：自己新增行程、點亮地圖、保險收合、記帳小改 ===== */
+(function(){
+ const $=s=>document.querySelector(s);
+ const esc3=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const toMin=t=>{const [h,m]=String(t).split(':').map(Number);return (h||0)*60+(m||0);};
+ const CK='hk-custom-stops-v1';
+ const load=()=>{try{return JSON.parse(localStorage.getItem(CK)||'[]')}catch(e){return[]}};
+ const save=a=>{try{localStorage.setItem(CK,JSON.stringify(a))}catch(e){}};
+ let CS=load();
+ const isDone=k=>safeGet(k);
+
+ /* 合併後的每日行程（給「現在該去哪」用） */
+ window.hkEvents=function(d){
+  const rep=new Set(CS.filter(c=>c.d===d&&c.rep>=0).map(c=>c.rep));
+  const a=days[d].events.filter((e,j)=>!rep.has(j)).map(e=>e);
+  CS.filter(c=>c.d===d).forEach(c=>a.push([c.t,c.n,c.p||'自己加的行程',c.ic||'📍']));
+  return a.sort((x,y)=>toMin(x[0])-toMin(y[0]));
+ };
+
+ /* ---------- 行程卡：顯示自己加的、被取代的 ---------- */
+ function cardHTML(c){
+  const k='cstop-'+c.id;
+  return `<div class="event custom-ev" data-cid="${c.id}"><div class="time">${esc3(c.t)}</div><div><h4>${c.ic||'📍'} ${esc3(c.n)}</h4>${c.p?`<p>${esc3(c.p)}</p>`:''}<div class="tags" style="display:flex"><span class="tag mine">✏️ 自己加的</span>${c.rep>=0&&days[c.d].events[c.rep]?`<span class="tag mine-rep">取代：${esc3(days[c.d].events[c.rep][1])}</span>`:''}</div><div class="event-actions"><button type="button" class="smallbtn" data-cmap="${c.id}">📍 導航</button><label class="smallbtn"><input type="checkbox" data-ccheck="${k}" ${isDone(k)?'checked':''}> 完成</label><button type="button" class="smallbtn cs-del" data-cdel="${c.id}">刪除</button></div></div></div>`;
+ }
+ function decorate(i){
+  const dc=$('#dayCard');if(!dc)return;
+  dc.querySelectorAll('.custom-ev,.cs-addbar').forEach(x=>x.remove());
+  const orig=[...dc.querySelectorAll('.event:not(.custom-ev)')];
+  orig.forEach((ev,j)=>{
+   ev.classList.remove('ev-replaced');const old=ev.querySelector('.rep-note');if(old)old.remove();
+   const by=CS.find(c=>c.d===i&&c.rep===j);
+   if(by){ev.classList.add('ev-replaced');const h=ev.querySelector('h4');if(h)h.insertAdjacentHTML('afterend',`<span class="rep-note">↪ 改去「${esc3(by.n)}」<button type="button" class="rep-undo" data-cundo="${by.id}">恢復</button></span>`);}
+  });
+  CS.filter(c=>c.d===i).sort((a,b)=>toMin(a.t)-toMin(b.t)).forEach(c=>{
+   const k=orig.findIndex((ev,j)=>toMin(days[i].events[j][0])>toMin(c.t));
+   const html=cardHTML(c);
+   if(k===0)orig[0].insertAdjacentHTML('beforebegin',html);
+   else{const ref=k<0?orig[orig.length-1]:orig[k-1];let after=ref;while(after.nextElementSibling&&after.nextElementSibling.classList.contains('custom-ev'))after=after.nextElementSibling;after.insertAdjacentHTML('afterend',html);}
+  });
+  const last=[...dc.querySelectorAll('.event')].pop();
+  if(last)last.insertAdjacentHTML('afterend',`<div class="cs-addbar"><button type="button" class="cs-add" data-cadd="${i}">＋ 新增行程・改去別家</button></div>`);
+ }
+
+ /* ---------- 新增表單 ---------- */
+ const sh=document.createElement('div');sh.className='cs-sheet';sh.hidden=true;
+ sh.innerHTML=`<div class="cs-panel" role="dialog" aria-modal="true" aria-labelledby="csTitle"><h3 id="csTitle">✏️ 新增行程</h3>
+  <label>哪一天<select id="csDay">${days.map((d,i)=>`<option value="${i}">D${i+1}・${d.date.slice(5).replace('-','/')} ${esc3(d.label.split('・')[0])}</option>`).join('')}</select></label>
+  <label>幾點<input id="csTime" type="time" value="12:00"></label>
+  <label>去哪裡（店名或地點）<input id="csName" placeholder="例：二条市場 大磯" enterkeyhint="done"></label>
+  <div class="cs-icons" id="csIcons">${['📍','🍜','🍣','🍰','☕','🛍️','📸','♨️'].map((x,k)=>`<button type="button" data-ic="${x}" class="${k?'':'on'}">${x}</button>`).join('')}</div>
+  <label>備註（選填）<input id="csNote" placeholder="例：排隊很久就換這家"></label>
+  <label>要取代原本哪一站？<select id="csRep"></select></label>
+  <div class="cs-btns"><button type="button" class="cs-cancel">取消</button><button type="button" class="cs-save">加進行程</button></div></div>`;
+ document.body.appendChild(sh);
+ let ic='📍';
+ const fillRep=()=>{const d=+$('#csDay').value;$('#csRep').innerHTML=`<option value="-1">不取代，另外加一站</option>`+days[d].events.map((e,j)=>`<option value="${j}">${e[0]} ${esc3(e[1])}</option>`).join('');};
+ $('#csDay').addEventListener('change',fillRep);
+ $('#csIcons').addEventListener('click',e=>{const b=e.target.closest('[data-ic]');if(!b)return;ic=b.dataset.ic;$('#csIcons').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));});
+ $('#csRep').addEventListener('change',()=>{const d=+$('#csDay').value,j=+$('#csRep').value;if(j>=0&&!$('#csName').value)$('#csTime').value=days[d].events[j][0];else if(j>=0)$('#csTime').value=days[d].events[j][0];});
+ function openSheet(d){$('#csDay').value=d;fillRep();$('#csName').value='';$('#csNote').value='';const ev=days[d].events;$('#csTime').value=ev.length?ev[Math.floor(ev.length/2)][0]:'12:00';sh.hidden=false;document.body.classList.add('cs-open');setTimeout(()=>$('#csName').focus(),60);}
+ function closeSheet(){sh.hidden=true;document.body.classList.remove('cs-open');}
+ sh.addEventListener('click',e=>{if(e.target===sh||e.target.closest('.cs-cancel'))closeSheet();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)closeSheet();});
+ sh.querySelector('.cs-save').addEventListener('click',()=>{
+  const n=$('#csName').value.trim();if(!n){$('#csName').focus();toast('請填地點名稱');return;}
+  const d=+$('#csDay').value,rep=+$('#csRep').value;
+  CS=CS.filter(c=>!(rep>=0&&c.d===d&&c.rep===rep));
+  CS.push({id:Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep});
+  save(CS);closeSheet();refresh(d);toast(rep>=0?'已換成新的一站 ✨':'已加進行程 ✨');
+ });
+ function refresh(d){if(typeof d==='number'&&d!==current)showDay(d);else decorate(current);renderMap();if(window.hkRenderNext)window.hkRenderNext();}
+ document.addEventListener('click',e=>{
+  const t=e.target.closest&&e.target.closest('[data-cadd],[data-cmap],[data-cdel],[data-cundo]');if(!t)return;
+  if(t.dataset.cadd!=null)openSheet(+t.dataset.cadd);
+  else if(t.dataset.cmap){const c=CS.find(x=>x.id===t.dataset.cmap);if(c)maps(c.n,c.d);}
+  else if(t.dataset.cundo){CS=CS.filter(x=>x.id!==t.dataset.cundo);save(CS);refresh();toast('已恢復原本行程');}
+  else if(t.dataset.cdel){if(!t.classList.contains('sure')){t.classList.add('sure');t.textContent='確定刪除？';setTimeout(()=>{if(t.isConnected){t.classList.remove('sure');t.textContent='刪除';}},2600);return;}CS=CS.filter(x=>x.id!==t.dataset.cdel);save(CS);refresh();toast('已刪除');}
+ });
+ document.addEventListener('change',e=>{
+  const c=e.target.closest&&e.target.closest('[data-ccheck]');if(c){safeSet(c.dataset.ccheck,c.checked?'1':'0');renderMap(true);return;}
+  if(e.target.matches&&e.target.matches('#dayCard input[data-check]'))setTimeout(()=>renderMap(true),30);
+ });
+
+ /* ---------- 點亮北海道 ---------- */
+ const C={sapporo:[122,210],takino:[146,222],otaru:[94,198],biei:[196,181],shirogane:[214,191],furano:[199,205],asahikawa:[190,160],toya:[80,262],shiraoi:[128,266],noboribetsu:[104,272],shikotsu:[118,240],chitose:[150,243]};
  function city(n,i){
   if(/台中/.test(n))return null;
   if(/新千歲|Nippon|KOKO|山線/.test(n))return'chitose';if(/支笏/.test(n))return'shikotsu';if(/滝野/.test(n))return'takino';
@@ -2341,62 +2521,74 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   if(i===5)return'asahikawa';
   if(i===6){if(/Amanek/.test(n))return'asahikawa';if(/白老/.test(n))return'shiraoi';if(/瀧本/.test(n))return'noboribetsu';return'toya';}
   if(i===7)return /瀧本|地獄|海膽/.test(n)?'noboribetsu':'chitose';
+  if(i===8)return'chitose';
   return'sapporo';
  }
- const STOPS=[];const seen={};
- days.forEach((d,i)=>d.events.forEach((e,j)=>{const c=city(e[1],i);if(!c)return;const k=c+'|'+e[1];if(seen[k])return;seen[k]=1;STOPS.push({i,j,c,n:e[1]});}));
- const per={};STOPS.forEach(s=>{const k=per[s.c]=(per[s.c]||0)+1;const a=k*2.4,r=k===1?0:4+k*1.3;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
- const OUT='M152 24 136 33 141 73 134 149 120 200 96 208 64 194 66 225 27 267 44 313 42 349 80 321 105 319 70 295 94 278 132 253 186 287 231 309 236 281 299 225 371 198 336 176 356 117 292 143 237 117 191 71Z';
- const fp=document.createElement('section');fp.className='section';fp.id='footprints';
- fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>北海道足跡</h2><div class="card fp-card"><p class="fp-stat" id="fpStat"></p><div class="fp-map" id="fpMap"></div><div class="fp-cities" id="fpCities"></div><button type="button" class="lg-add fp-save" id="fpSave">📸 存成圖片分享</button><p class="fp-hint">行程卡片按「完成」就會留下小腳印</p></div>`;
- const anchor=$('#food-book')||$('#stay');if(anchor)anchor.insertAdjacentElement('beforebegin',fp);
- const ORDER=[];STOPS.forEach(s=>{if(ORDER[ORDER.length-1]!==s.c)ORDER.push(s.c);});
+ const DEF=['sapporo','sapporo','otaru','sapporo','biei','asahikawa','toya','noboribetsu','chitose'];
+ function stops(){
+  const map=new Map(),out=[];
+  days.forEach((d,i)=>{const rep=new Set(CS.filter(c=>c.d===i&&c.rep>=0).map(c=>c.rep));
+   d.events.forEach((e,j)=>{if(rep.has(j))return;const c=city(e[1],i);if(!c)return;const key=e[1];
+    let s=map.get(key);if(!s){s={n:e[1],c,keys:[],o:i*10000+toMin(e[0])};map.set(key,s);out.push(s);}s.keys.push(`event-${i}-${j}`);});
+   CS.filter(c=>c.d===i).forEach(c=>{const ct=city(c.n,i);out.push({n:c.n,c:(ct&&!/sapporo/.test(ct))?ct:DEF[i],keys:['cstop-'+c.id],o:i*10000+toMin(c.t),mine:1});});
+  });
+  out.forEach(s=>s.done=s.keys.some(isDone));
+  const per={};out.slice().sort((a,b)=>a.o-b.o).forEach(s=>{const k=per[s.c]=(per[s.c]||0);per[s.c]++;const a=k*2.39996,r=k?3.1*Math.sqrt(k):0;s.x=C[s.c][0]+Math.cos(a)*r;s.y=C[s.c][1]+Math.sin(a)*r;});
+  return out;
+ }
  const LAND='M150 52 L172 46 L196 60 L214 72 L236 98 L262 112 L288 124 L318 110 L340 120 L358 132 L352 160 L336 176 L352 186 L366 198 L352 210 L318 222 L290 238 L262 268 L246 288 L236 306 L218 300 L196 288 L172 276 L150 262 L134 256 L118 262 L104 276 L92 286 L80 300 L70 312 L56 304 L64 288 L76 276 L68 262 L58 248 L64 232 L80 216 L94 206 L106 200 L116 186 L126 160 L132 122 L140 84Z';
- function mapSVG(forExport){
-  const done=STOPS.filter(s=>safeGet(`event-${s.i}-${s.j}`));
-  const vis=ORDER.filter(c=>done.some(s=>s.c===c));
-  const pct=Math.round(done.length/STOPS.length*100);
-  const P=c=>C[c];
-  let route='';ORDER.forEach((c,k)=>{if(!k)return;const [x1,y1]=P(ORDER[k-1]),[x2,y2]=P(c);route+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#D9CFC5" stroke-width="1.2" stroke-dasharray="1.5 2.5" stroke-linecap="round"/>`;});
-  let paws='',pk=0;
-  for(let k=1;k<ORDER.length;k++){const a=ORDER[k-1],b=ORDER[k];const da=done.some(s=>s.c===a),db=done.some(s=>s.c===b);if(!(da&&db))continue;const [x1,y1]=P(a),[x2,y2]=P(b);const L=Math.hypot(x2-x1,y2-y1),n=Math.max(1,Math.floor(L/9)),ang=Math.atan2(y2-y1,x2-x1)*180/Math.PI+90;
-   for(let t=1;t<n;t++){const f=t/n,side=(t%2?1:-1)*1.6,nx=-(y2-y1)/L*side,ny=(x2-x1)/L*side;const x=x1+(x2-x1)*f+nx,y=y1+(y2-y1)*f+ny;paws+=`<g class="fp-paw" style="animation-delay:${(pk++*.03).toFixed(2)}s" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(0)}) scale(.42)"><ellipse cx="0" cy="2" rx="3.6" ry="3" fill="#E8A386"/><circle cx="-3.4" cy="-2.6" r="1.5" fill="#E8A386"/><circle cx="0" cy="-4.4" r="1.5" fill="#E8A386"/><circle cx="3.4" cy="-2.6" r="1.5" fill="#E8A386"/></g>`;}}
-  const LBL={otaru:[-1,-1],toya:[-1,0],sapporo:[1,-1],takino:[1,1],shikotsu:[-1,1],chitose:[1,0],shiraoi:[1,1],noboribetsu:[-1,1],biei:[-1,0],shirogane:[1,0],furano:[1,1],asahikawa:[1,-1]};
-  const nodes=Object.keys(C).filter(c=>ORDER.includes(c)).map(c=>{const [x,y]=C[c];const t=STOPS.filter(s=>s.c===c).length,dn=done.filter(s=>s.c===c).length;const full=dn===t,part=dn>0;const [lx,ly]=LBL[c]||[1,0];
-   return `<g><circle cx="${x}" cy="${y}" r="4.2" fill="${full?'#E8A386':part?'#FBE3D6':'#fff'}" stroke="${part?'#B4643F':'#B6A89D'}" stroke-width="1.2"/>${full?`<path d="M${x-1.8} ${y}l1.3 1.4 2.5-2.8" fill="none" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>`:''}<text x="${x+lx*7}" y="${y+(ly>0?8.5:ly<0?-5:2.8)}" text-anchor="${lx<0?'end':'start'}" font-size="7" font-weight="700" fill="${part?'#5B4B43':'#9C8F85'}" font-family="sans-serif" paint-order="stroke" stroke="#F5F8FB" stroke-width="2.2">${CN[c]}</text></g>`;}).join('');
-  const vb=forExport?'40 112 220 236':'48 140 200 160';const sea=forExport?'':`<rect x="48" y="140" width="200" height="160" rx="8" fill="#F6FAFD"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" ${forExport?'width="880" height="944"':''}>
-   ${forExport?`<rect x="40" y="112" width="220" height="236" fill="#FFFAF2"/><rect x="48" y="134" width="204" height="190" rx="8" fill="#F6FAFD"/><text x="150" y="128" text-anchor="middle" font-size="10" font-weight="700" fill="#5B4B43" font-family="sans-serif">北海道大暴吃・足跡地圖</text><text x="150" y="340" text-anchor="middle" font-size="7" fill="#86756A" font-family="sans-serif">走過 ${done.length} 站・${vis.length} 個地方・完成 ${pct}%・2027 冬</text>`:''}
-   ${sea}<path d="${LAND}" fill="#FFFDF8" stroke="#5B4B43" stroke-width="1.6" stroke-linejoin="round"/>
-   <text x="70" y="168" font-size="6" fill="#9DB4C8" font-family="sans-serif" font-style="italic">日本海</text><text x="196" y="292" font-size="6" fill="#9DB4C8" font-family="sans-serif" font-style="italic">太平洋</text>
-   ${route}${paws}${nodes}
+ const BIRD=()=>{const s=document.getElementById('i-enaga');return s?s.outerHTML:'';};
+ function svg(S,exp){
+  const done=S.filter(s=>s.done),last=done.slice().sort((a,b)=>b.o-a.o)[0];
+  const vb=exp?'40 108 220 240':'48 140 200 160';
+  const flakes=[[60,150],[84,168],[230,150],[240,240],[70,330],[214,282],[56,212],[236,170],[176,296],[226,262]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.1" fill="#fff"/>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb}" ${exp?'width="880" height="960"':''}>
+  <defs>${exp?BIRD():''}<radialGradient id="fpGlow"><stop offset="0" stop-color="#FFF6C9"/><stop offset=".55" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
+  <linearGradient id="fpSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCEBF7"/><stop offset="1" stop-color="#EEF5FB"/></linearGradient></defs>
+  ${exp?`<rect x="40" y="108" width="220" height="240" fill="#FFFAF2"/>`:''}
+  <rect x="${exp?46:48}" y="${exp?132:140}" width="${exp?208:200}" height="${exp?188:160}" rx="10" fill="url(#fpSea)"/>
+  ${flakes}
+  <path d="${LAND}" fill="#FFFDF8" stroke="#5B4B43" stroke-width="1.5" stroke-linejoin="round"/>
+  <g opacity=".55"><path d="M168 236l7-11 7 11z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M172.5 229l2.5-4 2.5 4z" fill="#fff"/><path d="M226 158l6-9 6 9z" fill="#E6EEF3" stroke="#B8C6D0" stroke-width=".6"/><path d="M164 182l-2 5h4zM164 179l-3 6h6z" fill="#B9D3B9"/></g>
+  ${S.filter(s=>!s.done).map(s=>`<circle class="fp-dot" data-fpn="${esc3(s.n)}" cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.45" fill="#fff" stroke="#C9BDB2" stroke-width=".6"/>`).join('')}
+  ${done.map((s,k)=>`<g class="fp-lit" data-fpn="${esc3(s.n)}" style="animation-delay:${(k%9*.18).toFixed(2)}s"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="4.2" fill="url(#fpGlow)"/><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="1.55" fill="${s.mine?'#F2A0B6':'#F0A57E'}" stroke="#fff" stroke-width=".5"/></g>`).join('')}
+  ${last?`<use href="#i-enaga" xlink:href="#i-enaga" x="${(last.x-6).toFixed(1)}" y="${(last.y-14).toFixed(1)}" width="12" height="12" class="fp-bird"/>`:''}
+  ${exp?`<text x="150" y="124" text-anchor="middle" font-size="10" font-weight="700" fill="#5B4B43" font-family="sans-serif">北海道大暴吃・點亮地圖</text><text x="150" y="336" text-anchor="middle" font-size="7.5" fill="#86756A" font-family="sans-serif">點亮 ${done.length} / ${S.length} 個地方・2027 冬</text>`:''}
   </svg>`;
  }
- function renderFP(){
-  const done=STOPS.filter(s=>safeGet(`event-${s.i}-${s.j}`));
-  $('#fpMap').innerHTML=mapSVG(false);
-  const cities=Object.keys(CN).filter(k=>STOPS.some(s=>s.c===k));
-  const doneC=cities.filter(k=>done.some(s=>s.c===k));
-  $('#fpStat').innerHTML=`🐾 已走過 <b>${done.length}</b>／${STOPS.length} 站・<b>${doneC.length}</b>／${cities.length} 個地方`;
-  $('#fpCities').innerHTML=cities.map(k=>{const t=STOPS.filter(s=>s.c===k).length,dn=done.filter(s=>s.c===k).length;return `<span class="fp-city ${dn===t?'full':dn?'part':''}">${CN[k]} ${dn}/${t}</span>`;}).join('');
+ const fp=document.createElement('section');fp.className='section';fp.id='footprints';
+ fp.innerHTML=`<h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-compass"></use></svg>點亮北海道</h2><div class="card fp-card"><div class="fp-top"><b id="fpNum">0</b><span id="fpOf">/ 0</span><em id="fpPct">0%</em></div><div class="fp-bar"><i id="fpBar"></i></div><div class="fp-map" id="fpMap"></div><p class="fp-hint">✨ 行程按「完成」那個點就會亮起來・點小點看名字</p><div class="fp-acts"><button type="button" class="fp-btn" id="fpAdd">＋ 新增行程</button><button type="button" class="fp-btn pri" id="fpSave">📸 存圖分享</button></div></div>`;
+ const anchor=$('#food-book')||$('#stay');if(anchor)anchor.insertAdjacentElement('beforebegin',fp);
+ const topn=$('.top-nav');if(topn){const a=topn.querySelector('a[href="#food-book"]');if(a&&!topn.querySelector('a[href="#footprints"]')){const x=document.createElement('a');x.href='#footprints';x.textContent='地圖';a.insertAdjacentElement('beforebegin',x);}}
+ let lastDone=-1;
+ function renderMap(bump){
+  const S=stops(),n=S.filter(s=>s.done).length,p=S.length?Math.round(n/S.length*100):0;
+  $('#fpMap').innerHTML=svg(S,false);$('#fpNum').textContent=n;$('#fpOf').textContent='/ '+S.length+' 個地方';$('#fpPct').textContent=p+'%';$('#fpBar').style.width=p+'%';
+  if(bump&&n>lastDone&&lastDone>=0){const c=$('.fp-card');c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');}
+  lastDone=n;
  }
+ $('#fpMap').addEventListener('click',e=>{const g=e.target.closest('[data-fpn]');if(g)toast((g.classList.contains('fp-lit')?'✨ ':'○ ')+g.dataset.fpn);});
+ $('#fpAdd').addEventListener('click',()=>openSheet(typeof current==='number'?current:0));
  $('#fpSave').addEventListener('click',async()=>{
-  try{
-   const blob=new Blob([mapSVG(true)],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
-   const img=new Image();img.src=url;await img.decode();
-   const cv=document.createElement('canvas');cv.width=880;cv.height=944;cv.getContext('2d').drawImage(img,0,0,880,944);URL.revokeObjectURL(url);
-   const png=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([png],'hokkaido-footprints.png',{type:'image/png'});
-   if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'北海道足跡'});}
+  try{const S=stops();const blob=new Blob([svg(S,true)],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+   const img=new Image();img.src=url;await img.decode();const cv=document.createElement('canvas');cv.width=880;cv.height=960;cv.getContext('2d').drawImage(img,0,0,880,960);URL.revokeObjectURL(url);
+   const png=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([png],'hokkaido-map.png',{type:'image/png'});
+   if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'點亮北海道'});
    else{const a=document.createElement('a');a.href=URL.createObjectURL(png);a.download=file.name;a.click();}
   }catch(e){if(!e||e.name!=='AbortError')toast('這支手機無法直接存圖，請用截圖分享');}
  });
- document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('#dayCard input[data-check]'))setTimeout(renderFP,30);});
 
- /* ---------- 掛上 showDay & 定時更新 ---------- */
+ /* ---------- 保險收合 ---------- */
+ const em=$('.em-mine');
+ if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 我們的保險與重要資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
+
+ /* ---------- 記帳小鳥 ---------- */
+ const la=$('#ledgerApp');
+ if(la&&!la.parentNode.querySelector('.lg-mascot')){la.style.position='relative';la.insertAdjacentHTML('beforebegin','<svg class="lg-mascot" aria-hidden="true" viewBox="0 0 100 100"><use href="#i-enaga"></use></svg>');la.parentNode.style.position='relative';}
+
+ /* ---------- 掛上 showDay ---------- */
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
  try{decorate(current)}catch(e){}
- renderNext();renderFP();
- setInterval(()=>{renderNext();if(isToday(current)){const dc=$('#dayCard');dc.querySelectorAll('.tag.hours').forEach(t=>t.remove());const lr=dc.querySelector('.lt-row');if(lr)lr.remove();decorate(current);}},60000);
- const top=$('.top-nav');if(top){const a=top.querySelector('a[href="#food-book"]');if(a){const x=document.createElement('a');x.href='#footprints';x.textContent='足跡';a.insertAdjacentElement('beforebegin',x);}}
+ renderMap();if(window.hkRenderNext)window.hkRenderNext();
 })();
 </script></body></html>
