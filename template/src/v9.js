@@ -313,3 +313,24 @@
   },err=>{btn.disabled=false;btn.textContent='📍 用我現在的位置查天氣';toast(err.code===1?'需要允許「位置」權限才能查，請到 Safari 設定開啟':'定位失敗，請到戶外或稍後再試');},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
  });
 })();
+/* ===== 把「↗」換成可愛小圖示 ===== */
+(function(){
+ const PIN='<svg class="cute-ic pin" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18.2C6.4 14.6 4.4 11.6 4.4 8.6A5.6 5.6 0 0 1 15.6 8.6C15.6 11.6 13.6 14.6 10 18.2Z" fill="#F4A9A0" stroke="#5B4B43" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10.6C8.4 9.4 7.7 8.6 7.7 7.7A1.15 1.15 0 0 1 10 7.3A1.15 1.15 0 0 1 12.3 7.7C12.3 8.6 11.6 9.4 10 10.6Z" fill="#fff"/></svg>';
+ const GO='<svg class="cute-ic go" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="#CFE1F2" stroke="#5B4B43" stroke-width="1.5"/><path d="M8.6 6.4 12.2 10 8.6 13.6" fill="none" stroke="#5B4B43" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ let busy=false;
+ function run(root){
+  if(busy)return;busy=true;
+  const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.nodeValue.includes('↗')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
+  const list=[];let n;while((n=w.nextNode()))list.push(n);
+  list.forEach(t=>{
+   const el=t.parentNode;if(!el||el.closest('script,style,textarea'))return;
+   const txt=(el.textContent||'');const nav=/導航|地點|車程|路線/.test(txt);
+   const parts=t.nodeValue.split('↗');const frag=document.createDocumentFragment();
+   parts.forEach((p,k)=>{if(k){const s=document.createElement('span');s.className='cute-ic-wrap';s.innerHTML=nav?PIN:GO;frag.appendChild(s);}if(p.trim()||!k)frag.appendChild(document.createTextNode(k?p:p.replace(/\s+$/,' ')));});
+   el.replaceChild(frag,t);
+  });
+  busy=false;
+ }
+ run();
+ let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>run(),60);}).observe(document.body,{childList:true,subtree:true,characterData:true});
+})();

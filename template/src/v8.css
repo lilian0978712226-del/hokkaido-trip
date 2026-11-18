@@ -250,3 +250,5 @@ body.cs-open{overflow:hidden}
 .wxh-top b{display:block;font-size:18px}
 .wxh-top span{font-size:13px;color:var(--ink2)}
 .wxh-top .wxh-ic{font-size:27px;color:inherit}
+.cute-ic-wrap{display:inline-flex;vertical-align:-3px;margin-left:3px}
+.cute-ic{width:17px;height:17px;display:block}
