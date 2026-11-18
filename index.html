@@ -1673,6 +1673,10 @@ html body .bk-foot{font-size:12px!important;color:#9A8B80!important;margin:10px 
 html body .bk-x{min-height:46px!important;width:100%!important;border-radius:999px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
 .event.bk-flash{animation:bkFlash 1.6s ease}
 @keyframes bkFlash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #FFE39A}}
+
+html body .bk-ap{width:18px!important;height:18px!important;flex:none!important;display:inline-block!important;vertical-align:-4px!important}
+html body .bk-apps button{display:inline-flex!important;align-items:center!important;gap:5px!important}
+html body .bk-row small .bk-ap{width:14px!important;height:14px!important;margin-right:3px!important;vertical-align:-3px!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3901,10 +3905,10 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  // lv：must 建議先訂、can 可以訂、walk 不用訂（只顯示提示）
  const BOOK=[
   ['car',/Nippon 租車/,{lv:'must',w:'預約',apps:['官網','Klook','KKday'],def:{app:'官網',ref:'G34218'},tip:'取車和還車是同一筆預約'}],
-  ['vista',/Hotel Vista/,{lv:'must',w:'訂房',apps:H,pre:'Booking',tip:'備註寫用 Booking 訂；4 晚（2/10–2/14）'}],
-  ['amanek',/Amanek/,{lv:'must',w:'訂房',apps:H,tip:'2 晚（2/14–2/16）'}],
-  ['takimoto',/第一瀧本館/,{lv:'must',w:'訂房',apps:H,tip:'溫泉旅館，含不含早晚餐記在備註'}],
-  ['koko',/KOKO STAY/,{lv:'must',w:'訂房',apps:H,tip:'最後 2 晚（2/16–2/18）'}],
+  ['vista',/Hotel Vista/,{lv:'must',w:'訂房',apps:H,def:{app:'Booking'},tip:'用 Booking 訂；4 晚（2/10–2/14）'}],
+  ['amanek',/Amanek/,{lv:'must',w:'訂房',apps:H,def:{app:'Booking'},tip:'2 晚（2/14–2/16）'}],
+  ['takimoto',/第一瀧本館/,{lv:'must',w:'訂房',apps:H,def:{app:'官網'},tip:'溫泉旅館，含不含早晚餐記在備註'}],
+  ['koko',/KOKO STAY/,{lv:'must',w:'訂房',apps:H,def:{app:'Trip.com'},tip:'最後 2 晚（2/16–2/18）'}],
   ['tokuju',/徳寿|德壽/,{lv:'must',w:'訂位',apps:['ぐるなび','電話'],tel:'+81112211910',tip:'ぐるなび 可以網路訂位'}],
   ['masajin',/Masajin/i,{lv:'can',w:'訂位',apps:['ぐるなび','電話'],tel:'+81115557936',tip:'ぐるなび 可以網路訂位'}],
   ['aoki',/檍/,{lv:'can',w:'訂位',apps:['Hot Pepper','電話'],tip:'人氣排隊店，可不可以訂座以官網為準'}],
@@ -3922,6 +3926,13 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   ['shiroi',/白い恋人パーク/,{lv:'walk',txt:'現場買票'}],
   ['usu',/有珠山纜車/,{lv:'walk',txt:'現場買票'}],
  ];
+
+ const APC={'Booking':['B','#7FA6D6'],'Agoda':['A','#C9A0C4'],'Trip.com':['T','#6FB3CF'],'Hotels.com':['H','#D99A9A'],'樂天':['樂','#D98C8C'],'Jalan':['J','#E2A86B'],
+  'Klook':['K','#E9A08A'],'KKday':['K','#8CC7A6'],'VELTRA':['V','#8FA9D9'],'LAWSON':['L','#8DB2D9'],'asoview':['a','#E3B565'],
+  'ぐるなび':['ぐ','#E39494'],'Hot Pepper':['H','#E7A866'],'TableCheck':['T','#9AA9C9'],'食べログ':['食','#E8B060'],'現場':['現','#A9B79A'],'其他':['…','#B9ADA3']};
+ const appIc=a=>{if(a==='官網')return '<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="#E7B9A8"/><path d="M5.2 9.6 10 5.6l4.8 4v4.8H5.2Z" fill="#fff"/><rect x="8.6" y="11.2" width="2.8" height="3.2" rx=".8" fill="#E7B9A8"/></svg>';
+  if(a==='電話')return '<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="#9CC3A8"/><path d="M7 5.2c.5 0 1.6 2 1.6 2.4s-.9.9-.9 1.3c.3 1 1.4 2.1 2.4 2.4.4 0 .9-.9 1.3-.9s2.4 1.1 2.4 1.6c0 .9-1.1 1.8-2 1.8-3.1 0-6.6-3.5-6.6-6.6 0-.9.9-2 1.8-2Z" fill="#fff"/></svg>';
+  const c=APC[a];if(!c)return '';return `<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="${c[1]}"/><text x="10" y="14.2" text-anchor="middle" font-size="${c[0].length>1?8:11.5}" font-weight="900" fill="#fff" font-family="inherit">${c[0]}</text></svg>`;};
  const ALLAPPS=['官網','電話','Booking','Agoda','Trip.com','Klook','KKday','ぐるなび','Hot Pepper','TableCheck','食べログ','現場','其他'];
  const BK='hk-booked-v2';let BKD=get(BK,{});
  const st=id=>{const r=BOOK.find(b=>b[0]===id),o=BKD[id];if(o&&o.off)return null;if(o)return o;return r&&r[2].def?Object.assign({},r[2].def):null;};
@@ -3934,8 +3945,8 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  function chipHTML(id,r,custom){
   const c=r||{lv:'can',w:'訂位'},o=st(id),w=c.w||'訂位';
   if(c.lv==='walk')return `<span class="bk-chip walk">${esc(c.txt)}</span>`;
-  const lab=o?`已${w}${o.app?'・'+esc(o.app):''}`:(c.lv==='must'?`要先${w}`:`${w}了嗎`);
-  return `<button type="button" class="bk-chip${o?' on':''}${!o&&c.lv==='must'?' must':''}" data-bk="${id}" aria-label="${o?'已'+w+'，點一下看或修改':'記錄'+w}">${TICKET(!!o)}<span>${lab}</span></button>`;
+  const lab=o?(o.app?`${esc(o.app)} 已${w==='預約'?'預約':'訂好'}`:`已${w}`):(c.lv==='must'?`要先${w}`:`${w}了嗎`);
+  return `<button type="button" class="bk-chip${o?' on':''}${!o&&c.lv==='must'?' must':''}" data-bk="${id}" aria-label="${o?'已'+w+'，點一下看或修改':'記錄'+w}">${o&&o.app&&appIc(o.app)||TICKET(!!o)}<span>${lab}</span></button>`;
  }
  function keyOf(ev){const cb=ev.querySelector('input[data-check]');if(cb)return cb.dataset.check;const c=ev.querySelector('[data-ccheck]');return c?c.dataset.ccheck:null;}
  function books(){
@@ -3967,7 +3978,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const sug=c.apps||[],apps=[...sug,...ALLAPPS.filter(a=>!sug.includes(a))],pick=o.app||(!BKD[id]&&c.pre)||'';
   open(`<div class="cs-panel" role="dialog" aria-modal="true" aria-label="${w}紀錄"><h3>${w}紀錄</h3><p class="adj-name">${esc(name)}</p>
    ${c.tip?`<p class="bk-tip">${esc(c.tip)}${c.tel?`　<a href="tel:${c.tel}">打電話</a>`:''}</p>`:''}
-   <p class="bk-lab">在哪裡${w}？</p><div class="bk-apps">${apps.map(a=>`<button type="button" data-app="${esc(a)}" class="${a===pick?'on':''}${sug.includes(a)?' sug':''}">${esc(a)}</button>`).join('')}</div>
+   <p class="bk-lab">在哪裡${w}？</p><div class="bk-apps">${apps.map(a=>`<button type="button" data-app="${esc(a)}" class="${a===pick?'on':''}${sug.includes(a)?' sug':''}">${appIc(a)}${esc(a)}</button>`).join('')}</div>
    <label>時間・人數（選填）<input id="bkWhen" maxlength="30" placeholder="${w==='訂房'?'例：2/10 入住 2 晚・2 人':'例：2/10 20:30・2 位'}" value="${esc(o.when||'')}"></label>
    <label>確認編號（選填）<input id="bkRef" maxlength="30" autocapitalize="characters" placeholder="例：AB12345" value="${esc(o.ref||'')}"></label>
    <label>備註（選填）<input id="bkNote" maxlength="40" placeholder="${w==='訂房'?'例：含早餐、已付款':'例：已付訂金、要準時到'}" value="${esc(o.note||'')}" enterkeyhint="done"></label>
@@ -3997,7 +4008,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  }
  function list(){
   const R=rows(),left=R.filter(x=>!x.o),done=R.filter(x=>x.o);
-  const row=x=>{const w=x.c.w||'訂位';return `<button type="button" class="bk-row${x.o?' ok':''}${!x.o&&x.c.lv==='must'?' must':''}" data-go="${x.id}"><i>D${x.f.d+1}</i><span><b>${esc(shortName(x.f.n))}</b><small>${x.o?`已${w}${x.o.app?'・'+esc(x.o.app):''}${x.o.ref?'・'+esc(x.o.ref):''}`:(x.c.lv==='must'?`要先${w}`:`可以${w}`)+(x.c.apps?'：'+esc(x.c.apps.slice(0,2).join('／')):'')}</small></span></button>`;};
+  const row=x=>{const w=x.c.w||'訂位';return `<button type="button" class="bk-row${x.o?' ok':''}${!x.o&&x.c.lv==='must'?' must':''}" data-go="${x.id}"><i>D${x.f.d+1}</i><span><b>${esc(shortName(x.f.n))}</b><small>${x.o?`${x.o.app?appIc(x.o.app):''}已${w}${x.o.app?'・'+esc(x.o.app):''}${x.o.ref?'・'+esc(x.o.ref):''}`:(x.c.lv==='must'?`要先${w}`:`可以${w}`)+(x.c.apps?'：'+esc(x.c.apps.slice(0,2).join('／')):'')}</small></span></button>`;};
   open(`<div class="cs-panel bk-list" role="dialog" aria-modal="true" aria-label="訂位・買票清單"><h3>訂位・買票清單</h3>
    ${left.length?`<p class="bk-lab">還沒訂（${left.length}）</p>${left.map(row).join('')}`:'<p class="bk-tip">全部都訂好了，安心出發！</p>'}
    ${done.length?`<p class="bk-lab">已經訂好（${done.length}）</p>${done.map(row).join('')}`:''}

@@ -47,3 +47,7 @@ html body .bk-foot{font-size:12px!important;color:#9A8B80!important;margin:10px 
 html body .bk-x{min-height:46px!important;width:100%!important;border-radius:999px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
 .event.bk-flash{animation:bkFlash 1.6s ease}
 @keyframes bkFlash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #FFE39A}}
+
+html body .bk-ap{width:18px!important;height:18px!important;flex:none!important;display:inline-block!important;vertical-align:-4px!important}
+html body .bk-apps button{display:inline-flex!important;align-items:center!important;gap:5px!important}
+html body .bk-row small .bk-ap{width:14px!important;height:14px!important;margin-right:3px!important;vertical-align:-3px!important}
