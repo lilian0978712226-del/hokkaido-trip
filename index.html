@@ -1755,7 +1755,7 @@ setInterval(syncAutomaticDay,60000);
 // Re-evaluate on return to the app as well as on first load; this catches a phone that slept across Japan midnight.
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){showDay(todayDayIndex());syncAutomaticDay();}});window.addEventListener('pageshow',()=>{showDay(todayDayIndex());syncAutomaticDay();});
 
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('離線快取註冊失敗', err))); }
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(r=>{r.update();return r;}).catch(err => console.warn('離線快取註冊失敗', err))); }
 </script>
 <script>
 /* ===== 雪丸繪本 visual helpers — additive only; original functions/data untouched ===== */
