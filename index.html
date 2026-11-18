@@ -1402,6 +1402,21 @@ body.cs-open{overflow:hidden}
 .stage-tree{position:absolute;left:0;top:0;animation:treePop .6s ease-out both}
 @keyframes treePop{from{opacity:0}}
 @media(prefers-reduced-motion:reduce){.stage-tree{animation:none}}
+/* 翻頁倒數 */
+.departure-countdown-units .flip-src{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.flip{position:relative;width:100%;height:1.3em;line-height:1.3em;perspective:240px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);margin:2px 0 0}
+.fl-h{position:absolute;left:4%;right:4%;height:50%;overflow:hidden;background:#FFFDF9;backface-visibility:hidden;border:1.6px solid var(--ink)}
+.fl-h i{display:block;height:200%;font-style:normal;text-align:center;margin-top:-1.6px;color:#5B4B43!important;opacity:1!important}
+.fl-top{top:0;border-radius:12px 12px 0 0;border-bottom:0;background:linear-gradient(#FFFFFF,#FBF6EF)}
+.fl-bot{bottom:0;border-radius:0 0 12px 12px;border-top:0;background:#F7F1E8;box-shadow:0 2px 0 rgba(91,75,67,.25)}
+.fl-bot i{transform:translateY(-50%);margin-top:0}
+.flip::after{content:"";position:absolute;left:4%;right:4%;top:50%;height:1.6px;margin-top:-.8px;background:var(--ink);opacity:.55;z-index:3}
+.flip::before{content:"";position:absolute;left:1%;top:50%;width:5px;height:9px;margin-top:-4.5px;border-radius:3px;background:var(--ink);z-index:4;box-shadow:calc(var(--fw,60px) - 7px) 0 0 var(--ink);opacity:.7}
+.fl-f1{transform-origin:50% 100%;animation:flTop .28s ease-in forwards;z-index:2;filter:brightness(.97)}
+.fl-f2{transform-origin:50% 0;transform:rotateX(90deg);animation:flBot .28s .26s ease-out forwards;z-index:2}
+@keyframes flTop{to{transform:rotateX(-90deg)}}
+@keyframes flBot{to{transform:rotateX(0)}}
+@media(prefers-reduced-motion:reduce){.fl-f1,.fl-f2{animation:none}}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -2693,5 +2708,29 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
  try{decorate(current)}catch(e){}
  renderMap();if(window.hkRenderNext)window.hkRenderNext();
+
+ /* ---------- 翻頁倒數 ---------- */
+ (function(){
+  const RMv=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ['countDays','countHours','countMinutes','countSeconds'].forEach(id=>{
+   const b=document.getElementById(id);if(!b||b.dataset.flip)return;b.dataset.flip=1;
+   const box=b.parentNode,cs=getComputedStyle(b),bg=getComputedStyle(box).backgroundColor;
+   const fl=document.createElement('div');fl.className='flip';fl.setAttribute('aria-hidden','true');
+   fl.style.fontSize=(parseFloat(cs.fontSize)*0.92)+'px';fl.style.setProperty('--fbg',bg&&bg!=='rgba(0, 0, 0, 0)'?bg:'#fff');
+   const half=(c,v)=>`<span class="fl-h ${c}"><i>${v}</i></span>`;
+   let cur=b.textContent.trim();
+   fl.innerHTML=half('fl-top',cur)+half('fl-bot',cur);
+   b.classList.add('flip-src');box.insertBefore(fl,b);const setW=()=>fl.style.setProperty('--fw',fl.offsetWidth*0.98+'px');setW();addEventListener('resize',setW);
+   new MutationObserver(()=>{
+    const nv=b.textContent.trim();if(nv===cur)return;const old=cur;cur=nv;
+    const top=fl.querySelector('.fl-top i'),bot=fl.querySelector('.fl-bot i');
+    if(RMv||document.hidden){top.textContent=nv;bot.textContent=nv;return;}
+    fl.querySelectorAll('.fl-flap').forEach(x=>x.remove());
+    top.textContent=nv;
+    fl.insertAdjacentHTML('beforeend',half('fl-top fl-flap fl-f1',old)+half('fl-bot fl-flap fl-f2',nv));
+    setTimeout(()=>{bot.textContent=nv;fl.querySelectorAll('.fl-flap').forEach(x=>x.remove());},560);
+   }).observe(b,{childList:true,characterData:true,subtree:true});
+  });
+ })();
 })();
 </script></body></html>
