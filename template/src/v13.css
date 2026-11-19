@@ -62,15 +62,14 @@ html body .snow-burst i{position:absolute!important;top:-10px!important;border-r
 @keyframes snowFall{to{transform:translate(var(--dx),110vh);opacity:.2}}
 html body .snow-hint{position:absolute!important;left:50%!important;bottom:14px!important;transform:translateX(-50%)!important;background:rgba(255,255,255,.88)!important;color:#5B4B43!important;border-radius:999px!important;padding:4px 12px!important;font-size:12px!important;font-weight:800!important;z-index:4!important;pointer-events:none!important;animation:hintFade 6s ease forwards!important;white-space:nowrap!important}
 @keyframes hintFade{0%,80%{opacity:1}100%{opacity:0}}
-/* 存錢筒 */
-html body .pig{position:relative!important;display:flex!important;align-items:center!important;gap:10px!important;margin:8px 4px 0!important}
-html body .pig-body{width:64px!important;height:50px!important;transform:scale(var(--fat,1))!important;transform-origin:30% 100%!important;transition:transform .5s cubic-bezier(.2,1.4,.4,1)!important}
-html body .pig-body svg{width:100%!important;height:100%!important}
-html body .pig small{font-size:12.5px!important;color:#8E7A6C!important;font-weight:800!important}
+/* 存錢筒（記帳標題右邊） */
+html body #ledger h2 .pig{position:relative!important;order:99!important;margin-left:6px!important;flex:none!important;width:58px!important;height:44px!important;display:inline-block!important;cursor:pointer!important}
+html body .pig-body{display:block!important;width:58px!important;height:44px!important;transform:scale(var(--fat,1))!important;transform-origin:50% 100%!important;transition:transform .5s cubic-bezier(.2,1.4,.4,1)!important}
+html body .pig-body svg{width:100%!important;height:100%!important;display:block!important}
 html body .pig.munch .pig-body{animation:pigMunch .5s ease .45s!important}
-@keyframes pigMunch{0%,100%{transform:scale(var(--fat,1))}40%{transform:scale(calc(var(--fat,1)*1.12),calc(var(--fat,1)*.9))}}
-html body .pig-coin{position:absolute!important;left:22px!important;top:-30px!important;width:22px!important;height:22px!important;border-radius:50%!important;background:#FFD86B!important;border:2px solid #B98A3E!important;font-style:normal!important;font-size:11px!important;font-weight:900!important;color:#8A6A2E!important;display:grid!important;place-items:center!important;animation:coinDrop .6s cubic-bezier(.5,0,.8,.5) forwards!important}
-@keyframes coinDrop{0%{transform:translateY(-10px) rotateY(0)}80%{transform:translateY(30px) rotateY(540deg);opacity:1}100%{transform:translateY(34px) scale(.4);opacity:0}}
+@keyframes pigMunch{0%,100%{transform:scale(var(--fat,1))}40%{transform:scale(calc(var(--fat,1)*1.14),calc(var(--fat,1)*.88))}}
+html body .pig-coin{position:absolute!important;left:18px!important;top:-34px!important;width:20px!important;height:20px!important;border-radius:50%!important;background:#FFD86B!important;border:2px solid #B98A3E!important;font-style:normal!important;font-size:10px!important;font-weight:900!important;color:#8A6A2E!important;display:grid!important;place-items:center!important;animation:coinDrop .6s cubic-bezier(.5,0,.8,.5) forwards!important}
+@keyframes coinDrop{0%{transform:translateY(-10px) rotateY(0)}80%{transform:translateY(34px) rotateY(540deg);opacity:1}100%{transform:translateY(38px) scale(.4);opacity:0}}
 /* 地區章 */
 html body .rg-card{margin-top:12px!important}
 html body .rg-top b{font-size:15px!important;color:#6E5A3A!important;margin-right:6px!important}

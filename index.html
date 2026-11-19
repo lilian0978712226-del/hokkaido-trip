@@ -1841,15 +1841,14 @@ html body .snow-burst i{position:absolute!important;top:-10px!important;border-r
 @keyframes snowFall{to{transform:translate(var(--dx),110vh);opacity:.2}}
 html body .snow-hint{position:absolute!important;left:50%!important;bottom:14px!important;transform:translateX(-50%)!important;background:rgba(255,255,255,.88)!important;color:#5B4B43!important;border-radius:999px!important;padding:4px 12px!important;font-size:12px!important;font-weight:800!important;z-index:4!important;pointer-events:none!important;animation:hintFade 6s ease forwards!important;white-space:nowrap!important}
 @keyframes hintFade{0%,80%{opacity:1}100%{opacity:0}}
-/* 存錢筒 */
-html body .pig{position:relative!important;display:flex!important;align-items:center!important;gap:10px!important;margin:8px 4px 0!important}
-html body .pig-body{width:64px!important;height:50px!important;transform:scale(var(--fat,1))!important;transform-origin:30% 100%!important;transition:transform .5s cubic-bezier(.2,1.4,.4,1)!important}
-html body .pig-body svg{width:100%!important;height:100%!important}
-html body .pig small{font-size:12.5px!important;color:#8E7A6C!important;font-weight:800!important}
+/* 存錢筒（記帳標題右邊） */
+html body #ledger h2 .pig{position:relative!important;order:99!important;margin-left:6px!important;flex:none!important;width:58px!important;height:44px!important;display:inline-block!important;cursor:pointer!important}
+html body .pig-body{display:block!important;width:58px!important;height:44px!important;transform:scale(var(--fat,1))!important;transform-origin:50% 100%!important;transition:transform .5s cubic-bezier(.2,1.4,.4,1)!important}
+html body .pig-body svg{width:100%!important;height:100%!important;display:block!important}
 html body .pig.munch .pig-body{animation:pigMunch .5s ease .45s!important}
-@keyframes pigMunch{0%,100%{transform:scale(var(--fat,1))}40%{transform:scale(calc(var(--fat,1)*1.12),calc(var(--fat,1)*.9))}}
-html body .pig-coin{position:absolute!important;left:22px!important;top:-30px!important;width:22px!important;height:22px!important;border-radius:50%!important;background:#FFD86B!important;border:2px solid #B98A3E!important;font-style:normal!important;font-size:11px!important;font-weight:900!important;color:#8A6A2E!important;display:grid!important;place-items:center!important;animation:coinDrop .6s cubic-bezier(.5,0,.8,.5) forwards!important}
-@keyframes coinDrop{0%{transform:translateY(-10px) rotateY(0)}80%{transform:translateY(30px) rotateY(540deg);opacity:1}100%{transform:translateY(34px) scale(.4);opacity:0}}
+@keyframes pigMunch{0%,100%{transform:scale(var(--fat,1))}40%{transform:scale(calc(var(--fat,1)*1.14),calc(var(--fat,1)*.88))}}
+html body .pig-coin{position:absolute!important;left:18px!important;top:-34px!important;width:20px!important;height:20px!important;border-radius:50%!important;background:#FFD86B!important;border:2px solid #B98A3E!important;font-style:normal!important;font-size:10px!important;font-weight:900!important;color:#8A6A2E!important;display:grid!important;place-items:center!important;animation:coinDrop .6s cubic-bezier(.5,0,.8,.5) forwards!important}
+@keyframes coinDrop{0%{transform:translateY(-10px) rotateY(0)}80%{transform:translateY(34px) rotateY(540deg);opacity:1}100%{transform:translateY(38px) scale(.4);opacity:0}}
 /* 地區章 */
 html body .rg-card{margin-top:12px!important}
 html body .rg-top b{font-size:15px!important;color:#6E5A3A!important;margin-right:6px!important}
@@ -4588,12 +4587,13 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* ---------- 4. 存錢筒 ---------- */
  const PIG='<svg viewBox="0 0 90 70" aria-hidden="true"><ellipse cx="44" cy="40" rx="32" ry="24" fill="#F7C6CF" stroke="#5B4B43" stroke-width="2.6"/><path d="M30 20l-4-10 10 6" fill="#F7C6CF" stroke="#5B4B43" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 18l6-9 2 11" fill="#F7C6CF" stroke="#5B4B43" stroke-width="2.4" stroke-linejoin="round"/><rect x="34" y="17" width="16" height="4" rx="2" fill="#5B4B43"/><ellipse cx="74" cy="42" rx="8" ry="7" fill="#F2A9B7" stroke="#5B4B43" stroke-width="2.4"/><circle cx="72" cy="41" r="1.3" fill="#5B4B43"/><circle cx="76.5" cy="41" r="1.3" fill="#5B4B43"/><circle cx="60" cy="33" r="2.2" fill="#5B4B43"/><ellipse cx="62" cy="44" rx="4" ry="2.4" fill="#F29BAC" opacity=".7"/><path d="M26 60v7M38 62v6M52 62v6M62 60v7" stroke="#5B4B43" stroke-width="5" stroke-linecap="round"/><path d="M12 38c-6-2-6 6 0 4" fill="none" stroke="#5B4B43" stroke-width="2" stroke-linecap="round"/></svg>';
  function spentJPY(){const L=get('hk-ledger-v1',[]),S=get('hk-ledger-set-v1',{});const rate=+(S.rate||0.21)||0.21;return (Array.isArray(L)?L:[]).reduce((a,e)=>a+(e.cur==='JPY'?+e.amt||0:(+e.amt||0)/rate),0);}
- function pig(){const sum=document.querySelector('#ledger .lg-sum');if(!sum)return null;let p=document.querySelector('#ledger .pig');
-  if(!p){p=document.createElement('div');p.className='pig';p.innerHTML=`<div class="pig-body">${PIG}</div><small></small>`;sum.after(p);}
-  const s=spentJPY();p.style.setProperty('--fat',(1+Math.min(s/150000,1)*.35).toFixed(3));p.querySelector('small').textContent=s?`小豬吃了 ¥${Math.round(s).toLocaleString()}`:'記一筆帳餵小豬';return p;}
+ function pig(){const h=document.querySelector('#ledger h2');if(!h)return null;let p=h.querySelector('.pig');
+  if(!p){const old=h.querySelector('.jp-deco');p=document.createElement('span');p.className='pig';p.setAttribute('role','img');p.innerHTML=`<span class="pig-body">${PIG}</span>`;if(old)old.replaceWith(p);else h.appendChild(p);}
+  const s=spentJPY();p.style.setProperty('--fat',(1+Math.min(s/150000,1)*.35).toFixed(3));p.setAttribute('aria-label',s?`存錢筒小豬吃了 ¥${Math.round(s).toLocaleString()}`:'存錢筒小豬，記帳就會餵牠');return p;}
  function ding(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=ding.c||(ding.c=new C());const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(1568,c.currentTime);o.frequency.setValueAtTime(2093,c.currentTime+.08);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.35);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.4);}catch(e){}}
  const led=document.getElementById('ledger');
- if(led){pig();new MutationObserver(()=>{if(!document.querySelector('#ledger .pig'))pig();}).observe(led,{childList:true,subtree:true});
+ if(led){pig();setTimeout(pig,1500);new MutationObserver(()=>{const h=document.querySelector('#ledger h2');if(h&&(!h.querySelector('.pig')||h.querySelector('.jp-deco')))pig();}).observe(led,{childList:true,subtree:true});
+  led.addEventListener('click',e=>{const p=e.target.closest('#ledger h2 .pig');if(!p)return;p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();toast(s?`小豬吃了 ¥${Math.round(s).toLocaleString()}，好飽`:'小豬好餓，記一筆帳餵牠');});
   led.addEventListener('submit',()=>{const before=(get('hk-ledger-v1',[])||[]).length;setTimeout(()=>{const after=(get('hk-ledger-v1',[])||[]).length;const p=pig();if(after>before&&p){ding();if(!RM){const c=document.createElement('i');c.className='pig-coin';c.textContent='¥';p.appendChild(c);p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');setTimeout(()=>c.remove(),900);}}},60);},true);}
 
  /* ---------- 5. 今日全破＋地區章 ---------- */
