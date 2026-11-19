@@ -209,11 +209,11 @@
   try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}
   const d=v.date?new Date(v.date+'T00:00'):null,md=d?`${d.getMonth()+1}月${d.getDate()}日（${WD[d.getDay()]}）`:'',mz=d?`${d.getMonth()+1}/${d.getDate()}（週${WZ[d.getDay()]}）`:'';
   const name=v.name||'このお店';
-  let ja=`すみません、レストランの予約をお願いできますか？\n店名：${name}${v.tel?`\n電話：${v.tel}`:''}\n日時：${md} ${jt(v.time)}\n人数：${v.n}名`;
+  let ja=`すみません、お手数ですが、レストランの予約をお願いできますでしょうか？\n店名：${name}${v.tel?`\n電話：${v.tel}`:''}\n日時：${md} ${jt(v.time)}\n人数：${v.n}名`;
   let zh=`請幫我訂 ${v.name||'這家店'}・${mz} ${v.time}・${v.n} 位`;
-  if(v.flex==='30'&&v.time){ja+=`\n満席でしたら、${jt(add(v.time,-30))}〜${jt(add(v.time,30))}の間で大丈夫です。`;zh+='（前後 30 分可）';}
-  if(v.flex==='60'&&v.time){ja+=`\n満席でしたら、${jt(v.time)}〜${jt(add(v.time,60))}の間で大丈夫です。`;zh+='（之後 1 小時內可）';}
-  ja+='\nよろしくお願いします。';
+  if(v.flex==='30'&&v.time){ja+=`\nもし満席でしたら、${jt(add(v.time,-30))}〜${jt(add(v.time,30))}の間でも大丈夫です。`;zh+='（前後 30 分可）';}
+  if(v.flex==='60'&&v.time){ja+=`\nもし満席でしたら、${jt(v.time)}〜${jt(add(v.time,60))}の間でも大丈夫です。`;zh+='（之後 1 小時內可）';}
+  ja+='\nどうぞよろしくお願いいたします。';
   $('abOut').innerHTML=`<div class="ph-card ab-card" data-ja="${esc(ja)}" data-zh="${esc(zh)}" role="button" tabindex="0"><small>${esc(zh)}</small><b lang="ja">${esc(ja).replace(/\n/g,'<br>')}</b><button type="button" class="ph-say" aria-label="唸出來">🔊</button></div>`;
  }
  box.addEventListener('input',build);box.addEventListener('change',build);build();
