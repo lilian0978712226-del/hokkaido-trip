@@ -297,3 +297,8 @@ html body #heroArt .hg-arm.r .jaw.b{animation:jawBR .45s ease-in-out infinite .2
 @keyframes jawTR{0%,100%{transform:rotate(0)}50%{transform:rotate(-18deg)}}
 @keyframes jawBR{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
 @media (prefers-reduced-motion:reduce){html body #heroArt .hg-arm,html body #heroArt .hg-arm .jaw{animation:none!important}}
+html body .say-bubble{position:absolute!important;z-index:9998!important;background:#fff!important;color:#5B4B43!important;border:2px solid #5B4B43!important;border-radius:14px!important;padding:5px 11px!important;font-size:13.5px!important;font-weight:900!important;white-space:nowrap!important;box-shadow:0 3px 0 #5B4B43!important;pointer-events:none!important;animation:sayIn .3s cubic-bezier(.2,1.6,.4,1)!important}
+html body .say-bubble::after{content:''!important;position:absolute!important;left:var(--ax,50%)!important;bottom:-8px!important;width:12px!important;height:12px!important;margin-left:-6px!important;background:#fff!important;border-right:2px solid #5B4B43!important;border-bottom:2px solid #5B4B43!important;transform:rotate(45deg)!important}
+html body .say-bubble.below::after{bottom:auto!important;top:-8px!important;transform:rotate(225deg)!important}
+html body .say-bubble.out{opacity:0!important;transform:translateY(-4px)!important;transition:all .25s!important}
+@keyframes sayIn{from{transform:scale(.4);opacity:0}}

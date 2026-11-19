@@ -351,8 +351,8 @@
  if(led){pig();setTimeout(pig,1500);new MutationObserver(()=>{const h=document.querySelector('#ledger h2');if(h&&(!h.querySelector('.pig')||h.querySelector('.jp-deco')))pig();}).observe(led,{childList:true,subtree:true});
   led.addEventListener('click',e=>{const p=e.target.closest('#ledger h2 .pig');if(!p)return;
    if(canSmash()){smashAsk();return;}
-   p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();toast(s?`小豬吃了 ¥${Math.round(s).toLocaleString()}，最後一天可以敲破牠`:'小豬好餓，記一筆帳餵牠');});
-  led.addEventListener('submit',()=>{const before=(get('hk-ledger-v1',[])||[]).length;setTimeout(()=>{const after=(get('hk-ledger-v1',[])||[]).length;const p=pig();if(after>before&&p){ding();if(!RM){const c=document.createElement('i');c.className='pig-coin';c.textContent='¥';p.appendChild(c);p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');setTimeout(()=>c.remove(),900);}}},60);},true);}
+   p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();(window.hkSay||toast)(p,s?`吃了 ¥${Math.round(s).toLocaleString()}，好飽～`:'好餓…記一筆帳餵我嘛');});
+  led.addEventListener('submit',()=>{const before=(get('hk-ledger-v1',[])||[]).length;setTimeout(()=>{const after=(get('hk-ledger-v1',[])||[]).length;const p=pig();if(after>before&&p){ding();setTimeout(()=>window.hkSay&&window.hkSay(p,['好吃！','謝謝餵食～','嗝～','還要還要！'][Math.floor(Math.random()*4)]),500);if(!RM){const c=document.createElement('i');c.className='pig-coin';c.textContent='¥';p.appendChild(c);p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');setTimeout(()=>c.remove(),900);}}},60);},true);}
 
  /* 最後一天敲破小豬：看這趟花了多少 */
  const SMK='hk-pig-smash-v1';
@@ -423,9 +423,16 @@
  window.hkPreviewAllClear=i=>celebrate(i||0);
  funRow();omiSub();gachaSub();stampRow();pigBadge();
 })();
+
+/* 角色對話框 */
+window.hkSay=function(el,text,ms){if(!el)return;document.querySelectorAll('.say-bubble').forEach(b=>{if(b._for===el)b.remove();});
+ const r=el.getBoundingClientRect();if(!r.width)return;const b=document.createElement('div');b.className='say-bubble';b._for=el;b.textContent=text;b.setAttribute('role','status');document.body.appendChild(b);
+ const bw=b.offsetWidth,bh=b.offsetHeight,vw=document.documentElement.clientWidth;let x=r.left+r.width/2-bw/2;x=Math.max(8,Math.min(vw-bw-8,x));let y=r.top-bh-10;let below=false;if(y<64){y=r.bottom+10;below=true;}
+ b.style.left=x+'px';b.style.top=(y+window.scrollY)+'px';b.style.setProperty('--ax',(r.left+r.width/2-x)+'px');if(below)b.classList.add('below');
+ setTimeout(()=>{b.classList.add('out');setTimeout(()=>b.remove(),300);},ms||1900);};
 /* 招財貓達摩：點了會張眼生氣打人 */
 (function(){const c=document.getElementById('hgCat');if(!c)return;let t,n=0;
  const LINES=['不要戳我！','喵的咧！','生氣了喔！','再戳就揍你！','招財中，請勿打擾！'];
  const hit=e=>{e.stopPropagation();if(e.type==='pointerdown')return;c.classList.remove('mad');void c.getBBox();c.classList.add('mad');clearTimeout(t);t=setTimeout(()=>c.classList.remove('mad'),1700);
-  if(navigator.vibrate)navigator.vibrate([20,40,30]);if(window.toast)window.toast(LINES[n++%LINES.length]);};
+  if(navigator.vibrate)navigator.vibrate([20,40,30]);window.hkSay(c,LINES[n++%LINES.length]);};
  c.addEventListener('pointerdown',hit);c.addEventListener('click',hit);})();
