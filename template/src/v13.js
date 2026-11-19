@@ -69,7 +69,7 @@
   const yi1=pk(yiPool);let yi2=pk(yiPool),k=0;while(yi2===yi1&&k++<9)yi2=pk(yiPool);
   return {t,no:1+Math.floor(r()*99),lv:lv[0],msg:pk(lv[2]),yi:[yi1,yi2],ji:pk(jiPool),lu:pk(base.lu||OD.d[0].lu),day:i};}
  const NUM='〇一二三四五六七八九';const kanji=n=>n<10?NUM[n]:(n<20?'十'+(n%10?NUM[n%10]:''):NUM[Math.floor(n/10)]+'十'+(n%10?NUM[n%10]:''));
- function omiSub(){const s=$('#gOmiSub');if(!s)return;const o=get(OK,{})[jpDate()];s.textContent=o?`今天抽到「${o.lv}」`:'搖一搖抽今天的籤';}
+ function omiSub(){const s=$('#gOmiSub');if(!s)return;const o=get(OK,{})[jpDate()];s.textContent=o?(o.tied?'凶籤已綁好，明天再抽':`今天抽到「${o.lv}」`):'搖一搖抽今天的籤';}
  function slip(f){return `<div class="omi-slip lv-${f.lv}"><div class="omi-no">第${kanji(f.no)}番</div><div class="omi-lv">${f.lv}</div><p class="omi-msg">${esc(f.msg)}</p><ul><li><b>宜</b>${esc(f.yi[0])}</li><li><b>宜</b>${esc(f.yi[1])}</li><li><b class="ji">忌</b>${esc(f.ji)}</li><li><b class="lu">幸運小物</b>${esc(f.lu)}</li></ul><p class="omi-foot">${f.t.slice(5).replace('-','/')}・明天再來抽新的籤</p></div>`;}
  function after(f){return `<div class="omi-acts"><button type="button" class="omi-share">把籤分享出去</button>${f.lv==='凶'?'<button type="button" class="omi-tie">把籤綁起來</button>':''}</div>`;}
  function party(st){if(RM)return;const fx=document.createElement('div');fx.className='omi-fx';fx.setAttribute('aria-hidden','true');
@@ -80,7 +80,11 @@
  function show(f,anim){const st=sh.querySelector('.omi-stage');if(!st)return;st.innerHTML=slip(f)+after(f);const s=st.querySelector('.omi-slip');
   if(anim){s.classList.add('unfold');if(f.lv==='大吉'){s.classList.add('gold');party(st);}}
   st.querySelector('.omi-share').addEventListener('click',()=>shareOmi(f));
-  const tie=st.querySelector('.omi-tie');if(tie)tie.addEventListener('click',()=>{s.classList.add('tied');tie.textContent='綁好了，厄運退散！';tie.disabled=true;toast('綁起來了，明天一定大吉！');});}
+  const tie=st.querySelector('.omi-tie');
+  const tiedView=animT=>{const w=document.createElement('div');w.className='omi-rope'+(animT&&!RM?' anim':'');w.innerHTML='<svg viewBox="0 0 300 120" aria-hidden="true"><path d="M6 30Q150 60 294 30" fill="none" stroke="#B98A5A" stroke-width="4" stroke-linecap="round"/><path d="M8 34Q150 64 292 34" fill="none" stroke="#D9B98A" stroke-width="1.5" stroke-dasharray="4 5"/><g class="knot" transform="translate(150 45)"><path d="M-7 -6c5 4 9 4 14 0M-7 6c5-4 9-4 14 0" stroke="#5B4B43" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="-6" y="0" width="12" height="62" rx="2.5" fill="#FFFDF6" stroke="#5B4B43" stroke-width="2.2"/><text x="0" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#7E8FA3">凶</text><path d="M-3 30h6M-3 38h6M-3 46h6" stroke="#D8CBC0" stroke-width="1.4"/></g><g fill="#F7B6C6"><circle cx="70" cy="44" r="4"/><circle cx="230" cy="44" r="4"/></g></svg><p>籤綁好了，厄運退散！明天一定大吉 ✨</p>';s.replaceWith(w);if(tie)tie.remove();};
+  if(f.tied){tiedView(false);return;}
+  if(tie)tie.addEventListener('click',()=>{const o=get(OK,{});if(o[f.t]){o[f.t].tied=1;put(OK,o);}f.tied=1;
+   if(RM){tiedView(true);return;}s.classList.add('tied');tie.disabled=true;setTimeout(()=>tiedView(true),700);toast('綁起來了，明天一定大吉！');});}
  function omikuji(){
   const f=fortune(),drawn=!!get(OK,{})[f.t];
   open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="今日御神籤"><h3>今日御神籤</h3>

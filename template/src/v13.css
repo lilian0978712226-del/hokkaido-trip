@@ -151,3 +151,9 @@ html body .omi-fx .pt:nth-child(4n){background:#FFE7EE!important}
 html body .omi-fx em{position:absolute!important;font-style:normal!important;color:#FFC94A!important;font-size:20px!important;opacity:0!important;animation:dkTwinkle 1.4s ease-in-out var(--d) 3!important}
 @keyframes dkTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.2)}}
 @media (prefers-reduced-motion:reduce){html body .omi-slip.gold .omi-lv{animation:none!important}}
+html body .omi-rope{width:100%!important;max-width:300px!important;margin:10px auto 0!important;text-align:center!important}
+html body .omi-rope svg{width:100%!important;height:auto!important;display:block!important}
+html body .omi-rope .knot{transform-box:fill-box!important;transform-origin:50% 0!important}
+html body .omi-rope.anim .knot{animation:ropeSwing 1.6s ease-out!important}
+@keyframes ropeSwing{0%{transform:translate(150px,-20px) rotate(-25deg);opacity:0}30%{opacity:1}55%{transform:translate(150px,45px) rotate(12deg)}75%{transform:translate(150px,45px) rotate(-6deg)}100%{transform:translate(150px,45px) rotate(0)}}
+html body .omi-rope p{font-size:14px!important;font-weight:800!important;color:#5D7488!important;margin:6px 0 0!important}
