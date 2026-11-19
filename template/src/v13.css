@@ -98,3 +98,31 @@ html body .fw.f1 i{background:#F6B9C4!important}html body .fw.f2 i{background:#B
 @media (prefers-reduced-motion:reduce){html body .fw i,html body .ac-bird,html body .ac-stamp,html body .ac-card{animation:none!important}}
 html.night body .g-btn,html.night body .omi-slip,html.night body .ga-card,html.night body .ac-card{color:#5B4B43!important}
 html body .g-sheet .g-go,html body .ac-card .ac-ok{min-height:48px!important;border-radius:999px!important;border:2px solid #5B4B43!important;background:#E7A391!important;color:#fff!important;font-weight:900!important;font-size:16px!important;font-family:inherit!important;box-shadow:0 3px 0 #5B4B43!important}
+html body .g-btns .g-alb{grid-column:1 / -1!important;background:#F2F7EF!important}
+html body .ga-tabs{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;margin:0 0 6px!important;padding:4px!important;background:#F3ECE4!important;border-radius:999px!important}
+html body .ga-tabs button{min-height:38px!important;border:none!important;border-radius:999px!important;background:none!important;font-family:inherit!important;font-weight:800!important;font-size:14px!important;color:#8E7A6C!important}
+html body .ga-tabs button.on{background:#fff!important;color:#5B4B43!important;box-shadow:0 2px 0 #D8CBC0!important}
+html body .ga-stage.pose{--gm:#BFD9F2}
+html body .ga-card.pose{background:#EEF5FB!important;border-color:#9FBEDA!important}
+html body .ga-card.pose small{color:#5D7488!important}
+html body .ga-acts{display:flex!important;flex-direction:column!important;gap:8px!important;align-items:stretch!important}
+html body .ga-did.on2{background:#E7A391!important;color:#fff!important}
+html body .ga-alb{display:block!important;width:100%!important;margin:10px 0 0!important;min-height:44px!important;border-radius:14px!important;border:2px dashed #CFE0C8!important;background:#F6FAF3!important;color:#4E7448!important;font-weight:800!important;font-family:inherit!important;font-size:14px!important}
+html body .al-panel{max-height:88vh!important;overflow:auto!important}
+html body .al-sum{text-align:center!important;font-size:12.5px!important;color:#8E7A6C!important;margin:-4px 0 10px!important}
+html body .al-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px 12px!important;padding:4px 4px 8px!important}
+html body .al-pc{display:flex!important;flex-direction:column!important;background:#fff!important;border:1.5px solid #E5DAD0!important;border-radius:4px!important;padding:7px 7px 9px!important;box-shadow:0 3px 8px rgba(91,75,67,.12)!important;transform:rotate(var(--r))!important;text-align:left!important;font-family:inherit!important;color:var(--ink)!important}
+html body .al-pc img,html body .al-pc .al-empty{width:100%!important;aspect-ratio:1!important;object-fit:cover!important;border-radius:2px!important;display:block!important}
+html body .al-pc .al-empty{display:grid!important;place-items:center!important;background:#F6F1EA!important;color:#B4A598!important;font-size:12px!important;font-weight:800!important;text-align:center!important;line-height:1.5!important}
+html body .al-pc b{font-size:12px!important;line-height:1.4!important;margin-top:6px!important;font-weight:800!important}
+html body .al-pc small{font-size:10.5px!important;color:#A39286!important;margin-top:2px!important}
+html body .al-pc.pose{background:#FBFDFF!important}
+html body .al-note{font-size:11.5px!important;color:#A39286!important;line-height:1.6!important;margin:8px 2px!important}
+html body .al-big{background:#fff!important;border:1.5px solid #E5DAD0!important;border-radius:6px!important;padding:10px 10px 12px!important;text-align:center!important}
+html body .al-big img{width:100%!important;max-height:60vh!important;object-fit:contain!important;display:block!important;border-radius:3px!important}
+html body .al-big b{display:block!important;margin-top:8px!important;font-size:15px!important}
+html body .al-big small{font-size:11.5px!important;color:#A39286!important}
+html body .al-acts{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important;margin:10px 0 4px!important}
+html body .al-acts button{min-height:42px!important;border-radius:12px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:12.5px!important;font-weight:800!important;color:var(--ink)!important}
+html body .al-acts button[data-v=save]{background:#FFF3CF!important;border-color:#E2C27A!important}
+html body .al-acts button[data-v=del]{color:#C0675B!important}

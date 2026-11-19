@@ -1877,6 +1877,34 @@ html body .fw.f1 i{background:#F6B9C4!important}html body .fw.f2 i{background:#B
 @media (prefers-reduced-motion:reduce){html body .fw i,html body .ac-bird,html body .ac-stamp,html body .ac-card{animation:none!important}}
 html.night body .g-btn,html.night body .omi-slip,html.night body .ga-card,html.night body .ac-card{color:#5B4B43!important}
 html body .g-sheet .g-go,html body .ac-card .ac-ok{min-height:48px!important;border-radius:999px!important;border:2px solid #5B4B43!important;background:#E7A391!important;color:#fff!important;font-weight:900!important;font-size:16px!important;font-family:inherit!important;box-shadow:0 3px 0 #5B4B43!important}
+html body .g-btns .g-alb{grid-column:1 / -1!important;background:#F2F7EF!important}
+html body .ga-tabs{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;margin:0 0 6px!important;padding:4px!important;background:#F3ECE4!important;border-radius:999px!important}
+html body .ga-tabs button{min-height:38px!important;border:none!important;border-radius:999px!important;background:none!important;font-family:inherit!important;font-weight:800!important;font-size:14px!important;color:#8E7A6C!important}
+html body .ga-tabs button.on{background:#fff!important;color:#5B4B43!important;box-shadow:0 2px 0 #D8CBC0!important}
+html body .ga-stage.pose{--gm:#BFD9F2}
+html body .ga-card.pose{background:#EEF5FB!important;border-color:#9FBEDA!important}
+html body .ga-card.pose small{color:#5D7488!important}
+html body .ga-acts{display:flex!important;flex-direction:column!important;gap:8px!important;align-items:stretch!important}
+html body .ga-did.on2{background:#E7A391!important;color:#fff!important}
+html body .ga-alb{display:block!important;width:100%!important;margin:10px 0 0!important;min-height:44px!important;border-radius:14px!important;border:2px dashed #CFE0C8!important;background:#F6FAF3!important;color:#4E7448!important;font-weight:800!important;font-family:inherit!important;font-size:14px!important}
+html body .al-panel{max-height:88vh!important;overflow:auto!important}
+html body .al-sum{text-align:center!important;font-size:12.5px!important;color:#8E7A6C!important;margin:-4px 0 10px!important}
+html body .al-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px 12px!important;padding:4px 4px 8px!important}
+html body .al-pc{display:flex!important;flex-direction:column!important;background:#fff!important;border:1.5px solid #E5DAD0!important;border-radius:4px!important;padding:7px 7px 9px!important;box-shadow:0 3px 8px rgba(91,75,67,.12)!important;transform:rotate(var(--r))!important;text-align:left!important;font-family:inherit!important;color:var(--ink)!important}
+html body .al-pc img,html body .al-pc .al-empty{width:100%!important;aspect-ratio:1!important;object-fit:cover!important;border-radius:2px!important;display:block!important}
+html body .al-pc .al-empty{display:grid!important;place-items:center!important;background:#F6F1EA!important;color:#B4A598!important;font-size:12px!important;font-weight:800!important;text-align:center!important;line-height:1.5!important}
+html body .al-pc b{font-size:12px!important;line-height:1.4!important;margin-top:6px!important;font-weight:800!important}
+html body .al-pc small{font-size:10.5px!important;color:#A39286!important;margin-top:2px!important}
+html body .al-pc.pose{background:#FBFDFF!important}
+html body .al-note{font-size:11.5px!important;color:#A39286!important;line-height:1.6!important;margin:8px 2px!important}
+html body .al-big{background:#fff!important;border:1.5px solid #E5DAD0!important;border-radius:6px!important;padding:10px 10px 12px!important;text-align:center!important}
+html body .al-big img{width:100%!important;max-height:60vh!important;object-fit:contain!important;display:block!important;border-radius:3px!important}
+html body .al-big b{display:block!important;margin-top:8px!important;font-size:15px!important}
+html body .al-big small{font-size:11.5px!important;color:#A39286!important}
+html body .al-acts{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important;margin:10px 0 4px!important}
+html body .al-acts button{min-height:42px!important;border-radius:12px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:12.5px!important;font-weight:800!important;color:var(--ink)!important}
+html body .al-acts button[data-v=save]{background:#FFF3CF!important;border-color:#E2C27A!important}
+html body .al-acts button[data-v=del]{color:#C0675B!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -4351,11 +4379,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* ---------- 入口：旅途小遊戲 ---------- */
  const tools=$('#trip-tools .card');
  if(tools){const row=document.createElement('div');row.className='g-row';
-  row.innerHTML=`<p class="g-title">旅途小遊戲</p><div class="g-btns"><button type="button" class="g-btn" data-g="omi"><span class="g-ic">${OMI_IC()}</span><b>今日御神籤</b><small id="gOmiSub">搖一搖抽今天的籤</small></button><button type="button" class="g-btn" data-g="gacha"><span class="g-ic">${GACHA_IC()}</span><b>拍照任務扭蛋</b><small id="gGachaSub">轉一顆拍照任務</small></button></div>`;
+  row.innerHTML=`<p class="g-title">旅途小遊戲</p><div class="g-btns"><button type="button" class="g-btn" data-g="omi"><span class="g-ic">${OMI_IC()}</span><b>今日御神籤</b><small id="gOmiSub">搖一搖抽今天的籤</small></button><button type="button" class="g-btn" data-g="gacha"><span class="g-ic">${GACHA_IC()}</span><b>拍照扭蛋</b><small id="gGachaSub">任務・搞笑姿勢</small></button><button type="button" class="g-btn g-alb" data-g="album"><span class="g-ic">${ALB_IC()}</span><b>旅途相冊</b><small id="gAlbumSub">拍到的都放這裡</small></button></div>`;
   const ig=tools.querySelector('.info-grid');if(ig)ig.after(row);else tools.prepend(row);
-  row.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;b.dataset.g==='omi'?omikuji():gacha();});
+  row.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const k=b.dataset.g;k==='omi'?omikuji():k==='album'?album():gacha();});
  }
  function OMI_IC(){return '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 12h16l-2 22H14Z" fill="#F3B6A8" stroke="#5B4B43" stroke-width="2" stroke-linejoin="round"/><path d="M18 12V4M22 12V6" stroke="#5B4B43" stroke-width="2.4" stroke-linecap="round"/><rect x="15" y="18" width="10" height="8" rx="1.5" fill="#FFF8EF" stroke="#5B4B43" stroke-width="1.4"/><path d="M18 21h4M18 23.5h4" stroke="#C0675B" stroke-width="1.2" stroke-linecap="round"/></svg>';}
+ function ALB_IC(){return '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="8" width="26" height="26" rx="3" fill="#fff" stroke="#5B4B43" stroke-width="2" transform="rotate(-8 19 21)"/><rect x="10" y="6" width="24" height="27" rx="2.5" fill="#FFFDF9" stroke="#5B4B43" stroke-width="2"/><rect x="13" y="9" width="18" height="15" rx="1.5" fill="#BFD9F2"/><path d="M13 22l5-5 4 4 3-3 6 6v0H13Z" fill="#fff"/><circle cx="26" cy="13" r="2" fill="#FFE39A"/></svg>';}
  function GACHA_IC(){return '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15" r="11" fill="#E9F4FB" stroke="#5B4B43" stroke-width="2"/><circle cx="15" cy="15" r="3.4" fill="#F6B9C4"/><circle cx="23" cy="12" r="3.4" fill="#FFE39A"/><circle cx="23" cy="19" r="3.4" fill="#BFE0C8"/><rect x="10" y="24" width="20" height="12" rx="3" fill="#F3B6A8" stroke="#5B4B43" stroke-width="2"/><circle cx="20" cy="30" r="2.6" fill="#fff" stroke="#5B4B43" stroke-width="1.4"/></svg>';}
 
  /* ---------- 1. 今日御神籤 ---------- */
@@ -4385,31 +4414,74 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  }
  omiSub();
 
- /* ---------- 2. 拍照任務扭蛋 ---------- */
- const MIS=['和路邊的雪人合照','拍兩個人在雪地上的腳印','拍蒸汽鐘冒煙的瞬間','在運河邊拍兩人背影','找一個可愛的人孔蓋','拍企鵝走路的屁股','找一隻雪地裡的小鳥','拍一張車窗外的雪景','自拍時呼出白色霧氣','拍雪中的自動販賣機','拍一棵掛滿雪的樹','自己堆一個迷你雪人合照','找一個「北海道限定」的招牌','拍下今天最漂亮的天空','兩人在地標前比同一個手勢','拍溫泉冒出來的熱氣','拍一根亮晶晶的冰柱','找一個北海道形狀的東西','幫租來的車拍雪中英姿','拍一張可愛的車站站名牌','找一個寫著「熊」或「鹿」的標誌','在纜車上拍窗外夜景','戴手套跟對方擊掌拍下來','拍一張兩人的影子'];
+ /* ---------- 2. 拍照扭蛋（任務＋搞笑姿勢）＋旅途相冊 ---------- */
+ const MIS=['和路邊的雪人合照','拍兩個人在雪地上的腳印','拍蒸汽鐘冒煙的瞬間','在運河邊拍兩人背影','找一個可愛的人孔蓋','拍企鵝走路的屁股','找一隻雪地裡的小鳥','拍一張車窗外的雪景','自拍時呼出白色霧氣','拍雪中的自動販賣機','拍一棵掛滿雪的樹','自己堆一個迷你雪人合照','找一個「北海道限定」的招牌','拍下今天最漂亮的天空','兩人在地標前比同一個手勢','拍溫泉冒出來的熱氣','拍一根亮晶晶的冰柱','找一個北海道形狀的東西','幫租來的車拍雪中英姿','拍一張可愛的車站站名牌','找一個寫著「熊」或「鹿」的標誌','在纜車上拍窗外夜景','戴手套跟對方擊掌拍下來','拍一張兩人的影子',
+  '拍燒肉在烤網上滋滋叫','把螃蟹舉到臉旁邊比大小','拍一碗湯咖哩的正上方','拍冰淇淋在雪地背景前','找一個寫錯的中文標示','拍便利商店的熱食櫃','拍一杯熱飲冒煙','找一個長得像臉的東西','拍一張狸小路的燈海','和一個招財貓合照','拍一隻會動的動物（不是企鵝）','拍雪地裡的一串動物腳印','在聖誕樹前拍一張明信片構圖','拍青池的顏色','拍一張「好冷」的表情','拍兩個人的手套疊在一起','拍兩杯飲料乾杯','拍飯店房間窗外的景色','拍浴衣穿好的樣子','和地獄谷的小鬼像合照','拍溫泉蛋剝開的瞬間','找一台雪中的郵筒','拍一張只有雪和天空的照片','拍屋頂上厚厚的積雪','拍一個超大的冰柱或雪牆','偷拍對方在認真吃東西','拍一張兩人在車裡的自拍','拍伴手禮堆成一座小山','拍機場的「Welcome to Hokkaido」','拍最後一張北海道的天空'];
+ const POSE=['兩人假裝被雪球打中倒地','學企鵝雙手貼身走路','假裝在雪地裡游泳','一個人抬、一個人假裝被冰凍住','比出「北海道很冷」的發抖姿勢','對著螃蟹做出驚恐表情','假裝用筷子夾起整座山','把雪人當成第三個人勾肩','一起跳起來、在半空中拍到','假裝被風吹到快飛走','背對背、兩人都比愛心的一半','假裝在蒸汽鐘旁邊被蒸氣燙到','學雪丸鼓起臉頰','兩人一起做出吶喊的表情','用手比框框把風景框起來','假裝自己是雪地裡的雕像','一個人跪下獻上伴手禮','假裝在運河上划船','學北極熊站起來的樣子','用雪做兩個愛心放在眼睛前','假裝喝溫泉水喝到很滿足','兩人同時咬一支冰淇淋','假裝打翻一碗拉麵（不要真的打翻）','模仿路邊標誌上的人','把帽子蓋在對方臉上','假裝被企鵝追著跑','一個人躺雪地、一個人假裝在畫輪廓','做出超誇張的「好吃！」表情','學電視廣告舉著伴手禮微笑','假裝在雪地裡滑倒（安全第一）'];
+ const PK=p=>p==='p'?POSE:MIS;
+ const title=id=>{const k=id[0],i=+id.slice(1);return (PK(k)[i])||'';};
  const COL=['#F6B9C4','#FFE39A','#BFE0C8','#BFD9F2','#E3C9F0','#FFD1A8'];
- function gachaSub(){const s=$('#gGachaSub');if(!s)return;const g=get('hk-gacha-v1',{done:{}});const n=Object.keys(g.done||{}).length;s.textContent=n?`已完成 ${n}/${MIS.length} 個任務`:'轉一顆拍照任務';}
- function pick(){const g=get('hk-gacha-v1',{done:{}});const left=MIS.map((m,i)=>i).filter(i=>!(g.done||{})[i]&&i!==g.last);const pool=left.length?left:MIS.map((m,i)=>i).filter(i=>i!==g.last);const i=pool[Math.floor(Math.random()*pool.length)];g.last=i;put('hk-gacha-v1',g);return i;}
+ const GK='hk-gacha-v2';
+ const gs=()=>{let g=get(GK,null);if(!g){g={done:{},last:{}};const o=get('hk-gacha-v1',null);if(o&&o.done)Object.keys(o.done).forEach(i=>g.done['m'+i]=o.done[i]);put(GK,g);}g.done=g.done||{};g.last=g.last||{};return g;};
+ /* 照片存在手機的 IndexedDB（每個任務一張） */
+ const DB=()=>new Promise((res,rej)=>{if(!window.indexedDB){rej('no idb');return;}const r=indexedDB.open('hk-album',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});
+ const tx=(mode,fn)=>DB().then(db=>new Promise((res,rej)=>{const t=db.transaction('photos',mode),s=t.objectStore('photos');const out=fn(s);t.oncomplete=()=>res(out&&out.result!==undefined?out.result:out);t.onerror=()=>rej(t.error);}));
+ const pGet=id=>tx('readonly',s=>s.get(id));
+ const pPut=(id,v)=>tx('readwrite',s=>s.put(v,id));
+ const pDel=id=>tx('readwrite',s=>s.delete(id));
+ const pAll=()=>DB().then(db=>new Promise((res,rej)=>{const t=db.transaction('photos','readonly'),s=t.objectStore('photos'),out={};const c=s.openCursor();c.onsuccess=()=>{const cur=c.result;if(cur){out[cur.key]=cur.value;cur.continue();}else res(out);};c.onerror=()=>rej(c.error);}));
+ function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const m=1280,k=Math.min(1,m/Math.max(img.width,img.height)),w=Math.round(img.width*k),h=Math.round(img.height*k);const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);c.toBlob(b=>b?res(b):rej('blob'),'image/jpeg',.82);};img.onerror=()=>{URL.revokeObjectURL(url);rej('img');};img.src=url;});}
+ const picker=document.createElement('input');picker.type='file';picker.accept='image/*';picker.hidden=true;document.body.appendChild(picker);
+ function addPhoto(id,after){picker.value='';picker.onchange=async()=>{const f=picker.files&&picker.files[0];if(!f)return;try{const b=await shrink(f);await pPut(id,{blob:b,t:Date.now()});const g=gs();g.done[id]=g.done[id]||Date.now();put(GK,g);gachaSub();toast('放進相冊了 📷');after&&after();}catch(e){toast('這張照片存不進去，換一張試試');}};picker.click();}
+ const urls=[];const objURL=b=>{const u=URL.createObjectURL(b);urls.push(u);return u;};const freeURLs=()=>{while(urls.length)URL.revokeObjectURL(urls.pop());};
+ function gachaSub(){const s=$('#gGachaSub');const g=gs();const n=Object.keys(g.done).length;if(s)s.textContent=n?`已完成 ${n} 個`:'任務・搞笑姿勢';const a=$('#gAlbumSub');if(a)pAll().then(o=>{a.textContent=Object.keys(o).length?`${Object.keys(o).length} 張照片`:'拍到的都放這裡';}).catch(()=>{a.textContent='拍到的都放這裡';});}
+ function pick(k){const g=gs(),L=PK(k);const all=L.map((_,i)=>k+i);const left=all.filter(id=>!g.done[id]&&id!==g.last[k]);const pool=left.length?left:all.filter(id=>id!==g.last[k]);const id=pool[Math.floor(Math.random()*pool.length)];g.last[k]=id;put(GK,g);return id;}
  function machine(){const caps=Array.from({length:9},(_,k)=>`<circle cx="${34+(k%3)*26+(k>5?8:0)}" cy="${34+Math.floor(k/3)*20}" r="11" fill="${COL[k%6]}" stroke="#5B4B43" stroke-width="2"/><path d="M${23+(k%3)*26+(k>5?8:0)} ${34+Math.floor(k/3)*20}h22" stroke="#5B4B43" stroke-width="1.4"/>`).join('');
-  return `<svg class="ga-svg" viewBox="0 0 120 170" aria-hidden="true"><circle cx="60" cy="52" r="46" fill="#EEF6FC" stroke="#5B4B43" stroke-width="3"/><g class="ga-caps">${caps}</g><path d="M30 26a34 34 0 0 1 22-12" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/><rect x="18" y="92" width="84" height="66" rx="12" fill="#F3B6A8" stroke="#5B4B43" stroke-width="3"/><rect x="42" y="136" width="36" height="16" rx="6" fill="#5B4B43" opacity=".85"/><g class="ga-handle"><circle cx="60" cy="114" r="13" fill="#FFF8EF" stroke="#5B4B43" stroke-width="3"/><rect x="56.5" y="102" width="7" height="24" rx="3.5" fill="#E7A391" stroke="#5B4B43" stroke-width="2"/></g></svg>`;}
+  return `<svg class="ga-svg" viewBox="0 0 120 170" aria-hidden="true"><circle cx="60" cy="52" r="46" fill="#EEF6FC" stroke="#5B4B43" stroke-width="3"/><g class="ga-caps">${caps}</g><path d="M30 26a34 34 0 0 1 22-12" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/><rect x="18" y="92" width="84" height="66" rx="12" fill="var(--gm,#F3B6A8)" stroke="#5B4B43" stroke-width="3"/><rect x="42" y="136" width="36" height="16" rx="6" fill="#5B4B43" opacity=".85"/><g class="ga-handle"><circle cx="60" cy="114" r="13" fill="#FFF8EF" stroke="#5B4B43" stroke-width="3"/><rect x="56.5" y="102" width="7" height="24" rx="3.5" fill="#E7A391" stroke="#5B4B43" stroke-width="2"/></g></svg>`;}
+ let mode='m';
  function gacha(){
-  open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="拍照任務扭蛋"><h3>拍照任務扭蛋</h3>
-   <div class="ga-stage"><button type="button" class="ga-machine" id="gaMachine" aria-label="轉扭蛋">${machine()}</button><div class="ga-out" id="gaOut"></div></div>
+  open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="拍照扭蛋"><h3>拍照扭蛋</h3>
+   <div class="ga-tabs" role="tablist"><button type="button" role="tab" data-mode="m" class="${mode==='m'?'on':''}">📷 拍照任務</button><button type="button" role="tab" data-mode="p" class="${mode==='p'?'on':''}">🤪 搞笑姿勢</button></div>
+   <div class="ga-stage ${mode==='p'?'pose':''}"><button type="button" class="ga-machine" id="gaMachine" aria-label="轉扭蛋">${machine()}</button><div class="ga-out" id="gaOut"></div></div>
    <p class="g-hint" id="gaHint">點扭蛋機的轉鈕轉一顆</p><div id="gaCard"></div>
-   <div class="ga-list" id="gaList"></div>
+   <button type="button" class="ga-alb" id="gaAlb">打開旅途相冊</button>
    <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
-  list();
   $('#gaMachine').addEventListener('click',spin);
+  $('#gaAlb').addEventListener('click',album);
+  sh.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;sh.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));sh.querySelector('.ga-stage').classList.toggle('pose',mode==='p');$('#gaOut').innerHTML='';$('#gaCard').innerHTML='';$('#gaHint').textContent='點扭蛋機的轉鈕轉一顆';}));
  }
- function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;m.dataset.busy=1;$('#gaCard').innerHTML='';const i=pick(),c=COL[i%6];
+ function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;m.dataset.busy=1;$('#gaCard').innerHTML='';const id=pick(mode),c=COL[(+id.slice(1))%6];
   const drop=()=>{$('#gaOut').innerHTML=`<button type="button" class="ga-cap" style="--c:${c}" aria-label="打開扭蛋"><i class="t"></i><i class="b"></i></button>`;$('#gaHint').textContent='點扭蛋打開！';
-   $('#gaOut .ga-cap').addEventListener('click',e=>{const cap=e.currentTarget;cap.classList.add('open');setTimeout(()=>{reveal(i);delete m.dataset.busy;$('#gaHint').textContent='再轉一顆換別的任務';},RM?0:450);},{once:true});};
+   $('#gaOut .ga-cap').addEventListener('click',e=>{e.currentTarget.classList.add('open');setTimeout(()=>{reveal(id);delete m.dataset.busy;$('#gaHint').textContent='再轉一顆換別的';},RM?0:450);},{once:true});};
   if(RM){drop();return;}m.classList.add('turn');setTimeout(()=>{m.classList.remove('turn');drop();},900);}
- function reveal(i){const g=get('hk-gacha-v1',{done:{}});const done=!!(g.done||{})[i];
-  $('#gaCard').innerHTML=`<div class="ga-card"><small>今天的拍照任務</small><b>${esc(MIS[i])}</b><button type="button" class="${done?'ga-did on':'ga-did'}" data-i="${i}">${done?'已完成 ✓':'拍到了！'}</button></div>`;
-  $('#gaCard .ga-did').addEventListener('click',e=>{const g=get('hk-gacha-v1',{done:{}});g.done=g.done||{};if(g.done[i])delete g.done[i];else g.done[i]=Date.now();put('hk-gacha-v1',g);const on=!!g.done[i];e.currentTarget.classList.toggle('on',on);e.currentTarget.textContent=on?'已完成 ✓':'拍到了！';if(on)toast('任務完成！');list();gachaSub();});}
- function list(){const el=$('#gaList');if(!el)return;const g=get('hk-gacha-v1',{done:{}});const ids=Object.keys(g.done||{}).map(Number);
-  el.innerHTML=ids.length?`<p class="g-lab">已完成的任務（${ids.length}/${MIS.length}）</p>${ids.map(i=>`<span class="ga-chip">✓ ${esc(MIS[i])}</span>`).join('')}`:'';}
+ function reveal(id){const g=gs(),done=!!g.done[id];
+  $('#gaCard').innerHTML=`<div class="ga-card ${id[0]==='p'?'pose':''}"><small>${id[0]==='p'?'這次的搞笑姿勢':'這次的拍照任務'}</small><b>${esc(title(id))}</b><div class="ga-acts"><button type="button" class="ga-did on2" data-act="photo">📷 拍到了！放進相冊</button><button type="button" class="ga-did" data-act="done">${done?'已完成 ✓':'完成，不放照片'}</button></div></div>`;
+  $('#gaCard').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;
+   if(b.dataset.act==='photo')addPhoto(id,()=>{b.textContent='已放進相冊 ✓';});
+   else{const g=gs();if(g.done[id])delete g.done[id];else g.done[id]=Date.now();put(GK,g);b.textContent=g.done[id]?'已完成 ✓':'完成，不放照片';gachaSub();}});}
+ /* 相冊 */
+ async function album(){freeURLs();let P={};try{P=await pAll();}catch(e){}
+  const g=gs();const ids=[...new Set([...Object.keys(P),...Object.keys(g.done)])].sort((a,b)=>((P[a]&&P[a].t)||g.done[a]||0)-((P[b]&&P[b].t)||g.done[b]||0));
+  const nM=ids.filter(i=>i[0]==='m').length,nP=ids.filter(i=>i[0]==='p').length;
+  const cell=id=>{const p=P[id],d=new Date((p&&p.t)||g.done[id]||Date.now()),md=`${d.getMonth()+1}/${d.getDate()}`;
+   return `<button type="button" class="al-pc ${id[0]==='p'?'pose':''}" data-id="${id}" style="--r:${((id.charCodeAt(1)*7+id.length*3)%7)-3}deg">${p?`<img src="${objURL(p.blob)}" alt="">`:`<span class="al-empty">＋<br>補一張照片</span>`}<b>${esc(title(id))}</b><small>${id[0]==='p'?'🤪 ':'📷 '}${md}</small></button>`;};
+  open(`<div class="cs-panel g-panel al-panel" role="dialog" aria-modal="true" aria-label="旅途相冊"><h3>旅途相冊</h3>
+   <p class="al-sum">拍照任務 ${nM}/${MIS.length}・搞笑姿勢 ${nP}/${POSE.length}・照片 ${Object.keys(P).length} 張</p>
+   ${ids.length?`<div class="al-grid">${ids.map(cell).join('')}</div>`:'<p class="g-hint">還沒有照片，先去轉扭蛋吧！</p>'}
+   <p class="al-note">照片只存在這支手機的瀏覽器裡（已自動縮小），不會上傳。原本的照片還在你的相簿，清除 Safari 資料會把這裡的照片一起清掉。</p>
+   <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
+  sh.querySelector('.al-grid')?.addEventListener('click',e=>{const c=e.target.closest('.al-pc');if(!c)return;const id=c.dataset.id;P[id]?viewer(id,P[id]):addPhoto(id,album);});
+ }
+ function viewer(id,p){const u=objURL(p.blob);
+  open(`<div class="cs-panel g-panel al-view" role="dialog" aria-modal="true" aria-label="照片"><div class="al-big"><img src="${u}" alt="${esc(title(id))}"><b>${esc(title(id))}</b><small>${new Date(p.t).toLocaleDateString('zh-TW')}</small></div>
+   <div class="al-acts"><button type="button" data-v="save">存到手機／分享</button><button type="button" data-v="swap">換一張</button><button type="button" data-v="del">刪除照片</button></div>
+   <div class="cs-btns"><button type="button" class="g-x" data-v="back">回相冊</button></div></div>`);
+  sh.querySelector('.al-view').addEventListener('click',async e=>{const b=e.target.closest('[data-v]');if(!b)return;const v=b.dataset.v;
+   if(v==='back')album();
+   if(v==='swap')addPhoto(id,album);
+   if(v==='del'){if(confirm('確定刪除這張照片？（任務仍算完成）')){await pDel(id);gachaSub();album();}}
+   if(v==='save'){const f=new File([p.blob],`hokkaido-${id}.jpg`,{type:'image/jpeg'});try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:title(id)});return;}}catch(err){return;}const a=document.createElement('a');a.href=u;a.download=f.name;a.click();}});
+ }
  gachaSub();
 
  /* ---------- 3. 雪景搖搖 ---------- */
