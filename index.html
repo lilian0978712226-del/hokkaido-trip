@@ -2913,7 +2913,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const budget=+S.budget||0,left=budget-total,pct=budget?Math.min(100,total/budget*100):0;
   const sh=L.filter(e=>e.shared),shT=sh.reduce((s,e)=>s+toJPY(e),0),paidA=sh.filter(e=>e.payer==='a').reduce((s,e)=>s+toJPY(e),0);
   const diff=paidA-shT/2;
-  const settle=Math.abs(diff)<1?'目前兩人剛好打平 🎉':diff>0?`${S.b} 要給 ${S.a} <b>${yen(diff)}</b>（${twd(diff)}）`:`${S.a} 要給 ${S.b} <b>${yen(-diff)}</b>（${twd(-diff)}）`;
+  const settle=Math.abs(diff)<1?'目前兩人剛好打平 🎉':diff>0?`${S.b} 要給 ${S.a} <b>${twd(diff)}</b>（≈ ${yen(diff)}）`:`${S.a} 要給 ${S.b} <b>${twd(-diff)}</b>（≈ ${yen(-diff)}）`;
   const byCat=CATS.map(([k,ic,n])=>({k,ic,n,v:L.filter(e=>e.cat===k).reduce((s,e)=>s+toJPY(e),0)})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const maxC=byCat[0]?.v||1;
   const jpKey=japanDateKey();const todayIdx=jpKey<'2027-02-10'?-1:todayDayIndex();
@@ -2922,7 +2922,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const optTxt=()=>`${payer==='a'?S.a:S.b} 付・${shared?'兩人平分':'自己的'}`;
   host.innerHTML=`
    <div class="lg-sum">
-    <div><small>已花</small><b>${yen(total)}</b><span>≈ ${twd(total)}</span></div>
+    <div><small>已花</small><b>${twd(total)}</b><span>≈ ${yen(total)}</span></div>
     <div class="${left<0?'over':''}"><small>${budget?'還剩':'預算'}</small><b>${budget?yen(left):'—'}</b><span>${budget?'預算 '+yen(budget):'到 ⚙️ 設定'}</span></div>
     ${budget?`<div class="lg-bar ${pct>=90?'warn':''}"><i style="width:${pct}%"></i></div>`:''}
    </div>
