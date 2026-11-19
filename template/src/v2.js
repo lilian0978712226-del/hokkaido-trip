@@ -241,6 +241,12 @@
  const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('手機儲存空間暫時無法保存')}};
  const DK='hk-ledger-del-v1';let DEL=load(DK,[]);
  let L=load(LK,[]),S=Object.assign({budget:0,rate:0.21,a:'我',b:'陳肥肥'},load(SK,{}));if(S.b==='旅伴'){S.b='陳肥肥';save(SK,S);}
+ /* 出發前已付的大筆費用：只自動放一次；刪掉的不會再回來 */
+ (function(){const FK='hk-ledger-seed-v1';if(localStorage.getItem(FK))return;
+  const P=S.a==='陳肥肥'?'b':'a';const has=new Set(L.map(e=>e.t).concat(DEL));
+  [[1763600000001,17329,'move',0,'Nippon 租車 8 天'],[1763600000002,46886,'move',0,'來回機票（台中⇄新千歲）'],[1763600000003,19500,'stay',0,'Hotel Vista Sapporo Odori'],[1763600000004,7820,'stay',4,'Amanek 旭川住宿'],[1763600000005,6395,'stay',6,'第一瀧本館'],[1763600000006,2410,'stay',7,'KOKO STAY 千歲']]
+  .forEach(([t,amt,cat,day,note])=>{if(!has.has(t))L.push({t,amt,cur:'TWD',cat,payer:P,shared:true,day,note});});
+  save(LK,L);try{localStorage.setItem(FK,'1')}catch(e){}})();
  let cur='JPY',cat='food',payer='a',shared=true;
  const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
  const twd=n=>'NT$'+Math.round(n*S.rate).toLocaleString('zh-TW');
