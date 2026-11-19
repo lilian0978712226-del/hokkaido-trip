@@ -419,3 +419,9 @@
  window.hkPreviewAllClear=i=>celebrate(i||0);
  funRow();omiSub();gachaSub();stampRow();pigBadge();
 })();
+/* 招財貓達摩：點了會張眼生氣打人 */
+(function(){const c=document.getElementById('hgCat');if(!c)return;let t,n=0;
+ const LINES=['不要戳我！','喵的咧！','生氣了喔！','再戳就揍你！','招財中，請勿打擾！'];
+ const hit=e=>{e.stopPropagation();if(e.type==='pointerdown')return;c.classList.remove('mad');void c.getBBox();c.classList.add('mad');clearTimeout(t);t=setTimeout(()=>c.classList.remove('mad'),1700);
+  if(navigator.vibrate)navigator.vibrate([20,40,30]);if(window.toast)window.toast(LINES[n++%LINES.length]);};
+ c.addEventListener('pointerdown',hit);c.addEventListener('click',hit);})();

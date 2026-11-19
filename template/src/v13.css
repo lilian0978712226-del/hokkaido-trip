@@ -264,3 +264,36 @@ html body .gm-coin.fall{animation:coinFall .7s cubic-bezier(.3,1.4,.5,1)!importa
 html body .gm-coin.nudge{animation:coinNudge2 .5s ease!important}
 @keyframes coinNudge2{0%,100%{transform:rotateX(55deg)}25%{transform:rotateX(55deg) translateX(-6px)}75%{transform:rotateX(55deg) translateX(6px)}}
 html body .gm-knob-hit{top:69%!important}
+/* 招財貓達摩生氣 */
+html body #hgCat{cursor:pointer!important;transform-box:fill-box!important;transform-origin:50% 100%!important}
+html body #hgCat .cat-hit{pointer-events:all!important}
+html body #hgCat .cat-mad{opacity:0!important}
+html body #hgCat .cat-paw,html body #hgCat .cat-pow{opacity:0}
+html body #hgCat .cat-paw{transform:translate(20px,6px)}
+html body #hgCat .cat-pow{transform:translate(52px,-6px) scale(.2)}
+html body #hgCat.mad .cat-calm{opacity:0!important}
+html body #hgCat.mad .cat-mad{opacity:1!important}
+html body #hgCat.mad{animation:catShake .12s linear 4!important}
+@keyframes catShake{0%,100%{transform:none}25%{transform:translateX(-1.5px) rotate(-3deg)}75%{transform:translateX(1.5px) rotate(3deg)}}
+html body #hgCat.mad .cat-paw{animation:catPunch .9s cubic-bezier(.3,1.6,.5,1) .45s both!important}
+@keyframes catPunch{0%{opacity:1;transform:translate(20px,6px)}30%{opacity:1;transform:translate(44px,-4px) scale(1.15)}55%{opacity:1;transform:translate(26px,4px)}75%{opacity:1;transform:translate(46px,-4px) scale(1.15)}100%{opacity:0;transform:translate(20px,6px)}}
+html body #hgCat.mad .cat-pow{animation:catPow .9s ease .45s both!important}
+@keyframes catPow{0%,22%{opacity:0;transform:translate(52px,-6px) scale(.2)}32%{opacity:1;transform:translate(52px,-6px) scale(1.2)}50%{opacity:0;transform:translate(52px,-6px) scale(.6)}68%{opacity:0}78%{opacity:1;transform:translate(54px,-8px) scale(1.3) rotate(20deg)}100%{opacity:0;transform:translate(54px,-8px) scale(.6)}}
+@media (prefers-reduced-motion:reduce){html body #hgCat.mad,html body #hgCat.mad .cat-paw,html body #hgCat.mad .cat-pow{animation:none!important}}
+/* 燈牌螃蟹夾夾 */
+html body #heroArt .hg-arm,html body #heroArt .hg-arm .jaw{transform-box:fill-box}
+html body #heroArt .hg-arm.l{transform-origin:100% 100%;animation:armL 1.6s ease-in-out infinite}
+html body #heroArt .hg-arm.r{transform-origin:0% 100%;animation:armR 1.6s ease-in-out infinite .8s}
+html body #heroArt .hg-arm.l .jaw{transform-origin:100% 100%}
+html body #heroArt .hg-arm.r .jaw{transform-origin:0% 100%}
+html body #heroArt .hg-arm.l .jaw.t{animation:jawT .45s ease-in-out infinite}
+html body #heroArt .hg-arm.r .jaw.t{animation:jawTR .45s ease-in-out infinite .22s}
+html body #heroArt .hg-arm.l .jaw.b{animation:jawB .45s ease-in-out infinite}
+html body #heroArt .hg-arm.r .jaw.b{animation:jawBR .45s ease-in-out infinite .22s}
+@keyframes armL{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+@keyframes armR{0%,100%{transform:rotate(0)}50%{transform:rotate(14deg)}}
+@keyframes jawT{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
+@keyframes jawB{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+@keyframes jawTR{0%,100%{transform:rotate(0)}50%{transform:rotate(-18deg)}}
+@keyframes jawBR{0%,100%{transform:rotate(0)}50%{transform:rotate(12deg)}}
+@media (prefers-reduced-motion:reduce){html body #heroArt .hg-arm,html body #heroArt .hg-arm .jaw{animation:none!important}}
