@@ -76,14 +76,17 @@ rep('<h2>🛂 入境卡與退稅</h2>', '<h2>' + ic('i-passport') + '入境卡�
 
 # 6. flights -> boarding passes (same data)
 old_fl = ('<section class="section" id="flights"><h2><span class="deco">✈️</span> 航班小卡</h2><div class="flightgrid"><div class="mini"><small>去程｜2/10</small><strong>JX318</strong><p>台中 RMQ → 新千歲 CTS</p><b>10:20 → 15:00</b></div><div class="mini"><small>回程｜2/18</small><strong>JX319</strong><p>新千歲 CTS → 台中 RMQ</p><b>16:00 → 19:55</b></div></div>')
-def pass_(cls, label, fn, a, an, at, b, bn, bt, tag):
+def pass_(cls, label, fn, a, an, at, b, bn, bt, tag, info=()):
     return (f'<article class="pass {cls}" aria-label="{label} {fn} {an} {a} {at} 到 {bn} {b} {bt}"><div class="pass-top"><span>BOARDING PASS</span><small>{label}</small></div>'
             f'<div class="pass-route"><div class="pass-port"><b>{a}</b><small>{an}</small><em>{at}</em></div><div class="pass-path">{ic("i-plane", "")}</div>'
             f'<div class="pass-port"><b>{b}</b><small>{bn}</small><em>{bt}</em></div></div>'
-            f'<div class="pass-foot"><span>FLIGHT <b>{fn}</b></span><span class="pass-tag">{tag}</span></div></article>')
+            + (('<dl class="pass-info">' + ''.join(f'<div{" class=hl" if h else ""}><dt>{k}</dt><dd>{v}</dd></div>' for k, v, h in info) + '</dl>') if info else '')
+            + f'<div class="pass-foot"><span>FLIGHT <b>{fn}</b></span><span class="pass-tag">{tag}</span></div></article>')
 new_fl = ('<section class="section" id="flights"><h2>' + ic('i-plane') + '航班小卡</h2><div class="flightgrid boarding">'
-          + pass_('', '去程｜2/10', 'JX318', 'RMQ', '台中', '10:20', 'CTS', '新千歲', '15:00', 'HOKKAIDO ♡')
-          + pass_('back', '回程｜2/18', 'JX319', 'CTS', '新千歲', '16:00', 'RMQ', '台中', '19:55', 'HOME ♡')
+          + pass_('', '去程｜2/10', 'JX318', 'RMQ', '台中', '10:20', 'CTS', '新千歲', '15:00', 'HOKKAIDO ♡',
+                  [('艙等', '經濟艙', 0), ('航廈', '台中 2 航廈 → 新千歲 國際線', 0), ('座位', '我 12B・陳肥肥 12A', 0)])
+          + pass_('back', '回程｜2/18', 'JX319', 'CTS', '新千歲', '16:00', 'RMQ', '台中', '19:55', 'HOME ♡',
+                  [('艙等', '經濟艙', 0), ('航廈', '新千歲 國際線 → 台中 2 航廈', 0), ('座位', '我 12B・陳肥肥 12A', 0), ('托運', '已加購 1 件托運行李', 1)])
           + '</div>')
 rep(old_fl, new_fl)
 

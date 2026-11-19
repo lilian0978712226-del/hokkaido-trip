@@ -98,3 +98,9 @@ html body .ab-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;ga
 html body .ab-row label{min-width:0!important}
 html body .ab-form input[type=date],html body .ab-form input[type=time],html body .ph-slots input[type=time]{-webkit-appearance:none!important;appearance:none!important;min-width:0!important;max-width:100%!important;text-align:left!important}
 html body .ab-form input::-webkit-date-and-time-value{text-align:left!important}
+html body .pass .pass-info{display:grid!important;gap:4px!important;margin:6px 14px 8px!important;padding:8px 10px!important;border-radius:12px!important;background:rgba(255,255,255,.6)!important;border:1px dashed #E3D6C9!important;position:relative!important;z-index:3!important}
+html body .pass .pass-info div{display:flex!important;gap:8px!important;align-items:baseline!important;font-size:12.5px!important;line-height:1.45!important}
+html body .pass .pass-info dt{flex:none!important;width:34px!important;color:#9A8B80!important;font-weight:700!important;margin:0!important}
+html body .pass .pass-info dd{margin:0!important;color:#5B4B43!important;font-weight:800!important}
+html body .pass .pass-info .hl dd{color:#C0675B!important}
+html body .pass .pass-stamp{z-index:4!important}
