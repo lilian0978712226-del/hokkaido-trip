@@ -20,10 +20,15 @@
 
  /* ---------- 共用：搖手機 ---------- */
  let motionOK=false;const shakeFns=new Set();let lastShake=0;
+ let motionAsked=false,lastA=null;
+ function onMotion(e){const a=e.accelerationIncludingGravity||e.acceleration;if(!a)return;const v=[a.x||0,a.y||0,a.z||0];
+  if(lastA){const d=Math.abs(v[0]-lastA[0])+Math.abs(v[1]-lastA[1])+Math.abs(v[2]-lastA[2]);if(d>22&&Date.now()-lastShake>700){lastShake=Date.now();shakeFns.forEach(f=>f());}}lastA=v;}
  function askMotion(){if(motionOK)return Promise.resolve(true);
   const DM=window.DeviceMotionEvent;if(!DM)return Promise.resolve(false);
-  const p=typeof DM.requestPermission==='function'?DM.requestPermission().then(r=>r==='granted').catch(()=>false):Promise.resolve(true);
-  return p.then(ok=>{if(ok&&!motionOK){motionOK=true;window.addEventListener('devicemotion',e=>{const a=e.accelerationIncludingGravity||e.acceleration;if(!a)return;const m=Math.abs(a.x||0)+Math.abs(a.y||0)+Math.abs(a.z||0);if(m>32&&Date.now()-lastShake>900){lastShake=Date.now();shakeFns.forEach(f=>f());}});}return ok;});}
+  if(typeof DM.requestPermission!=='function'){motionOK=true;window.addEventListener('devicemotion',onMotion);return Promise.resolve(true);}
+  if(motionAsked&&!motionOK)return Promise.resolve(false);motionAsked=true;
+  return DM.requestPermission().then(r=>{if(r==='granted'){motionOK=true;window.addEventListener('devicemotion',onMotion);document.querySelectorAll('.shake-on').forEach(x=>x.remove());toast('開好了！搖一搖手機試試看');return true;}toast('沒有開啟動作感應，可以用手指點雪景');return false;}).catch(()=>false);}
+ if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission!=='function'){motionOK=true;window.addEventListener('devicemotion',onMotion);}
 
  /* ---------- 入口：旅途小遊戲 ---------- */
  function funRow(){const fp=document.getElementById('footprints');if(!fp)return;if(fp.querySelector('.fun-row'))return;
@@ -198,15 +203,17 @@
 
  /* ---------- 3. 雪景搖搖 ---------- */
  const hero=document.getElementById('heroArt');
- if(hero){const wrap=hero.parentElement;wrap.classList.add('snow-host');const lay=document.createElement('div');lay.className='snow-burst';lay.setAttribute('aria-hidden','true');wrap.appendChild(lay);
+ if(hero){const wrap=hero;wrap.classList.add('snow-host');const lay=document.createElement('div');lay.className='snow-burst';lay.setAttribute('aria-hidden','true');wrap.appendChild(lay);
   let n=0;const flake=(x,big)=>{if(n>90)return;n++;const f=document.createElement('i');const s=(big?5:3)+Math.random()*6;f.style.cssText=`left:${x}%;width:${s}px;height:${s}px;--dx:${(Math.random()*40-20).toFixed(0)}px;animation-duration:${(2.2+Math.random()*2.2).toFixed(2)}s;animation-delay:${(Math.random()*.5).toFixed(2)}s`;lay.appendChild(f);f.addEventListener('animationend',()=>{f.remove();n--;});};
   const burst=(cx,k)=>{if(RM)return;for(let j=0;j<k;j++)flake(Math.max(0,Math.min(100,cx+(Math.random()*60-30))),j%4===0);};
   let lx=null,acc=0;
-  wrap.addEventListener('pointerdown',e=>{lx=e.clientX;acc=0;askMotion();const r=wrap.getBoundingClientRect();burst((e.clientX-r.left)/r.width*100,10);});
+  wrap.addEventListener('click',()=>{askMotion();});
+  wrap.addEventListener('pointerdown',e=>{lx=e.clientX;acc=0;const r=wrap.getBoundingClientRect();burst((e.clientX-r.left)/r.width*100,10);});
   wrap.addEventListener('pointermove',e=>{if(lx==null)return;acc+=Math.abs(e.clientX-lx);lx=e.clientX;if(acc>40){acc=0;const r=wrap.getBoundingClientRect();burst((e.clientX-r.left)/r.width*100,8);}});
   ['pointerup','pointercancel','pointerleave'].forEach(t=>wrap.addEventListener(t,()=>{lx=null;}));
   shakeFns.add(()=>{const r=wrap.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)burst(50,40);});
-  if(!get('hk-snowhint-v1',0)){const h=document.createElement('span');h.className='snow-hint';h.textContent='摸一下雪景，雪會下更大';wrap.appendChild(h);setTimeout(()=>h.remove(),6000);put('hk-snowhint-v1',1);}
+  if(!motionOK&&window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==='function'){const c=document.createElement('button');c.type='button';c.className='shake-on';c.textContent='❄ 開啟搖一搖';c.addEventListener('click',e=>{e.stopPropagation();askMotion().then(ok=>{if(ok)c.remove();});});wrap.appendChild(c);}
+  else if(!get('hk-snowhint-v1',0)){const h=document.createElement('span');h.className='snow-hint';h.textContent='摸一下或搖手機，雪會下更大';wrap.appendChild(h);setTimeout(()=>h.remove(),6000);put('hk-snowhint-v1',1);}
  }
 
  /* ---------- 4. 存錢筒 ---------- */
