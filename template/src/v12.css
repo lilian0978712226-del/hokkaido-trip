@@ -70,3 +70,14 @@ html body #arrival-tax .rt-tip{margin:8px 0 0!important;padding:8px 10px!importa
 html body #arrival-tax .rt-tip b{color:#3E5466!important}
 html body #arrival-tax .kiosk-spots{margin:6px 0 6px!important;padding-left:20px!important;line-height:1.7!important}
 html body #arrival-tax .kiosk-map{margin:8px 0 6px!important;background:#fff!important;border-radius:14px!important;padding:4px!important}html body #arrival-tax .kiosk-map svg{width:100%!important;height:auto!important;display:block!important}
+html body #arrival-tax .kg-title{font-weight:900!important;color:#6E5A3A!important;margin:10px 0 6px!important;font-size:14.5px!important}
+html body #arrival-tax .kg-route{margin:0 0 8px!important;padding-left:22px!important;font-size:13.5px!important;line-height:1.7!important}
+html body #arrival-tax .kg-route li{margin-bottom:6px!important}
+html body #arrival-tax .kg-route small{color:#C0675B!important;font-size:12px!important}
+html body #arrival-tax .kg-note{font-size:12.5px!important;color:#7A685C!important;background:#FFF8E3!important;border-radius:10px!important;padding:7px 10px!important;margin:6px 0!important;line-height:1.6!important}
+html body #arrival-tax .kg-legend{list-style:none!important;padding:0!important;margin:6px 0!important}
+html body #arrival-tax .kg-legend li{display:flex!important;gap:8px!important;align-items:flex-start!important;margin:0 0 6px!important;font-size:13.5px!important;line-height:1.6!important}
+html body #arrival-tax .kg-legend i{flex:none!important;width:22px!important;height:22px!important;border-radius:50%!important;background:#F2A7B5!important;color:#fff!important;font-style:normal!important;font-weight:900!important;display:grid!important;place-items:center!important;font-size:12px!important;margin-top:1px!important}
+html body #arrival-tax .kg-ask{display:flex!important;flex-direction:column!important;gap:2px!important;background:#EEF5FB!important;border-radius:12px!important;padding:9px 11px!important;margin:8px 0!important;color:#4F6577!important;font-size:13px!important}
+html body #arrival-tax .kg-jp{font-size:16px!important;font-weight:900!important;color:#3E5466!important}
+html body #arrival-tax .kg-zh{font-size:12px!important}
