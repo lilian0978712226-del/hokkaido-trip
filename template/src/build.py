@@ -76,17 +76,25 @@ rep('<h2>🛂 入境卡與退稅</h2>', '<h2>' + ic('i-passport') + '入境卡�
 
 # 6. flights -> boarding passes (same data)
 old_fl = ('<section class="section" id="flights"><h2><span class="deco">✈️</span> 航班小卡</h2><div class="flightgrid"><div class="mini"><small>去程｜2/10</small><strong>JX318</strong><p>台中 RMQ → 新千歲 CTS</p><b>10:20 → 15:00</b></div><div class="mini"><small>回程｜2/18</small><strong>JX319</strong><p>新千歲 CTS → 台中 RMQ</p><b>16:00 → 19:55</b></div></div>')
-def pass_(cls, label, fn, a, an, at, b, bn, bt, tag, info=()):
+def pass_(cls, label, fn, a, an, at, b, bn, bt, tag, cells=(), dur=''):
+    import random
+    rnd = random.Random(fn)
+    x, bars = 0.0, []
+    while x < 200:
+        w = rnd.choice([1, 1, 1.6, 2.4, 3]); bars.append(f'<rect x="{x:.1f}" y="0" width="{w}" height="26"/>'); x += w + rnd.choice([1, 1.4, 2, 2.6])
+    code = f'<svg class="bp-code" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">{"".join(bars)}</svg>'
+    grid = ''.join(f'<div class="{"hl" if h else ""}"><small>{k}</small><b>{v}</b></div>' for k, v, h in cells)
     return (f'<article class="pass {cls}" aria-label="{label} {fn} {an} {a} {at} 到 {bn} {b} {bt}"><div class="pass-top"><span>BOARDING PASS</span><small>{label}</small></div>'
-            f'<div class="pass-route"><div class="pass-port"><b>{a}</b><small>{an}</small><em>{at}</em></div><div class="pass-path">{ic("i-plane", "")}</div>'
-            f'<div class="pass-port"><b>{b}</b><small>{bn}</small><em>{bt}</em></div></div>'
-            + (('<dl class="pass-info">' + ''.join(f'<div{" class=hl" if h else ""}><dt>{k}</dt><dd>{v}</dd></div>' for k, v, h in info) + '</dl>') if info else '')
-            + f'<div class="pass-foot"><span>FLIGHT <b>{fn}</b></span><span class="pass-tag">{tag}</span></div></article>')
+            f'<div class="bp-route"><div class="bp-port"><small>FROM</small><b>{a}</b><span>{an}</span></div>'
+            f'<div class="bp-plane">{ic("i-plane", "")}<i>{dur}</i></div>'
+            f'<div class="bp-port r"><small>TO</small><b>{b}</b><span>{bn}</span></div></div>'
+            f'<div class="bp-grid">{grid}</div>'
+            f'<div class="bp-stub">{code}<span class="pass-tag">{tag}</span></div></article>')
 new_fl = ('<section class="section" id="flights"><h2>' + ic('i-plane') + '航班小卡</h2><div class="flightgrid boarding">'
           + pass_('', '去程｜2/10', 'JX318', 'RMQ', '台中', '10:20', 'CTS', '新千歲', '15:00', 'HOKKAIDO ♡',
-                  [('艙等', '經濟艙', 0), ('航廈', '台中 2 航廈 → 新千歲 國際線', 0), ('座位', '我 12B・陳肥肥 12A', 0)])
+                  [('FLIGHT', 'JX318', 0), ('DATE', '10 FEB', 0), ('DEPART', '10:20', 0), ('ARRIVE', '15:00', 0), ('CLASS', '經濟艙', 0), ('SEAT', '12A・12B', 0), ('TERMINAL', 'T2 → 國際線', 0), ('BAGGAGE', '標準額度', 0)], '3h40m')
           + pass_('back', '回程｜2/18', 'JX319', 'CTS', '新千歲', '16:00', 'RMQ', '台中', '19:55', 'HOME ♡',
-                  [('艙等', '經濟艙', 0), ('航廈', '新千歲 國際線 → 台中 2 航廈', 0), ('座位', '我 12B・陳肥肥 12A', 0), ('托運', '已加購 1 件托運行李', 1)])
+                  [('FLIGHT', 'JX319', 0), ('DATE', '18 FEB', 0), ('DEPART', '16:00', 0), ('ARRIVE', '19:55', 0), ('CLASS', '經濟艙', 0), ('SEAT', '12A・12B', 0), ('TERMINAL', '國際線 → T2', 0), ('BAGGAGE', '+1 件托運', 1)], '4h55m')
           + '</div>')
 rep(old_fl, new_fl)
 

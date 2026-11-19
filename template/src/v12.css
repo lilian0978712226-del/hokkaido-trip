@@ -104,3 +104,30 @@ html body .pass .pass-info dt{flex:none!important;width:34px!important;color:#9A
 html body .pass .pass-info dd{margin:0!important;color:#5B4B43!important;font-weight:800!important}
 html body .pass .pass-info .hl dd{color:#C0675B!important}
 html body .pass .pass-stamp{z-index:4!important}
+/* boarding pass v2：像真的機票 */
+html body .pass{border-radius:18px!important;background:#FFFDF9!important;border:2px solid #5B4B43!important}
+html body .pass.back{background:#FBFDFF!important}
+html body .pass .pass-top{background:#E7A391!important;border-bottom:2px solid #5B4B43!important;font-size:11px!important}
+html body .pass.back .pass-top{background:#8FAFCB!important}
+html body .pass .bp-route{display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:end!important;gap:6px!important;padding:10px 14px 6px!important}
+html body .pass .bp-port small{display:block!important;font-size:9.5px!important;letter-spacing:1.5px!important;color:#A39286!important;font-weight:800!important}
+html body .pass .bp-port b{display:block!important;font-size:30px!important;line-height:1!important;letter-spacing:1px!important;color:#4A3B34!important;font-weight:900!important}
+html body .pass .bp-port span{display:block!important;font-size:12px!important;color:#8E7A6C!important;margin-top:2px!important}
+html body .pass .bp-port.r{text-align:right!important}
+html body .pass .bp-plane{display:flex!important;flex-direction:column!important;align-items:center!important;padding-bottom:6px!important;min-width:70px!important;position:relative!important}
+html body .pass .bp-plane:before{content:''!important;position:absolute!important;left:0!important;right:0!important;top:15px!important;border-top:2px dashed #D8CBC0!important}
+html body .pass .bp-plane svg{width:30px!important;height:30px!important;position:relative!important;background:inherit!important}
+html body .pass .bp-plane i{font-style:normal!important;font-size:10.5px!important;color:#A39286!important;font-weight:800!important;margin-top:2px!important}
+html body .pass .bp-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:8px 6px!important;padding:6px 14px 12px!important}
+html body .pass .bp-grid div{min-width:0!important}
+html body .pass .bp-grid small{display:block!important;font-size:8.5px!important;letter-spacing:1px!important;color:#A39286!important;font-weight:800!important}
+html body .pass .bp-grid b{display:block!important;font-size:13.5px!important;color:#4A3B34!important;font-weight:900!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+html body .pass .bp-grid div:nth-child(n+5) b{font-size:12px!important}
+html body .pass .bp-grid .hl b{color:#C0675B!important}
+html body .pass .bp-grid div:nth-child(7),html body .pass .bp-grid div:nth-child(8){grid-column:span 2!important}
+html body .pass .bp-grid div:nth-child(5),html body .pass .bp-grid div:nth-child(6){grid-column:span 2!important}
+html body .pass .bp-stub{display:flex!important;align-items:center!important;gap:10px!important;height:46px!important;padding:0 14px!important;border-top:2px dashed #D8CBC0!important;box-sizing:border-box!important}
+html body .pass .bp-code{flex:1!important;height:26px!important;fill:#5B4B43!important;opacity:.75!important}
+html body .pass .bp-stub .pass-tag{flex:none!important}
+html body .pass:before,html body .pass:after{bottom:35px!important;width:18px!important;height:18px!important;border-width:2px!important}
+html.night body .pass .bp-port b,html.night body .pass .bp-grid b{color:#4A3B34!important}
