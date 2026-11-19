@@ -4531,16 +4531,14 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  let mode='m';
  function gacha(){
   open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="拍照扭蛋"><h3>拍照扭蛋</h3>
-   <div class="ga-tabs" role="tablist"><button type="button" role="tab" data-mode="m" class="${mode==='m'?'on':''}">📷 拍照任務</button><button type="button" role="tab" data-mode="p" class="${mode==='p'?'on':''}">🤪 搞笑姿勢</button></div>
-   <div class="ga-stage ${mode==='p'?'pose':''}"><button type="button" class="ga-machine" id="gaMachine" aria-label="轉扭蛋">${machine()}</button><div class="ga-out" id="gaOut"></div></div>
+   <div class="ga-stage"><button type="button" class="ga-machine" id="gaMachine" aria-label="轉扭蛋">${machine()}</button><div class="ga-out" id="gaOut"></div></div>
    <p class="g-hint" id="gaHint">點扭蛋機的轉鈕轉一顆</p><div id="gaCard"></div>
    <button type="button" class="ga-alb" id="gaAlb">打開旅途相冊</button>
    <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
   $('#gaMachine').addEventListener('click',spin);
   $('#gaAlb').addEventListener('click',album);
-  sh.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;sh.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));sh.querySelector('.ga-stage').classList.toggle('pose',mode==='p');$('#gaOut').innerHTML='';$('#gaCard').innerHTML='';$('#gaHint').textContent='點扭蛋機的轉鈕轉一顆';}));
  }
- function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;m.dataset.busy=1;$('#gaCard').innerHTML='';const id=pick(mode),c=COL[(+id.slice(1))%6];
+ function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;m.dataset.busy=1;$('#gaCard').innerHTML='';const id=pick(Math.random()<MIS.length/(MIS.length+POSE.length)?'m':'p'),c=COL[(+id.slice(1))%6];
   const drop=()=>{$('#gaOut').innerHTML=`<button type="button" class="ga-cap" style="--c:${c}" aria-label="打開扭蛋"><i class="t"></i><i class="b"></i></button>`;$('#gaHint').textContent='點扭蛋打開！';
    $('#gaOut .ga-cap').addEventListener('click',e=>{e.currentTarget.classList.add('open');setTimeout(()=>{reveal(id);delete m.dataset.busy;$('#gaHint').textContent='再轉一顆換別的';},RM?0:450);},{once:true});};
   if(RM){drop();return;}m.classList.add('turn');setTimeout(()=>{m.classList.remove('turn');drop();},900);}
