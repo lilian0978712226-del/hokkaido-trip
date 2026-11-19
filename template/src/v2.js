@@ -229,7 +229,7 @@
  }
  fold($q('#prepList'),'看全部待辦');{const ir=$q('#importantReminders');if(ir)fold(ir,'今天的重要事項');}fold($q('#bagList'),'看全部行李');fold($q('#entryTaxList'),'看全部項目');
  [['#rental-pickup-route','看 1～6 步取車路線'],['#arrival-tax .tax-route-card','看退稅 1～5 步']].forEach(([sel,lab])=>{
-  const card=$q(sel);if(!card)return;const kids=[...card.children].slice(1);if(!kids.length)return;
+  const card=$q(sel);if(!card)return;const kids=[...card.children].slice(card.firstElementChild&&card.firstElementChild.classList.contains('dayhead')?1:0);if(!kids.length)return;
   const wrap=document.createElement('div');kids.forEach(k=>wrap.appendChild(k));card.appendChild(wrap);fold(wrap,lab);
  });
  document.querySelectorAll('#essentials .card').forEach(c=>{if(c.querySelector('h3')&&/雪地自駕/.test(c.textContent)){const h=c.querySelector('h3');const ul=c.querySelector('ul');if(ul)fold(ul,h.textContent.replace('❄️','').trim());h.remove();}});
