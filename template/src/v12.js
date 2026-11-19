@@ -220,4 +220,4 @@
 })();
 /* ===== v12c：日本時間下面加台灣時間 ===== */
 (function(){const d=document.getElementById('jpDate');if(!d)return;const p=document.createElement('p');p.id='twClock';p.className='muted';d.after(p);
- const up=()=>{const t=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());p.textContent='台灣 '+t+'（慢 1 小時）';};up();setInterval(up,30000);})();
+ const up=()=>{const t=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());p.textContent='台灣 '+t;};up();setInterval(up,30000);})();
