@@ -62,7 +62,7 @@
  /* ---------- 2. 訂位／訂房／買票：記在哪個 App、確認編號，加上總清單 ---------- */
  const TICKET=on=>`<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6.2a1.6 1.6 0 0 1 1.6-1.6h10.8A1.6 1.6 0 0 1 17 6.2v1.7a2.1 2.1 0 0 0 0 4.2v1.7a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 13.8v-1.7a2.1 2.1 0 0 0 0-4.2Z" fill="${on?'#FFE39A':'#fff'}" stroke="${on?'#B98A3E':'#D9A48F'}" stroke-width="1.4" stroke-linejoin="round"/><path d="M12.6 5v10" stroke="${on?'#B98A3E':'#D9A48F'}" stroke-width="1.2" stroke-dasharray="1.4 1.6"/>${on?'<path d="M6 10.2l1.7 1.7 3-3.4" fill="none" stroke="#8A6A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>':'<path d="M7.8 8v4M5.8 10h4" stroke="#D9A48F" stroke-width="1.5" stroke-linecap="round"/>'}</svg>`;
  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- const H=['Booking','Agoda','Trip.com','Hotels.com','樂天','Jalan','官網'];
+ const H=['Booking','Agoda','Trip.com','官網'];
  // lv：must 建議先訂、can 可以訂、walk 不用訂（只顯示提示）
  const BOOK=[
   ['car',/Nippon 租車/,{lv:'must',w:'預約',apps:['官網','Klook','KKday'],def:{app:'官網',ref:'G34218'},tip:'取車和還車是同一筆預約'}],
@@ -70,16 +70,16 @@
   ['amanek',/Amanek/,{lv:'must',w:'訂房',apps:H,def:{app:'Booking'},tip:'2 晚（2/14–2/16）'}],
   ['takimoto',/第一瀧本館/,{lv:'must',w:'訂房',apps:H,def:{app:'官網'},tip:'溫泉旅館，含不含早晚餐記在備註'}],
   ['koko',/KOKO STAY/,{lv:'must',w:'訂房',apps:H,def:{app:'Trip.com'},tip:'最後 2 晚（2/16–2/18）'}],
-  ['tokuju',/徳寿|德壽/,{lv:'must',w:'訂位',apps:['ぐるなび','電話'],tel:'+81112211910',tip:'ぐるなび 可以網路訂位'}],
-  ['masajin',/Masajin/i,{lv:'can',w:'訂位',apps:['ぐるなび','電話'],tel:'+81115557936',tip:'ぐるなび 可以網路訂位'}],
-  ['aoki',/檍/,{lv:'can',w:'訂位',apps:['Hot Pepper','電話'],tip:'人氣排隊店，可不可以訂座以官網為準'}],
-  ['shinobure',/Shinobure/i,{lv:'can',w:'訂位',apps:['ぐるなび','Hot Pepper','電話'],tel:'+81115226017',tip:'ぐるなび 可以網路訂位'}],
-  ['zen',/禪|禅/,{lv:'must',w:'訂位',apps:['ぐるなび','電話'],tel:'+81112196522',tip:'2/13 是週六，週末常提早客滿'}],
-  ['kotetsu',/こてつ/,{lv:'can',w:'訂位',apps:['電話','Hot Pepper'],tip:'商場裡的店，可不可以訂以官網為準'}],
-  ['tenkin',/天金/,{lv:'can',w:'訂位',apps:['電話'],tel:'+81166223953',tip:'可以打電話訂；週三公休（2/15 是週一）'}],
+  ['tokuju',/徳寿|德壽/,{lv:'must',w:'訂位',apps:['Google 地圖','ぐるなび','食べログ'],tip:'Google 地圖或ぐるなび 都能網路訂位'}],
+  ['masajin',/Masajin/i,{lv:'can',w:'訂位',apps:['Google 地圖','ぐるなび','食べログ'],tip:'Google 地圖或ぐるなび 都能網路訂位'}],
+  ['aoki',/檍/,{lv:'can',w:'訂位',apps:['Google 地圖','Hot Pepper','食べログ'],tip:'人氣排隊店，可不可以訂座以官網為準'}],
+  ['shinobure',/Shinobure/i,{lv:'can',w:'訂位',apps:['Google 地圖','ぐるなび','Hot Pepper'],tip:'Google 地圖或ぐるなび 都能網路訂位'}],
+  ['zen',/禪|禅/,{lv:'must',w:'訂位',apps:['Google 地圖','ぐるなび','食べログ'],tip:'2/13 是週六，週末常提早客滿'}],
+  ['kotetsu',/こてつ/,{lv:'can',w:'訂位',apps:['Google 地圖','Hot Pepper','食べログ'],tip:'商場裡的店，可不可以訂以官網為準'}],
+  ['tenkin',/天金/,{lv:'walk',txt:'只能電話訂・現場候位'}],
   ['moiwa',/藻岩山纜車/,{lv:'can',w:'買票',apps:['KKday','Klook','官網'],tip:'備註有 KKday 連結，先買可以快速上山'}],
-  ['cruise',/運河遊船/,{lv:'must',w:'訂船',apps:['官網','asoview'],tip:'官網 otaru.cc 60 天前開放，傍晚班次熱門'}],
-  ['asahiyama',/旭山動物園/,{lv:'can',w:'買票',apps:['KKday','Klook','VELTRA','LAWSON'],tip:'¥1,000，網路票出示 QR 碼入園'}],
+  ['cruise',/運河遊船/,{lv:'must',w:'訂船',apps:['官網','KKday','Klook'],tip:'官網 otaru.cc 60 天前開放，傍晚班次熱門'}],
+  ['asahiyama',/旭山動物園/,{lv:'can',w:'買票',apps:['KKday','Klook','官網'],tip:'¥1,000，網路票出示 QR 碼入園'}],
   ['okushiba',/奧芝|奥芝/,{lv:'walk',txt:'不能訂・現場排隊'}],
   ['ichiran',/一蘭/,{lv:'walk',txt:'不用訂・現場排隊'}],
   ['aquarium',/小樽水族館/,{lv:'walk',txt:'現場買票較便宜'}],
@@ -90,11 +90,11 @@
 
  const APC={'Booking':['B','#7FA6D6'],'Agoda':['A','#C9A0C4'],'Trip.com':['T','#6FB3CF'],'Hotels.com':['H','#D99A9A'],'樂天':['樂','#D98C8C'],'Jalan':['J','#E2A86B'],
   'Klook':['K','#E9A08A'],'KKday':['K','#8CC7A6'],'VELTRA':['V','#8FA9D9'],'LAWSON':['L','#8DB2D9'],'asoview':['a','#E3B565'],
-  'ぐるなび':['ぐ','#E39494'],'Hot Pepper':['H','#E7A866'],'TableCheck':['T','#9AA9C9'],'食べログ':['食','#E8B060'],'現場':['現','#A9B79A'],'其他':['…','#B9ADA3']};
+  'Google 地圖':['G','#8FB3E0'],'ぐるなび':['ぐ','#E39494'],'Hot Pepper':['H','#E7A866'],'TableCheck':['T','#9AA9C9'],'食べログ':['食','#E8B060'],'現場':['現','#A9B79A'],'其他':['…','#B9ADA3']};
  const appIc=a=>{if(a==='官網')return '<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="#E7B9A8"/><path d="M5.2 9.6 10 5.6l4.8 4v4.8H5.2Z" fill="#fff"/><rect x="8.6" y="11.2" width="2.8" height="3.2" rx=".8" fill="#E7B9A8"/></svg>';
   if(a==='電話')return '<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="#9CC3A8"/><path d="M7 5.2c.5 0 1.6 2 1.6 2.4s-.9.9-.9 1.3c.3 1 1.4 2.1 2.4 2.4.4 0 .9-.9 1.3-.9s2.4 1.1 2.4 1.6c0 .9-1.1 1.8-2 1.8-3.1 0-6.6-3.5-6.6-6.6 0-.9.9-2 1.8-2Z" fill="#fff"/></svg>';
   const c=APC[a];if(!c)return '';return `<svg class="bk-ap" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="18" height="18" rx="5.5" fill="${c[1]}"/><text x="10" y="14.2" text-anchor="middle" font-size="${c[0].length>1?8:11.5}" font-weight="900" fill="#fff" font-family="inherit">${c[0]}</text></svg>`;};
- const ALLAPPS=['官網','電話','Booking','Agoda','Trip.com','Klook','KKday','ぐるなび','Hot Pepper','TableCheck','食べログ','現場','其他'];
+ const ALLAPPS=['其他'];
  const BK='hk-booked-v2';let BKD=get(BK,{});
  const st=id=>{const r=BOOK.find(b=>b[0]===id),o=BKD[id];if(o&&o.off)return null;if(o)return o;return r&&r[2].def?Object.assign({},r[2].def):null;};
  const ov=()=>get('hk-adjust-v1',{});
@@ -136,9 +136,9 @@
  function edit(id){
   cur=id;const R=BOOK.find(b=>b[0]===id),c=R?R[2]:{lv:'can',w:'訂位'},w=c.w||'訂位',o=st(id)||{};
   let name='';if(R){const f=firstOf(R);name=f?shortName(f.n):'';}else{const ev=document.querySelector(`.bk-chip[data-bk="${CSS.escape(id)}"]`);const h=ev&&ev.closest('.event').querySelector('h4');name=h?shortName(h.textContent.replace(/^\S+\s/,'')):'';}
-  const sug=c.apps||[],apps=[...sug,...ALLAPPS.filter(a=>!sug.includes(a))],pick=o.app||(!BKD[id]&&c.pre)||'';
+  const sug=c.apps||['Google 地圖','ぐるなび','食べログ'],apps=[...sug,...ALLAPPS.filter(a=>!sug.includes(a))],pick=o.app||(!BKD[id]&&c.pre)||'';
   open(`<div class="cs-panel" role="dialog" aria-modal="true" aria-label="${w}紀錄"><h3>${w}紀錄</h3><p class="adj-name">${esc(name)}</p>
-   ${c.tip?`<p class="bk-tip">${esc(c.tip)}${c.tel?`　<a href="tel:${c.tel}">打電話</a>`:''}</p>`:''}
+   ${c.tip?`<p class="bk-tip">${esc(c.tip)}</p>`:''}
    <p class="bk-lab">在哪裡${w}？</p><div class="bk-apps">${apps.map(a=>`<button type="button" data-app="${esc(a)}" class="${a===pick?'on':''}${sug.includes(a)?' sug':''}">${appIc(a)}${esc(a)}</button>`).join('')}</div>
    <label>時間・人數（選填）<input id="bkWhen" maxlength="30" placeholder="${w==='訂房'?'例：2/10 入住 2 晚・2 人':'例：2/10 20:30・2 位'}" value="${esc(o.when||'')}"></label>
    <label>確認編號（選填）<input id="bkRef" maxlength="30" autocapitalize="characters" placeholder="例：AB12345" value="${esc(o.ref||'')}"></label>
