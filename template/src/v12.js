@@ -184,3 +184,37 @@
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{books()}catch(e){console.warn(e)}return r;};}
  try{books()}catch(e){console.warn(e)}
 })();
+/* ===== v12b：請飯店幫忙訂餐廳（自己填的日文卡） ===== */
+(function(){
+ const sec=document.getElementById('phrases');if(!sec)return;
+ const K='hk-askbook-v1';let v;try{v=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+ v=v||{name:'居酒屋 天金',tel:'0166-22-3953',date:'2027-02-15',time:'17:00',n:'2',flex:'60'};
+ const esc=x=>String(x||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const WD='日月火水木金土',WZ='日一二三四五六';
+ const box=document.createElement('details');box.className='fold ph-cat ab-box';
+ box.innerHTML=`<summary><span>🍽️ 請飯店幫我訂餐廳（自己填）</span><i>展開</i></summary><div class="ab-form">
+  <label>餐廳名稱<input id="abName" placeholder="例：居酒屋 天金" value="${esc(v.name)}"></label>
+  <label>餐廳電話（選填，有寫櫃台比較好打）<input id="abTel" inputmode="tel" placeholder="例：0166-22-3953" value="${esc(v.tel)}"></label>
+  <div class="ab-row"><label>日期<input id="abDate" type="date" value="${esc(v.date)}"></label><label>時間<input id="abTime" type="time" step="900" value="${esc(v.time)}"></label></div>
+  <div class="ab-row"><label>人數<select id="abN">${[1,2,3,4,5,6].map(n=>`<option${String(n)===String(v.n)?' selected':''}>${n}</option>`).join('')}</select></label>
+  <label>滿了的話<select id="abFlex"><option value="0"${v.flex==='0'?' selected':''}>只要這個時間</option><option value="30"${v.flex==='30'?' selected':''}>前後 30 分都可以</option><option value="60"${v.flex==='60'?' selected':''}>之後 1 小時內都可以</option></select></label></div>
+  <p class="ab-hint">點下面卡片就會放大，直接給櫃台看</p><div id="abOut"></div></div>`;
+ const first=sec.querySelector('details.ph-cat');(first?first.parentNode:sec).insertBefore(box,first||null);
+ const $=id=>box.querySelector('#'+id);
+ function hm(t){const [h,m]=String(t||'').split(':').map(Number);return {h,m};}
+ function jt(t){const {h,m}=hm(t);return isNaN(h)?'':(m?`${h}時${m}分`:`${h}時`);}
+ function add(t,d){const {h,m}=hm(t);const x=h*60+m+d;return `${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}`;}
+ function build(){
+  v={name:$('abName').value.trim(),tel:$('abTel').value.trim(),date:$('abDate').value,time:$('abTime').value,n:$('abN').value,flex:$('abFlex').value};
+  try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}
+  const d=v.date?new Date(v.date+'T00:00'):null,md=d?`${d.getMonth()+1}月${d.getDate()}日（${WD[d.getDay()]}）`:'',mz=d?`${d.getMonth()+1}/${d.getDate()}（週${WZ[d.getDay()]}）`:'';
+  const name=v.name||'このお店';
+  let ja=`すみません、レストランの予約をお願いできますか？\n店名：${name}${v.tel?`\n電話：${v.tel}`:''}\n日時：${md} ${jt(v.time)}\n人数：${v.n}名`;
+  let zh=`請幫我訂 ${v.name||'這家店'}・${mz} ${v.time}・${v.n} 位`;
+  if(v.flex==='30'&&v.time){ja+=`\n満席でしたら、${jt(add(v.time,-30))}〜${jt(add(v.time,30))}の間で大丈夫です。`;zh+='（前後 30 分可）';}
+  if(v.flex==='60'&&v.time){ja+=`\n満席でしたら、${jt(v.time)}〜${jt(add(v.time,60))}の間で大丈夫です。`;zh+='（之後 1 小時內可）';}
+  ja+='\nよろしくお願いします。';
+  $('abOut').innerHTML=`<div class="ph-card ab-card" data-ja="${esc(ja)}" data-zh="${esc(zh)}" role="button" tabindex="0"><small>${esc(zh)}</small><b lang="ja">${esc(ja).replace(/\n/g,'<br>')}</b><button type="button" class="ph-say" aria-label="唸出來">🔊</button></div>`;
+ }
+ box.addEventListener('input',build);box.addEventListener('change',build);build();
+})();
