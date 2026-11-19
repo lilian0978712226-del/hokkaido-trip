@@ -232,9 +232,9 @@ html body .gm.turn .ga-caps{animation:gaJig .16s ease-in-out 6!important}
 html body .gm.paid .gm-knob{animation:knobGlow 1s ease-in-out infinite!important}
 @keyframes knobGlow{0%,100%{filter:none}50%{filter:drop-shadow(0 0 6px #FFE39A) brightness(1.06)}}
 html body .gm-knob-hit{position:absolute!important;left:39%!important;top:68%!important;width:22%!important;height:20%!important;border-radius:50%!important;background:none!important;border:none!important;padding:0!important;cursor:pointer!important}
-html body .gm-coin{position:absolute!important;right:-6%!important;top:2%!important;width:52px!important;height:52px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#FFF1B8,#F6D06A 55%,#E2B24E)!important;border:2.5px solid #B98A3E!important;box-shadow:0 3px 0 #B98A3E!important;font-family:inherit!important;font-weight:900!important;font-size:12px!important;color:#8A6A2E!important;cursor:grab!important;z-index:4!important;touch-action:none!important;animation:coinBob 1.6s ease-in-out infinite!important}
-html body .gm-coin span{pointer-events:none!important}
-html body .gm-coin::after{content:'拖我'!important;position:absolute!important;left:50%!important;top:-20px!important;transform:translateX(-50%)!important;font-size:10px!important;background:#fff!important;border:1.5px solid #E2C27A!important;border-radius:999px!important;padding:0 6px!important;color:#8A6A2E!important;white-space:nowrap!important}
+html body .gm-coin{position:absolute!important;right:-3%!important;bottom:-1%!important;width:44px!important;height:44px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#FFF1B8,#F6D06A 55%,#E2B24E)!important;border:2.5px solid #B98A3E!important;box-shadow:0 2px 0 #B98A3E!important;font-family:inherit!important;font-weight:900!important;font-size:10.5px!important;color:#8A6A2E!important;cursor:grab!important;z-index:4!important;touch-action:none!important;transform:rotateX(55deg);transform-origin:50% 80%!important}
+html body .gm-coin span{pointer-events:none!important;display:block!important}
+html body .gm-coin::after{content:'撿起來'!important;position:absolute!important;left:50%!important;top:-24px!important;transform:translateX(-50%)!important;font-size:10px!important;background:#fff!important;border:1.5px solid #E2C27A!important;border-radius:999px!important;padding:0 6px!important;color:#8A6A2E!important;white-space:nowrap!important}
 html body .gm.paid .gm-coin{animation:none!important}
 html body .gm-coin.nudge{animation:coinNudge .5s ease!important}
 @keyframes coinBob{0%,100%{translate:0 0}50%{translate:0 -5px}}
@@ -254,3 +254,13 @@ html body .omi-slip2 .omi-msg2{margin:10px 0 0!important;text-align:center!impor
 html body .omi-slip2.lv-凶 .omi-msg2{color:#5D7488!important}
 html body .omi-slip.omi-slip2.gold{box-shadow:0 0 0 4px #FFE9A8,0 0 30px rgba(255,200,80,.7)!important}
 html body .g-sheet .cs-panel{max-height:92vh!important;overflow:auto!important}
+
+html body .gm-coin::before{content:''!important;position:absolute!important;inset:-6px!important;border-radius:50%!important;background:radial-gradient(circle,rgba(255,236,160,.7),transparent 65%)!important;animation:coinShine 1.8s ease-in-out infinite!important;z-index:-1!important}
+@keyframes coinShine{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+html body .gm-coin.lift{transform:none;box-shadow:0 8px 10px rgba(91,75,67,.25),0 2px 0 #B98A3E!important}
+html body .gm-coin.lift::after,html body .gm.paid .gm-coin::after{display:none!important}
+html body .gm-coin.fall{animation:coinFall .7s cubic-bezier(.3,1.4,.5,1)!important}
+@keyframes coinFall{0%{transform:translateY(-70px) rotateX(0) rotate(0);opacity:0}40%{opacity:1}70%{transform:translateY(0) rotateX(55deg) rotate(200deg)}85%{transform:translateY(-6px) rotateX(55deg) rotate(260deg)}100%{transform:rotateX(55deg) rotate(360deg)}}
+html body .gm-coin.nudge{animation:coinNudge2 .5s ease!important}
+@keyframes coinNudge2{0%,100%{transform:rotateX(55deg)}25%{transform:rotateX(55deg) translateX(-6px)}75%{transform:rotateX(55deg) translateX(6px)}}
+html body .gm-knob-hit{top:69%!important}

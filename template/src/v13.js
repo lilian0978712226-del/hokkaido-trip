@@ -206,25 +206,34 @@
   bear:'<circle cx="-4.2" cy="-4.5" r="2" fill="#B98A5A"/><circle cx="4.2" cy="-4.5" r="2" fill="#B98A5A"/><circle cx="0" cy="0" r="6" fill="#B98A5A"/><ellipse cx="0" cy="2" rx="2.6" ry="2" fill="#EBD3B5"/><circle cx="-2" cy="-1.2" r=".8" fill="#5B4B43"/><circle cx="2" cy="-1.2" r=".8" fill="#5B4B43"/>',
   bird:'<ellipse cx="0" cy="1" rx="6" ry="5.2" fill="#fff" stroke="#C9BDB2" stroke-width=".6"/><path d="M5 2l6 1-6 1.4" fill="#8E7A6C"/><circle cx="-1.5" cy="0" r=".7" fill="#5B4B43"/><circle cx="1.5" cy="0" r=".7" fill="#5B4B43"/><ellipse cx="-3" cy="1.8" rx="1" ry=".6" fill="#F6B9C4"/>'};
  const ITK=Object.keys(IT);
- const capSVG=(x,y,c,it,r=15)=>`<g transform="translate(${x} ${y})"><circle r="${r}" fill="#FFFFFF" fill-opacity=".55" stroke="#5B4B43" stroke-width="1.8"/><path d="M${-r} 0a${r} ${r} 0 0 1 ${2*r} 0Z" fill="${c}" fill-opacity=".9"/><g transform="scale(${(r/15).toFixed(2)})">${IT[it]}</g><path d="M${-r*.62} ${-r*.55}a${r*.8} ${r*.8} 0 0 1 ${r*.5} ${-r*.3}" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".9"/></g>`;
+ const capSVG=(x,y,c,it,r=15,rot=0)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><circle r="${r}" fill="#FFFFFF" fill-opacity=".72"/><path d="M${-r} 0a${r} ${r} 0 0 1 ${2*r} 0Z" fill="${c}"/><g transform="scale(${(r/17).toFixed(2)})">${IT[it]}</g><path d="M${-r} 0h${2*r}" stroke="#5B4B43" stroke-width="1" opacity=".35"/><circle r="${r}" fill="none" stroke="#5B4B43" stroke-width="1.5"/><path d="M${(-r*.6).toFixed(1)} ${(-r*.5).toFixed(1)}a${(r*.75).toFixed(1)} ${(r*.75).toFixed(1)} 0 0 1 ${(r*.45).toFixed(1)} ${(-r*.32).toFixed(1)}" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></g>`;
  function machine(){
-  const pos=[[52,64,0],[88,52,1],[126,50,2],[164,60,3],[38,98,4],[72,92,5],[110,88,6],[148,94,7],[182,98,8],[58,124,9],[96,122,10],[136,124,11],[170,128,0]];
-  const caps=pos.map(([x,y,k],j)=>capSVG(x,y,COL[j%6],ITK[k%ITK.length],j%4===0?16:14)).join('');
-  const deco='<path d="M28 44l3 6 6 1-5 4 1 6-5-3-5 3 1-6-5-4 6-1Z" fill="#F6B9C4" transform="scale(.55) translate(330 4)"/><g fill="#fff" stroke="#BFD9F2" stroke-width=".8"><circle cx="196" cy="70" r="2.5"/><circle cx="24" cy="128" r="2"/></g><path d="M196 116v8M192 120h8M193 117l6 6M199 117l-6 6" stroke="#9BB3C8" stroke-width="1.2" stroke-linecap="round"/>';
-  return `<div class="gm" id="gaMachine"><svg class="gm-svg" viewBox="0 0 220 252" aria-hidden="true">
-   <rect x="16" y="20" width="188" height="16" rx="8" fill="#EBA3B5" stroke="#5B4B43" stroke-width="2.4"/><path d="M150 25h40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-   <path d="M20 36h180c6 0 10 18 10 52s-6 58-14 60H24c-8-2-14-26-14-60s4-52 10-52Z" fill="#EAF4FA" stroke="#5B4B43" stroke-width="2.4"/>
-   <g class="ga-caps">${caps}${deco}</g>
-   <path d="M30 50c-6 14-6 40 0 60" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".8"/>
-   <rect x="26" y="146" width="168" height="98" rx="10" fill="#EBA3B5" stroke="#5B4B43" stroke-width="2.4"/>
-   <rect x="38" y="156" width="46" height="26" rx="4" fill="#A9CBE6" stroke="#5B4B43" stroke-width="1.6"/><text x="61" y="167" text-anchor="middle" font-size="8" font-weight="900" fill="#fff">ほっかい</text><text x="61" y="177.5" text-anchor="middle" font-size="8" font-weight="900" fill="#fff">ガチャ</text>
-   <g class="gm-knob"><circle cx="110" cy="196" r="24" fill="#A9CBE6" stroke="#5B4B43" stroke-width="2.4"/><path d="M92 186a20 20 0 0 1 10-10M128 206a20 20 0 0 1-10 10" stroke="#F6D98B" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="110" cy="196" r="15" fill="#E58FA6" stroke="#5B4B43" stroke-width="2"/><rect x="104" y="182" width="12" height="28" rx="5" fill="#EBA3B5" stroke="#5B4B43" stroke-width="1.6"/></g>
-   <circle cx="168" cy="166" r="10" fill="#D8D8DC" stroke="#5B4B43" stroke-width="1.8"/><rect x="163" y="164.5" width="10" height="3" rx="1.5" fill="#5B4B43"/>
-   <rect x="160" y="182" width="16" height="40" rx="8" fill="#F6D98B" stroke="#5B4B43" stroke-width="1.6"/><text x="168" y="196" text-anchor="middle" font-size="7.5" font-weight="900" fill="#8A6A2E">¥</text><text x="168" y="206" text-anchor="middle" font-size="6.5" font-weight="900" fill="#8A6A2E">100</text><path d="M165 213l3-3 3 3" stroke="#8A6A2E" stroke-width="1.2" fill="none"/>
+  const rows=[[134,[34,61,88,115,142,169,192]],[111,[47,74,101,128,155,182]],[88,[60,87,114,141,168]],[66,[86,113,140]]];
+  let j=0;const caps=rows.map(([y,xs])=>xs.map(x=>{const k=j++;return capSVG(x+(k%3-1)*1.5,y+(k%2)*1.5,COL[(k*5)%6],ITK[(k*7)%ITK.length],13,(k*37)%50-25);}).join('')).join('');
+  const bowl='M20 38h180c6 0 10 18 10 52s-6 56-14 58H24c-8-2-14-24-14-58s4-52 10-52Z';
+  return `<div class="gm" id="gaMachine"><svg class="gm-svg" viewBox="0 0 220 256" aria-hidden="true">
+   <defs><clipPath id="gmBowl"><path d="${bowl}"/></clipPath>
+    <linearGradient id="gmGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#BFD9F2" stop-opacity=".35"/></linearGradient>
+    <linearGradient id="gmBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0B3C2"/><stop offset="1" stop-color="#E496AA"/></linearGradient></defs>
+   <ellipse cx="110" cy="250" rx="96" ry="5" fill="#E8DCD0" opacity=".7"/>
+   <path d="${bowl}" fill="#EEF6FC"/>
+   <g clip-path="url(#gmBowl)"><g class="ga-caps">${caps}</g>
+    <g fill="#fff" opacity=".9"><circle cx="40" cy="58" r="1.8"/><circle cx="182" cy="52" r="1.4"/><circle cx="160" cy="70" r="1.1"/></g>
+    <path d="M190 46v7M186.5 49.5h7M187.5 47l5 5M192.5 47l-5 5" stroke="#9BB3C8" stroke-width="1.1" stroke-linecap="round"/>
+    <rect x="0" y="30" width="220" height="130" fill="url(#gmGlass)"/></g>
+   <path d="M28 52c-6 14-7 44-1 66" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".85"/><path d="M38 48c-2 4-3 8-3 12" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"/>
+   <path d="${bowl}" fill="none" stroke="#5B4B43" stroke-width="2.4"/>
+   <rect x="14" y="22" width="192" height="18" rx="9" fill="url(#gmBody)" stroke="#5B4B43" stroke-width="2.4"/><path d="M148 28h44" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+   <rect x="26" y="146" width="168" height="98" rx="12" fill="url(#gmBody)" stroke="#5B4B43" stroke-width="2.4"/>
+   <path d="M34 152h152" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+   <rect x="38" y="158" width="48" height="26" rx="5" fill="#A9CBE6" stroke="#5B4B43" stroke-width="1.6"/><text x="62" y="169" text-anchor="middle" font-size="8" font-weight="900" fill="#fff">ほっかい</text><text x="62" y="179.5" text-anchor="middle" font-size="8" font-weight="900" fill="#fff">ガチャ</text>
+   <g class="gm-knob"><circle cx="110" cy="198" r="24" fill="#A9CBE6" stroke="#5B4B43" stroke-width="2.4"/><path d="M92 188a20 20 0 0 1 10-10M128 208a20 20 0 0 1-10 10" stroke="#F6D98B" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="110" cy="198" r="15" fill="#E58FA6" stroke="#5B4B43" stroke-width="2"/><rect x="104" y="184" width="12" height="28" rx="5" fill="#F3BCCA" stroke="#5B4B43" stroke-width="1.6"/></g>
+   <circle cx="168" cy="168" r="10" fill="#E4E4E8" stroke="#5B4B43" stroke-width="1.8"/><rect x="163" y="166.5" width="10" height="3" rx="1.5" fill="#5B4B43"/>
+   <rect x="160" y="184" width="16" height="40" rx="8" fill="#F6D98B" stroke="#5B4B43" stroke-width="1.6"/><text x="168" y="198" text-anchor="middle" font-size="7.5" font-weight="900" fill="#8A6A2E">¥</text><text x="168" y="208" text-anchor="middle" font-size="6.5" font-weight="900" fill="#8A6A2E">100</text><path d="M165 215l3-3 3 3" stroke="#8A6A2E" stroke-width="1.2" fill="none"/>
    <path d="M44 244v-14a20 20 0 0 1 40 0v14Z" fill="#C9677F" stroke="#5B4B43" stroke-width="2.2"/><rect x="40" y="240" width="48" height="6" rx="3" fill="#F6D98B" stroke="#5B4B43" stroke-width="1.4"/>
-   <g fill="#F6D06A" stroke="#B98A3E" stroke-width="1.2"><ellipse cx="200" cy="246" rx="10" ry="3.5"/><ellipse cx="203" cy="242" rx="10" ry="3.5"/><ellipse cx="14" cy="247" rx="9" ry="3.2"/></g>
+   <path d="M30 240v10M190 240v10" stroke="#5B4B43" stroke-width="5" stroke-linecap="round"/>
   </svg>
-  <button type="button" class="gm-coin" id="gmCoin" aria-label="投入 100 日圓"><span>¥100</span></button>
+  <button type="button" class="gm-coin" id="gmCoin" aria-label="撿起 100 日圓投進去"><span>¥100</span></button>
   <button type="button" class="gm-knob-hit" id="gmKnob" aria-label="轉轉鈕"></button>
   <div class="gm-drop" id="gmDrop"></div></div>`;}
  let paid=false;
@@ -233,7 +242,7 @@
  function gacha(){paid=false;
   open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="拍照扭蛋"><h3>北海道拍照扭蛋</h3>
    <div class="ga-stage">${machine()}</div>
-   <p class="g-hint" id="gaHint">① 把 ¥100 硬幣拖進投幣口（或點一下硬幣）</p><div id="gaCard"></div>
+   <p class="g-hint" id="gaHint">① 地上有一枚 ¥100，撿起來拖進投幣口</p><div id="gaCard"></div>
    <button type="button" class="ga-alb" id="gaAlb">打開旅途相冊</button>
    <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
   $('#gaAlb').addEventListener('click',album);
@@ -244,18 +253,18 @@
   const insert=()=>{if(paid)return;paid=true;const m=$('#gaMachine'),s=slotPos(),r=coin.getBoundingClientRect(),mr=m.getBoundingClientRect();
    coin.style.transition='transform .35s cubic-bezier(.5,0,.7,1), opacity .2s .3s';coin.style.transform=`translate(${s.x-(r.left+r.width/2)+(parseFloat(coin.dataset.dx||0))}px,${s.y-(r.top+r.height/2)+(parseFloat(coin.dataset.dy||0))}px) rotateY(80deg) scale(.6)`;coin.style.opacity='0';
    setTimeout(()=>{chink();m.classList.add('paid');$('#gaHint').textContent='② 轉一下轉鈕！';if(navigator.vibrate)navigator.vibrate(15);},RM?0:340);};
-  coin.addEventListener('pointerdown',e=>{if(paid)return;drag=true;moved=0;sx=e.clientX;sy=e.clientY;coin.setPointerCapture&&coin.setPointerCapture(e.pointerId);coin.style.transition='none';});
+  coin.addEventListener('pointerdown',e=>{if(paid)return;drag=true;moved=0;sx=e.clientX;sy=e.clientY;coin.setPointerCapture&&coin.setPointerCapture(e.pointerId);coin.style.transition='none';coin.classList.add('lift');coin.classList.remove('fall');});
   coin.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-sx,dy=e.clientY-sy;moved=Math.abs(dx)+Math.abs(dy);coin.dataset.dx=dx;coin.dataset.dy=dy;coin.style.transform=`translate(${dx}px,${dy}px) scale(1.08)`;});
   const end=e=>{if(!drag)return;drag=false;const s=slotPos(),r=coin.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-s.x,r.top+r.height/2-s.y);
-   if(moved<6||d<60*s.k+20){coin.dataset.dx=0;coin.dataset.dy=0;coin.style.transform='';requestAnimationFrame(insert);}else{coin.style.transition='transform .3s';coin.style.transform='';coin.dataset.dx=0;coin.dataset.dy=0;}};
+   if(moved<6||d<60*s.k+20){coin.dataset.dx=0;coin.dataset.dy=0;coin.style.transform='';requestAnimationFrame(insert);}else{coin.classList.remove('lift');coin.style.transition='transform .3s';coin.style.transform='';coin.dataset.dx=0;coin.dataset.dy=0;}};
   coin.addEventListener('pointerup',end);coin.addEventListener('pointercancel',end);
   coin.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();insert();}});}
  function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;
-  if(!paid){const c=$('#gmCoin');if(c&&!RM){c.classList.remove('nudge');void c.offsetWidth;c.classList.add('nudge');}$('#gaHint').textContent='要先投 ¥100 喔！把硬幣拖進投幣口';return;}
+  if(!paid){const c=$('#gmCoin');if(c&&!RM){c.classList.remove('nudge');void c.offsetWidth;c.classList.add('nudge');}$('#gaHint').textContent='要先投 ¥100 喔！地上的硬幣撿起來投進去';return;}
   m.dataset.busy=1;$('#gaCard').innerHTML='';const id=pick(Math.random()<MIS.length/(MIS.length+POSE.length)?'m':'p'),c=COL[(+id.slice(1))%6],it=ITK[Math.floor(Math.random()*ITK.length)];
   const drop=()=>{const d=$('#gmDrop');d.innerHTML=`<button type="button" class="ga-cap2" aria-label="打開扭蛋"><svg viewBox="-18 -18 36 36" aria-hidden="true">${capSVG(0,0,c,it,16)}</svg></button>`;$('#gaHint').textContent='③ 點扭蛋打開！';
-   d.querySelector('.ga-cap2').addEventListener('click',e=>{const b=e.currentTarget;b.classList.add('open');setTimeout(()=>{reveal(id);m.classList.remove('paid');paid=false;delete m.dataset.busy;const cn=$('#gmCoin');if(cn){cn.style.transition='none';cn.style.transform='';cn.style.opacity='';}
-    $('#gaHint').textContent='再投一枚 ¥100 可以再轉一次';b.closest('.gm-drop').innerHTML='';},RM?0:450);},{once:true});};
+   d.querySelector('.ga-cap2').addEventListener('click',e=>{const b=e.currentTarget;b.classList.add('open');setTimeout(()=>{reveal(id);m.classList.remove('paid');paid=false;delete m.dataset.busy;const cn=$('#gmCoin');if(cn){cn.style.transition='none';cn.style.transform='';cn.style.opacity='';cn.classList.remove('lift');void cn.offsetWidth;cn.classList.add('fall');}
+    $('#gaHint').textContent='地上又掉了一枚 ¥100，可以再轉一次';b.closest('.gm-drop').innerHTML='';},RM?0:450);},{once:true});};
   if(RM){drop();return;}clicks();m.classList.add('turn');setTimeout(()=>{m.classList.remove('turn');drop();},950);}
  function reveal(id){const g=gs(),done=!!g.done[id];
   $('#gaCard').innerHTML=`<div class="ga-card ${id[0]==='p'?'pose':''}"><small>${id[0]==='p'?'這次的搞笑姿勢':'這次的拍照任務'}</small><b>${esc(title(id))}</b><div class="ga-acts"><button type="button" class="ga-did on2" data-act="photo">📷 拍到了！放進相冊</button><button type="button" class="ga-did" data-act="done">${done?'已完成 ✓':'完成，不放照片'}</button></div></div>`;
