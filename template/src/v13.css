@@ -223,3 +223,27 @@ html body .sb-cover em{grid-row:1 / span 2!important;grid-column:2!important;fon
 @media (prefers-reduced-motion:reduce){html body .fun-c{animation:none!important}}
 html body .pig-say{text-align:center!important;font-size:15px!important;margin:4px 0!important}
 html body .shake-on{position:absolute!important;right:8px!important;bottom:8px!important;z-index:5!important;background:rgba(255,255,255,.92)!important;color:#5B4B43!important;border:2px solid #5B4B43!important;border-radius:999px!important;padding:3px 10px!important;font-family:inherit!important;font-size:11px!important;font-weight:900!important;white-space:nowrap!important;box-shadow:0 2px 0 #5B4B43!important;min-height:28px!important}
+/* 新扭蛋機 */
+html body .gm{position:relative!important;width:min(78vw,280px)!important;margin:0 auto!important;touch-action:none!important}
+html body .gm-svg{width:100%!important;height:auto!important;display:block!important;overflow:visible!important}
+html body .gm .gm-knob{transform-box:fill-box!important;transform-origin:center!important}
+html body .gm.turn .gm-knob{animation:gaTurn .95s cubic-bezier(.4,0,.3,1)!important}
+html body .gm.turn .ga-caps{animation:gaJig .16s ease-in-out 6!important}
+html body .gm.paid .gm-knob{animation:knobGlow 1s ease-in-out infinite!important}
+@keyframes knobGlow{0%,100%{filter:none}50%{filter:drop-shadow(0 0 6px #FFE39A) brightness(1.06)}}
+html body .gm-knob-hit{position:absolute!important;left:39%!important;top:68%!important;width:22%!important;height:20%!important;border-radius:50%!important;background:none!important;border:none!important;padding:0!important;cursor:pointer!important}
+html body .gm-coin{position:absolute!important;right:-6%!important;top:2%!important;width:52px!important;height:52px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 30%,#FFF1B8,#F6D06A 55%,#E2B24E)!important;border:2.5px solid #B98A3E!important;box-shadow:0 3px 0 #B98A3E!important;font-family:inherit!important;font-weight:900!important;font-size:12px!important;color:#8A6A2E!important;cursor:grab!important;z-index:4!important;touch-action:none!important;animation:coinBob 1.6s ease-in-out infinite!important}
+html body .gm-coin span{pointer-events:none!important}
+html body .gm-coin::after{content:'拖我'!important;position:absolute!important;left:50%!important;top:-20px!important;transform:translateX(-50%)!important;font-size:10px!important;background:#fff!important;border:1.5px solid #E2C27A!important;border-radius:999px!important;padding:0 6px!important;color:#8A6A2E!important;white-space:nowrap!important}
+html body .gm.paid .gm-coin{animation:none!important}
+html body .gm-coin.nudge{animation:coinNudge .5s ease!important}
+@keyframes coinBob{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes coinNudge{0%,100%{translate:0 0}25%{translate:-6px 0}75%{translate:6px 0}}
+html body .gm-drop{position:absolute!important;left:15%!important;bottom:-2%!important;width:24%!important;height:20%!important;pointer-events:none!important}
+html body .ga-cap2{position:absolute!important;left:50%!important;top:20%!important;width:54px!important;height:54px!important;margin-left:-27px!important;background:none!important;border:none!important;padding:0!important;pointer-events:auto!important;cursor:pointer!important;animation:capRoll 1.1s cubic-bezier(.3,1.3,.5,1) both!important}
+html body .ga-cap2 svg{width:100%!important;height:100%!important;overflow:visible!important}
+@keyframes capRoll{0%{transform:translate(0,-20px) scale(.4) rotate(0);opacity:0}30%{opacity:1}60%{transform:translate(40px,34px) scale(1) rotate(260deg)}80%{transform:translate(52px,28px) rotate(330deg)}100%{transform:translate(56px,34px) rotate(360deg)}}
+html body .ga-cap2.open{animation:capPop .45s ease forwards!important}
+@keyframes capPop{0%{transform:translate(56px,34px) scale(1)}40%{transform:translate(56px,30px) scale(1.25)}100%{transform:translate(56px,30px) scale(1.6);opacity:0}}
+html body .ga-stage{padding:22px 0 46px!important}
+@media (prefers-reduced-motion:reduce){html body .gm-coin{animation:none!important}html body .ga-cap2{animation:none!important;transform:translate(56px,34px)!important}}
