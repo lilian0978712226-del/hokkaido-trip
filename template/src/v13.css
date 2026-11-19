@@ -1,0 +1,100 @@
+/* ===== v13：旅途小遊戲 ===== */
+html body .g-row{margin:12px 0 4px!important}
+html body .g-title{font-weight:900!important;color:#6E5A3A!important;margin:0 0 8px!important;font-size:14.5px!important}
+html body .g-btns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+html body .g-btn{display:grid!important;grid-template-columns:40px 1fr!important;grid-template-rows:auto auto!important;column-gap:8px!important;align-items:center!important;text-align:left!important;padding:10px!important;border-radius:16px!important;border:2px solid #5B4B43!important;background:#FFFAEF!important;box-shadow:0 3px 0 #5B4B43!important;font-family:inherit!important;color:var(--ink)!important;min-height:64px!important}
+html body .g-btn+.g-btn{background:#F1F7FC!important}
+html body .g-btn:active{transform:translateY(2px)!important;box-shadow:0 1px 0 #5B4B43!important}
+html body .g-ic{grid-row:span 2!important;width:40px!important;height:40px!important}
+html body .g-ic svg{width:40px!important;height:40px!important}
+html body .g-btn b{font-size:14px!important}
+html body .g-btn small{font-size:11px!important;color:#8E7A6C!important;line-height:1.3!important}
+html body .g-panel h3{text-align:center!important}
+html body .g-hint{text-align:center!important;font-size:12.5px!important;color:#9A8B80!important;margin:6px 0!important}
+html body .g-go{display:block!important;width:100%!important;margin-top:4px!important}
+html body .g-x{min-height:46px!important;width:100%!important;border-radius:999px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:15px!important;font-weight:700!important;color:var(--ink)!important}
+html body .g-lab{font-size:12.5px!important;font-weight:800!important;color:#8E7A6C!important;margin:12px 0 6px!important}
+/* 御神籤 */
+html body .omi-stage{display:flex!important;flex-direction:column!important;align-items:center!important;min-height:200px!important}
+html body .omi-box{position:relative!important;width:130px!important;height:160px!important;margin:6px auto 0!important}
+html body .omi-box svg{width:100%!important;height:100%!important;transform-origin:50% 90%!important}
+html body .omi-box.shaking svg{animation:omiShake .26s ease-in-out 5!important}
+@keyframes omiShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+html body .omi-stick{position:absolute!important;left:50%!important;top:0!important;width:16px!important;height:70px!important;margin-left:-8px!important;border-radius:4px!important;background:#F2DDB5!important;border:2px solid #5B4B43!important;font-style:normal!important;font-size:10px!important;font-weight:900!important;color:#C0675B!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;padding-top:4px!important;box-sizing:border-box!important;z-index:-1!important}
+html body .omi-stick[hidden]{display:none!important}
+html body .omi-stick.pop{animation:omiPop .7s cubic-bezier(.2,1.4,.4,1) forwards!important}
+@keyframes omiPop{from{transform:translateY(40px)}to{transform:translateY(-46px)}}
+html body .omi-slip{width:100%!important;max-width:300px!important;margin:4px auto!important;background:#FFFDF6!important;border:2px solid #5B4B43!important;border-radius:6px!important;padding:14px 16px!important;box-sizing:border-box!important;text-align:center!important;background-image:linear-gradient(90deg,transparent 0 10px,#F4E7D3 10px 11px,transparent 11px calc(100% - 11px),#F4E7D3 calc(100% - 11px) calc(100% - 10px),transparent 0)!important}
+html body .omi-slip.unfold{animation:omiUnfold .6s ease-out!important;transform-origin:top!important}
+@keyframes omiUnfold{from{transform:scaleY(.1);opacity:0}to{transform:none;opacity:1}}
+html body .omi-no{font-size:12px!important;color:#9A8B80!important;font-weight:800!important;letter-spacing:2px!important}
+html body .omi-lv{font-size:44px!important;font-weight:900!important;color:#C0675B!important;line-height:1.2!important;letter-spacing:6px!important}
+html body .omi-msg{margin:2px 0 10px!important;font-size:13.5px!important;color:#6E5A3A!important}
+html body .omi-slip ul{list-style:none!important;padding:0!important;margin:0!important;text-align:left!important;font-size:13.5px!important;line-height:1.9!important;border-top:1.5px dashed #E3D6C9!important;padding-top:8px!important}
+html body .omi-foot{font-size:11px!important;color:#A39286!important;margin:8px 0 0!important}
+/* 扭蛋 */
+html body .ga-stage{display:flex!important;flex-direction:column!important;align-items:center!important}
+html body .ga-machine{background:none!important;border:none!important;padding:0!important;width:150px!important;cursor:pointer!important}
+html body .ga-svg{width:150px!important;height:auto!important;display:block!important}
+html body .ga-handle{transform-box:fill-box!important;transform-origin:center!important}
+html body .ga-machine.turn .ga-handle{animation:gaTurn .9s ease-in-out!important}
+html body .ga-machine.turn .ga-caps{animation:gaJig .15s ease-in-out 6!important}
+@keyframes gaTurn{to{transform:rotate(360deg)}}
+@keyframes gaJig{0%,100%{transform:none}50%{transform:translate(2px,-2px)}}
+html body .ga-out{height:52px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+html body .ga-cap{position:relative!important;width:44px!important;height:44px!important;border:none!important;background:none!important;padding:0!important;animation:gaDrop .5s cubic-bezier(.3,1.5,.5,1)!important;cursor:pointer!important}
+html body .ga-cap i{position:absolute!important;left:0!important;width:44px!important;height:22px!important;border:2.5px solid #5B4B43!important;box-sizing:border-box!important;transition:transform .45s ease!important}
+html body .ga-cap .t{top:0!important;border-radius:22px 22px 0 0!important;background:var(--c)!important;border-bottom-width:1.5px!important}
+html body .ga-cap .b{bottom:0!important;border-radius:0 0 22px 22px!important;background:#FFFDF9!important;border-top-width:1.5px!important}
+html body .ga-cap.open .t{transform:translate(-14px,-12px) rotate(-30deg)!important}
+html body .ga-cap.open .b{transform:translate(14px,10px) rotate(24deg)!important}
+@keyframes gaDrop{from{transform:translateY(-50px) scale(.6)}to{transform:none}}
+html body .ga-card{margin:6px 0!important;padding:14px!important;border-radius:16px!important;background:#FFF8E3!important;border:2px dashed #E2C27A!important;text-align:center!important;animation:omiUnfold .45s ease-out!important}
+html body .ga-card small{display:block!important;font-size:12px!important;color:#9A7A3E!important;font-weight:800!important}
+html body .ga-card b{display:block!important;font-size:18px!important;margin:6px 0 10px!important;color:#5B4B43!important}
+html body .ga-did{min-height:40px!important;padding:6px 18px!important;border-radius:999px!important;border:2px solid #5B4B43!important;background:#fff!important;font-family:inherit!important;font-weight:800!important;font-size:14px!important;color:var(--ink)!important}
+html body .ga-did.on{background:#DDEFD9!important;color:#4E7448!important}
+html body .ga-chip{display:inline-block!important;margin:0 6px 6px 0!important;padding:4px 10px!important;border-radius:999px!important;background:#F2F7EF!important;border:1.5px solid #CFE0C8!important;font-size:12px!important;color:#4E7448!important}
+/* 雪景搖搖 */
+html body .snow-host{position:relative!important}
+html body .snow-burst{position:absolute!important;inset:0!important;overflow:hidden!important;pointer-events:none!important;z-index:3!important;border-radius:inherit!important}
+html body .snow-burst i{position:absolute!important;top:-10px!important;border-radius:50%!important;background:#fff!important;box-shadow:0 0 4px rgba(255,255,255,.9)!important;animation-name:snowFall!important;animation-timing-function:linear!important;animation-fill-mode:forwards!important;opacity:.95!important}
+@keyframes snowFall{to{transform:translate(var(--dx),110vh);opacity:.2}}
+html body .snow-hint{position:absolute!important;left:50%!important;bottom:14px!important;transform:translateX(-50%)!important;background:rgba(255,255,255,.88)!important;color:#5B4B43!important;border-radius:999px!important;padding:4px 12px!important;font-size:12px!important;font-weight:800!important;z-index:4!important;pointer-events:none!important;animation:hintFade 6s ease forwards!important;white-space:nowrap!important}
+@keyframes hintFade{0%,80%{opacity:1}100%{opacity:0}}
+/* 存錢筒 */
+html body .pig{position:relative!important;display:flex!important;align-items:center!important;gap:10px!important;margin:8px 4px 0!important}
+html body .pig-body{width:64px!important;height:50px!important;transform:scale(var(--fat,1))!important;transform-origin:30% 100%!important;transition:transform .5s cubic-bezier(.2,1.4,.4,1)!important}
+html body .pig-body svg{width:100%!important;height:100%!important}
+html body .pig small{font-size:12.5px!important;color:#8E7A6C!important;font-weight:800!important}
+html body .pig.munch .pig-body{animation:pigMunch .5s ease .45s!important}
+@keyframes pigMunch{0%,100%{transform:scale(var(--fat,1))}40%{transform:scale(calc(var(--fat,1)*1.12),calc(var(--fat,1)*.9))}}
+html body .pig-coin{position:absolute!important;left:22px!important;top:-30px!important;width:22px!important;height:22px!important;border-radius:50%!important;background:#FFD86B!important;border:2px solid #B98A3E!important;font-style:normal!important;font-size:11px!important;font-weight:900!important;color:#8A6A2E!important;display:grid!important;place-items:center!important;animation:coinDrop .6s cubic-bezier(.5,0,.8,.5) forwards!important}
+@keyframes coinDrop{0%{transform:translateY(-10px) rotateY(0)}80%{transform:translateY(30px) rotateY(540deg);opacity:1}100%{transform:translateY(34px) scale(.4);opacity:0}}
+/* 地區章 */
+html body .rg-card{margin-top:12px!important}
+html body .rg-top b{font-size:15px!important;color:#6E5A3A!important;margin-right:6px!important}
+html body .rg-top span{font-size:12px!important;color:#9A8B80!important}
+html body .rg-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:10px!important;margin-top:10px!important}
+html body .rg-s svg{width:100%!important;height:auto!important;display:block!important}
+html body .rg-s.on{transform:rotate(var(--r))!important}
+/* 今日全破 */
+html body .ac-ov{position:fixed!important;inset:0!important;z-index:9999!important;background:rgba(60,45,40,.45)!important;display:grid!important;place-items:center!important;animation:acIn .3s ease!important}
+@keyframes acIn{from{opacity:0}}
+html body .ac-card{position:relative!important;width:min(86vw,320px)!important;background:#FFFDF9!important;border:2.5px solid #5B4B43!important;border-radius:24px!important;padding:18px 18px 16px!important;text-align:center!important;box-shadow:0 6px 0 #5B4B43!important;animation:acPop .55s cubic-bezier(.2,1.4,.4,1)!important}
+@keyframes acPop{from{transform:scale(.6);opacity:0}}
+html body .ac-bird{width:90px!important;height:90px!important;margin:-56px auto 0!important;display:block!important;animation:acHop 1s ease-in-out infinite!important}
+@keyframes acHop{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+html body .ac-t{font-size:24px!important;font-weight:900!important;color:#C0675B!important;margin:4px 0!important}
+html body .ac-stamp{width:120px!important;margin:6px auto!important;animation:stThump .6s cubic-bezier(.2,1.4,.4,1) .3s both!important}
+html body .ac-s{font-size:13.5px!important;color:#6E5A3A!important;margin:6px 0 12px!important}
+html body .ac-ok{width:100%!important}
+html body .ac-fw{position:absolute!important;inset:0!important;pointer-events:none!important}
+html body .fw{position:absolute!important;width:0!important;height:0!important}
+html body .fw.f0{left:20%!important;top:22%!important}html body .fw.f1{left:78%!important;top:18%!important;--d:.4s}html body .fw.f2{left:55%!important;top:76%!important;--d:.8s}
+html body .fw i{position:absolute!important;width:6px!important;height:6px!important;border-radius:50%!important;background:#FFD86B!important;transform:rotate(var(--a)) translateY(0)!important;animation:fwBurst 1.4s ease-out var(--d,0s) infinite!important}
+html body .fw.f1 i{background:#F6B9C4!important}html body .fw.f2 i{background:#BFD9F2!important}
+@keyframes fwBurst{0%{transform:rotate(var(--a)) translateY(0);opacity:1}70%{opacity:1}100%{transform:rotate(var(--a)) translateY(-70px);opacity:0}}
+@media (prefers-reduced-motion:reduce){html body .fw i,html body .ac-bird,html body .ac-stamp,html body .ac-card{animation:none!important}}
+html.night body .g-btn,html.night body .omi-slip,html.night body .ga-card,html.night body .ac-card{color:#5B4B43!important}
+html body .g-sheet .g-go,html body .ac-card .ac-ok{min-height:48px!important;border-radius:999px!important;border:2px solid #5B4B43!important;background:#E7A391!important;color:#fff!important;font-weight:900!important;font-size:16px!important;font-family:inherit!important;box-shadow:0 3px 0 #5B4B43!important}
