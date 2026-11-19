@@ -88,3 +88,6 @@ html body .ab-form input,html body .ab-form select{display:block!important;width
 html body .ab-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
 html body .ab-hint{font-size:12px!important;color:#9A8B80!important;margin:4px 0 6px!important}
 html body .ab-card b{font-size:15px!important;line-height:1.6!important}
+html body .ph-card .ph-slots{display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin-top:7px!important}
+html body .ph-card .ph-slots select,html body .ph-card .ph-slots input{min-height:36px!important;font-size:16px!important;border:1.5px solid #E2C27A!important;border-radius:10px!important;background:#FFFBEF!important;padding:3px 8px!important;font-family:inherit!important;color:var(--ink)!important;max-width:100%!important}
+html body .ph-card .ph-slots input:not([type=time]){flex:1 1 160px!important}
