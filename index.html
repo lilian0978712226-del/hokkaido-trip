@@ -2026,6 +2026,13 @@ html body .ga-cap2.open{animation:capPop .45s ease forwards!important}
 @keyframes capPop{0%{transform:translate(56px,34px) scale(1)}40%{transform:translate(56px,30px) scale(1.25)}100%{transform:translate(56px,30px) scale(1.6);opacity:0}}
 html body .ga-stage{padding:22px 0 46px!important}
 @media (prefers-reduced-motion:reduce){html body .gm-coin{animation:none!important}html body .ga-cap2{animation:none!important;transform:translate(56px,34px)!important}}
+/* 紅色版畫籤紙 */
+html body .omi-slip.omi-slip2{background:none!important;border:none!important;padding:0!important;max-width:320px!important;box-shadow:0 6px 16px rgba(91,75,67,.18)!important;border-radius:18px!important;background-image:none!important}
+html body .omi-slip2 svg{width:100%!important;height:auto!important;display:block!important;border-radius:18px!important}
+html body .omi-slip2 .omi-msg2{margin:10px 0 0!important;text-align:center!important;font-size:14px!important;font-weight:800!important;color:#C0474F!important}
+html body .omi-slip2.lv-凶 .omi-msg2{color:#5D7488!important}
+html body .omi-slip.omi-slip2.gold{box-shadow:0 0 0 4px #FFE9A8,0 0 30px rgba(255,200,80,.7)!important}
+html body .g-sheet .cs-panel{max-height:92vh!important;overflow:auto!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -4553,7 +4560,57 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   return {t,no:1+Math.floor(r()*99),lv:lv[0],msg:pk(lv[2]),yi:[yi1,yi2],ji:pk(jiPool),lu:pk(base.lu||OD.d[0].lu),day:i};}
  const NUM='〇一二三四五六七八九';const kanji=n=>n<10?NUM[n]:(n<20?'十'+(n%10?NUM[n%10]:''):NUM[Math.floor(n/10)]+'十'+(n%10?NUM[n%10]:''));
  function omiSub(){const o=get(OK,{})[jpDate()];badge('gOmiSub',o?(o.tied?'綁好':o.lv):'NEW');}
- function slip(f){return `<div class="omi-slip lv-${f.lv}"><div class="omi-no">第${kanji(f.no)}番</div><div class="omi-lv">${f.lv}</div><p class="omi-msg">${esc(f.msg)}</p><ul><li><b>宜</b>${esc(f.yi[0])}</li><li><b>宜</b>${esc(f.yi[1])}</li><li><b class="ji">忌</b>${esc(f.ji)}</li><li><b class="lu">幸運小物</b>${esc(f.lu)}</li></ul><p class="omi-foot">${f.t.slice(5).replace('-','/')}・明天再來抽新的籤</p></div>`;}
+ /* 籤紙：紅色版畫風（雪丸＋格紋＋運勢直書＋五格小籤） */
+ const POEM={'大吉':[['雪落北國福滿門','蟹肥湯暖好時辰','今朝萬事皆如意','吃到撐也不心疼'],['白雪紛飛映笑顏','企鵝列隊來相迎','一路順風皆大吉','好運滿滿到天明']],
+  '中吉':[['慢行雪路莫心急','轉角自有好風景','熱湯一碗暖心頭','小小幸福隨身行'],['市場海鮮正當時','運河燈影映雙人','莫問前路有多遠','有吃有玩就是福']],
+  '小吉':[['天寒記得多加衣','小確幸在路邊棲','抬頭看看雪中景','慢慢走也很美麗']],
+  '吉':[['平平安安出門去','開開心心回家來','不求大富與大貴','只求今晚吃得好']],
+  '末吉':[['早上睡眼還矇矓','午後漸漸好運來','晚餐一口好滋味','先苦後甜最開懷']],
+  '凶':[['風雪雖大莫驚慌','綁好籤紙轉運忙','今日小凶明日吉','燒肉一吃全忘光']]};
+ const FOOD=['吃到第三碗才算數','甜點有另一個胃','排隊的店今天很快','海鮮會特別鮮甜','宵夜才是今天重點','大方點第二份吧','熱湯先喝一口再說','便利商店有驚喜'];
+ const SHOT=['逆光拍會很美','跟雪人合照大吉','今天特別上相','抓到企鵝回頭','自拍角度往上抬','背影照很有故事','雪花入鏡加分','兩人比愛心必拍'];
+ const VMAP={'（':'︵','）':'︶','(':'︵',')':'︶','「':'﹁','」':'﹂','…':'︙','ー':'｜','—':'｜','-':'｜','~':'≀','～':'≀'};
+ const vch=c=>VMAP[c]||c;
+ function slipSVG(f){
+  const ink=f.lv==='凶'?'#6E86A3':'#D9474F',inkL=f.lv==='凶'?'#DCE6F0':'#F9D5D6',paper=f.lv==='大吉'?'#FFFAF2':'#FFF6F4';
+  const P=(POEM[f.lv]||POEM['吉']),poem=P[f.no%P.length];
+  const cats=[['宜',f.yi[0]],['忌',f.ji],['食運',FOOD[f.no%FOOD.length]],['拍照',SHOT[(f.no*7+3)%SHOT.length]],['幸運',f.lu]];
+  const V=(t,x,y,fs,step,max,colGap,anchorFill)=>{const ch=[...String(t).replace(/\s/g,'')].map(vch);let o='';ch.forEach((c,i)=>{const col=Math.floor(i/max),row=i%max;o+=`<text x="${x-col*colGap}" y="${y+row*step}" font-size="${fs}" text-anchor="middle" fill="${anchorFill}">${esc(c)}</text>`;});return o;};
+  const poemSvg=poem.map((ln,i)=>V(ln,252-i*46,302,23,27.5,7,0,ink)).join('');
+  const catSvg=cats.map(([k,v],i)=>{const x=316-i*68;const lab=k.length>1?`<text x="${x}" y="${541}" font-size="12.5" font-weight="900" text-anchor="middle" fill="#fff" letter-spacing="-.5">${k}</text>`:`<text x="${x}" y="${543}" font-size="16" font-weight="900" text-anchor="middle" fill="#fff">${k}</text>`;
+   return `<path d="M${x} ${512}c-3 6-16 9-16 22a16 14 0 0 0 32 0c0-13-13-16-16-22Z" fill="${ink}"/><path d="M${x-9} ${526}q9-5 18 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".7"/>${lab}${V(v,x+8,570,14,15.2,8,16,ink)}`;}).join('');
+  const plum=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" stroke="${ink}" stroke-width="1.6">${[0,72,144,216,288].map(a=>`<circle cx="${(Math.sin(a*Math.PI/180)*7).toFixed(1)}" cy="${(-Math.cos(a*Math.PI/180)*7).toFixed(1)}" r="6"/>`).join('')}<circle r="3.4" fill="${inkL}"/><path d="M0 0l0-4M0 0l3.5 2M0 0l-3.5 2" stroke="${ink}" stroke-width="1"/></g>`;
+  const rays=[-62,-40,-18,18,40,62].map(a=>{const r=a*Math.PI/180;return `<path d="M${(180+Math.sin(r)*88).toFixed(1)} ${(122-Math.cos(r)*88).toFixed(1)}L${(180+Math.sin(r)*104).toFixed(1)} ${(122-Math.cos(r)*104).toFixed(1)}" stroke="${ink}" stroke-width="7" stroke-linecap="round"/>`;}).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" font-family="'Huninn','PingFang TC','Noto Sans TC','Hiragino Sans',sans-serif" font-weight="900">
+   <defs><pattern id="ckr${f.no}" width="36" height="36" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="36" height="36" fill="${paper}"/><rect width="18" height="18" fill="${inkL}"/><rect x="18" y="18" width="18" height="18" fill="${inkL}"/></pattern>
+   <filter id="grn${f.no}"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.7 1.08"/><feComposite in="SourceGraphic" operator="in"/></filter>
+   <clipPath id="hdr${f.no}"><rect x="26" y="40" width="308" height="160"/></clipPath></defs>
+   <rect width="360" height="720" rx="18" fill="${paper}"/>
+   <g filter="url(#grn${f.no})">
+   <rect x="9" y="9" width="342" height="702" rx="12" fill="none" stroke="${ink}" stroke-width="5"/><rect x="18" y="18" width="324" height="684" rx="6" fill="none" stroke="${ink}" stroke-width="1.6"/>
+   <circle cx="180" cy="28" r="6" fill="#fff" stroke="${ink}" stroke-width="1.6"/>
+   <g clip-path="url(#hdr${f.no})"><rect x="26" y="40" width="308" height="160" fill="url(#ckr${f.no})" opacity=".85"/></g>
+   ${rays}
+   <g transform="translate(180 128)"><path d="M28 18c26 6 54 20 70 36" stroke="#fff" stroke-width="16" stroke-linecap="round" fill="none"/><path d="M28 18c26 6 54 20 70 36" stroke="${ink}" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <ellipse cx="0" cy="0" rx="62" ry="56" fill="#fff"/><ellipse cx="0" cy="0" rx="56" ry="50" fill="${ink}"/>
+    <path d="M-52 2c-18 4-26 18-22 30 12-4 22-14 24-26Z M52 2c18 4 26 18 22 30-12-4-22-14-24-26Z" fill="${ink}" stroke="#fff" stroke-width="4" paint-order="stroke"/>
+    <circle cx="-18" cy="-6" r="8" fill="#fff"/><circle cx="18" cy="-6" r="8" fill="#fff"/><circle cx="-18" cy="-6" r="3.4" fill="${ink}"/><circle cx="18" cy="-6" r="3.4" fill="${ink}"/>
+    <path d="M-7 6h14L0 15Z" fill="#fff"/><ellipse cx="-34" cy="12" rx="8" ry="4.5" fill="#fff" opacity=".55"/><ellipse cx="34" cy="12" rx="8" ry="4.5" fill="#fff" opacity=".55"/>
+    <path d="M-16 -50c4-12 14-14 16-4 4-10 14-8 14 4" fill="${ink}" stroke="#fff" stroke-width="3" paint-order="stroke"/></g>
+   <g transform="translate(272 50)"><rect width="54" height="54" rx="8" fill="${ink}" stroke="#fff" stroke-width="3"/><rect x="5" y="5" width="44" height="44" rx="4" fill="none" stroke="#fff" stroke-width="1.4"/><text x="27" y="25" font-size="15" text-anchor="middle" fill="#fff">北海</text><text x="27" y="43" font-size="15" text-anchor="middle" fill="#fff">道籤</text></g>
+   <rect x="26" y="206" width="308" height="74" fill="${ink}"/>
+   <g stroke="#fff" stroke-width="1" opacity=".22" fill="none">${Array.from({length:9},(_,k)=>`<path d="M${30+k*36} 280a18 18 0 0 1 36 0M${30+k*36} 268a18 18 0 0 1 36 0"/>`).join('')}</g>
+   ${plum(52,226,1)}${plum(74,256,.85)}${plum(308,238,1)}
+   <text x="180" y="263" font-size="${f.lv.length>1?54:62}" text-anchor="middle" fill="#fff" letter-spacing="6">${f.lv}</text>
+   <g transform="translate(312 330)"><path d="M0 -26L24 0 0 26-24 0Z" fill="${ink}" stroke="#fff" stroke-width="2.5"/><text x="0" y="8" font-size="22" text-anchor="middle" fill="#fff">運</text></g>
+   <g transform="translate(312 384)"><path d="M0 -26L24 0 0 26-24 0Z" fill="${ink}" stroke="#fff" stroke-width="2.5"/><text x="0" y="8" font-size="22" text-anchor="middle" fill="#fff">勢</text></g>
+   ${poemSvg}
+   ${V(`第${kanji(f.no)}番`,48,306,15,19,9,0,ink)}
+   <path d="M36 494H324" stroke="${ink}" stroke-width="3.4" stroke-linecap="round" stroke-dasharray=".1 9"/>
+   ${catSvg}
+   <text x="180" y="696" font-size="11.5" text-anchor="middle" fill="${ink}" opacity=".75" letter-spacing="2">北海道雪日記・${f.t.slice(5).replace('-','/')}・明天再來抽</text>
+   </g></svg>`;}
+ function slip(f){return `<div class="omi-slip omi-slip2 lv-${f.lv}" role="img" aria-label="${esc(`第${f.no}番 ${f.lv}：${f.msg}。宜：${f.yi[0]}；忌：${f.ji}；幸運小物：${f.lu}`)}">${slipSVG(f)}<p class="omi-msg2">${esc(f.msg)}</p></div>`;}
  function after(f){return `<div class="omi-acts"><button type="button" class="omi-share">把籤分享出去</button>${f.lv==='凶'?'<button type="button" class="omi-tie">把籤綁起來</button>':''}</div>`;}
  function party(st){if(RM)return;const fx=document.createElement('div');fx.className='omi-fx';fx.setAttribute('aria-hidden','true');
   fx.innerHTML='<i class="ray"></i>'+Array.from({length:26},(_,k)=>`<span class="pt" style="left:${(k*37)%100}%;--d:${(k%7)*.12}s;--x:${(k%5-2)*24}px;--s:${.7+(k%4)*.15}"></span>`).join('')+Array.from({length:10},(_,k)=>`<em style="left:${8+k*9}%;top:${18+(k*23)%50}%;--d:${(k%5)*.18}s">✦</em>`).join('');
@@ -4582,26 +4639,12 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   $('#omiGo').addEventListener('click',()=>{askMotion();go();});
  }
  async function shareOmi(f){
-  const W=720,H=1080,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const F='"Huninn","PingFang TC","Noto Sans TC",sans-serif';
-  const gold=f.lv==='大吉';
-  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,gold?'#FFF1C9':'#FDEFF3');g.addColorStop(1,'#FFF9F1');x.fillStyle=g;x.fillRect(0,0,W,H);
-  for(let k=0;k<40;k++){x.fillStyle='rgba(255,255,255,.9)';x.beginPath();x.arc((k*97)%W,(k*61)%H,2+k%4,0,7);x.fill();}
-  const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
-  rr(110,90,500,880,14);x.fillStyle='#FFFDF6';x.fill();x.lineWidth=5;x.strokeStyle=gold?'#D4A63A':'#5B4B43';x.stroke();
-  x.strokeStyle='#F4E7D3';x.lineWidth=2;[140,580].forEach(X=>{x.beginPath();x.moveTo(X,110);x.lineTo(X,950);x.stroke();});
-  x.textAlign='center';x.fillStyle='#9A8B80';x.font=`800 30px ${F}`;x.fillText('北海道雪日記・今日御神籤',360,160);
-  x.font=`800 28px ${F}`;x.fillText(`第${kanji(f.no)}番`,360,215);
-  x.fillStyle=gold?'#D4A63A':'#C0675B';x.font=`900 150px ${F}`;x.fillText(f.lv,360,380);
-  x.fillStyle='#6E5A3A';x.font=`700 30px ${F}`;wrap(f.msg,360,440,420,40);
-  x.strokeStyle='#E3D6C9';x.setLineDash([10,8]);x.lineWidth=3;x.beginPath();x.moveTo(160,500);x.lineTo(560,500);x.stroke();x.setLineDash([]);
-  x.textAlign='left';let y=560;
-  [['宜',f.yi[0],'#C0675B'],['宜',f.yi[1],'#C0675B'],['忌',f.ji,'#5D7488'],['幸運小物',f.lu,'#B98A3E']].forEach(([k,v,col])=>{x.fillStyle=col;x.font=`900 30px ${F}`;x.fillText(k,170,y);const w=x.measureText(k).width+18;x.fillStyle='#4A3B34';x.font=`700 30px ${F}`;y=wrapL(v,170+w,y,390-w,42)+70;});
-  x.textAlign='center';x.fillStyle='#A39286';x.font=`700 26px ${F}`;x.fillText(`2027 北海道大暴吃・${f.t.slice(5).replace('-','/')}`,360,1030);
-  function wrap(t,cx,y0,mw,lh){let line='',yy=y0;for(const ch of t.match(/[A-Za-z0-9.]+|./gu)){if(x.measureText(line+ch).width>mw){x.fillText(line,cx,yy);line=ch;yy+=lh;}else line+=ch;}x.fillText(line,cx,yy);return yy;}
-  function wrapL(t,lx,y0,mw,lh){let line='',yy=y0;for(const ch of t.match(/[A-Za-z0-9.]+|./gu)){if(x.measureText(line+ch).width>mw){x.fillText(line,lx,yy);line=ch;yy+=lh;}else line+=ch;}x.fillText(line,lx,yy);return yy;}
-  const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],`omikuji-${f.t}.png`,{type:'image/png'});
-  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'今日御神籤',text:`我今天抽到「${f.lv}」！`});return;}}catch(e){return;}
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('已存成圖片');}
+  try{const svg=slipSVG(f).replace('<svg ','<svg width="1080" height="2160" ');const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));const img=new Image();img.src=url;await img.decode();
+   const c=document.createElement('canvas');c.width=1080;c.height=2160;const x=c.getContext('2d');x.drawImage(img,0,0,1080,2160);URL.revokeObjectURL(url);
+   const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],`omikuji-${f.t}.png`,{type:'image/png'});
+   try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'今日御神籤',text:`我今天抽到「${f.lv}」！`});return;}}catch(e){return;}
+   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('已存成圖片');
+  }catch(e){toast('這支手機無法直接存圖，請用截圖分享');}}
  window.hkPreviewOmi=lv=>{const f=fortune();f.lv=lv||'大吉';f.msg=(LV.find(l=>l[0]===f.lv)||LV[0])[2][0];open('<div class="cs-panel g-panel"><h3>今日御神籤</h3><div class="omi-stage"></div><div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>');show(f,true);};
  omiSub();
 
@@ -4794,7 +4837,8 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  if(get(SMK,0)){const p=document.querySelector('#ledger h2 .pig');if(p)p.classList.add('smashed');}
 
  /* ---------- 5. 今日全破＋地區章 ---------- */
- const REG=[['i-clock','札幌','#E7A391'],['s-gondola','藻岩山','#8FAFCB'],['i-lamp','小樽','#D9A75F'],['i-letter','白色戀人','#C9A0C4'],['i-tree','美瑛','#8CC7A6'],['i-penguin','旭山','#7FA6D6'],['i-onsen','溫泉鄉','#E39494'],['i-car','千歲','#A9B79A'],['i-plane','平安回家','#E7A391']];
+ const REG=[['i-clock','札幌','#E7A391'],['s-gondola','藻岩山','#8FAFCB'],['i-lamp','小樽','#D9A75F'],['i-torii','神社','#E07B6E'],['i-tree','美瑛','#8CC7A6'],['i-penguin','旭山','#7FA6D6'],['i-onsen','溫泉鄉','#E39494'],['i-car','千歲','#A9B79A'],['i-plane','平安回家','#E7A391']];
+ if(!document.getElementById('i-torii')){const d=document.createElement('div');d.hidden=true;d.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><symbol id="i-torii" viewBox="0 0 64 64"><g stroke="#5B4B43" stroke-width="2.6" stroke-linejoin="round"><path d="M6 14c14 4 38 4 52 0l-2 7c-14 3-34 3-48 0Z" fill="#E07B6E"/><rect x="12" y="25" width="40" height="5" rx="1.5" fill="#E07B6E"/><path d="M17 21v35M47 21v35" stroke-width="7" stroke="#5B4B43"/><path d="M17 21v35M47 21v35" stroke-width="3.4" stroke="#E07B6E"/><path d="M29 30v-9h6v9" fill="#FFF3E8"/></g></symbol></svg>';document.body.appendChild(d.firstChild);}
  const AK='hk-allclear-v1';
  function stampSVG(i,on){const r=REG[i]||REG[0],d=D[i],md=d?`${+d.date.slice(5,7)}/${+d.date.slice(8,10)}`:'';const c=on?r[2]:'#D8CBC0';
   return `<svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rgArc${i}${on?1:0}" d="M22 52a28 28 0 0 0 56 0"/></defs><circle cx="50" cy="50" r="45" fill="${on?'#FFFDF9':'none'}" stroke="${c}" stroke-width="${on?4:2.5}" ${on?'':'stroke-dasharray="5 5"'}/><circle cx="50" cy="50" r="38" fill="none" stroke="${c}" stroke-width="1.4" ${on?'':'opacity=".5"'}/>${on?`<text x="50" y="27" text-anchor="middle" font-size="8.5" font-weight="900" fill="${c}">D${i+1}・${md}</text><use href="#${sym(r[0])}" x="34" y="30" width="32" height="32"/><text font-size="11" font-weight="900" fill="${c}" text-anchor="middle"><textPath href="#rgArc${i}1" startOffset="50%">${r[1]}</textPath></text>`:`<text x="50" y="48" text-anchor="middle" font-size="13" font-weight="900" fill="#C9BDB2">D${i+1}</text><text x="50" y="64" text-anchor="middle" font-size="9.5" font-weight="700" fill="#C9BDB2">${r[1]}</text>`}</svg>`;}

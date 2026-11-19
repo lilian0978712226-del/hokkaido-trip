@@ -247,3 +247,10 @@ html body .ga-cap2.open{animation:capPop .45s ease forwards!important}
 @keyframes capPop{0%{transform:translate(56px,34px) scale(1)}40%{transform:translate(56px,30px) scale(1.25)}100%{transform:translate(56px,30px) scale(1.6);opacity:0}}
 html body .ga-stage{padding:22px 0 46px!important}
 @media (prefers-reduced-motion:reduce){html body .gm-coin{animation:none!important}html body .ga-cap2{animation:none!important;transform:translate(56px,34px)!important}}
+/* 紅色版畫籤紙 */
+html body .omi-slip.omi-slip2{background:none!important;border:none!important;padding:0!important;max-width:320px!important;box-shadow:0 6px 16px rgba(91,75,67,.18)!important;border-radius:18px!important;background-image:none!important}
+html body .omi-slip2 svg{width:100%!important;height:auto!important;display:block!important;border-radius:18px!important}
+html body .omi-slip2 .omi-msg2{margin:10px 0 0!important;text-align:center!important;font-size:14px!important;font-weight:800!important;color:#C0474F!important}
+html body .omi-slip2.lv-凶 .omi-msg2{color:#5D7488!important}
+html body .omi-slip.omi-slip2.gold{box-shadow:0 0 0 4px #FFE9A8,0 0 30px rgba(255,200,80,.7)!important}
+html body .g-sheet .cs-panel{max-height:92vh!important;overflow:auto!important}
