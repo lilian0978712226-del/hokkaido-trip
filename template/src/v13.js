@@ -212,8 +212,46 @@
  function ding(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=ding.c||(ding.c=new C());const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(1568,c.currentTime);o.frequency.setValueAtTime(2093,c.currentTime+.08);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.35);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.4);}catch(e){}}
  const led=document.getElementById('ledger');
  if(led){pig();setTimeout(pig,1500);new MutationObserver(()=>{const h=document.querySelector('#ledger h2');if(h&&(!h.querySelector('.pig')||h.querySelector('.jp-deco')))pig();}).observe(led,{childList:true,subtree:true});
-  led.addEventListener('click',e=>{const p=e.target.closest('#ledger h2 .pig');if(!p)return;p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();toast(s?`小豬吃了 ¥${Math.round(s).toLocaleString()}，好飽`:'小豬好餓，記一筆帳餵牠');});
+  led.addEventListener('click',e=>{const p=e.target.closest('#ledger h2 .pig');if(!p)return;
+   if(canSmash()){smashAsk();return;}
+   p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();toast(s?`小豬吃了 ¥${Math.round(s).toLocaleString()}，最後一天可以敲破牠`:'小豬好餓，記一筆帳餵牠');});
   led.addEventListener('submit',()=>{const before=(get('hk-ledger-v1',[])||[]).length;setTimeout(()=>{const after=(get('hk-ledger-v1',[])||[]).length;const p=pig();if(after>before&&p){ding();if(!RM){const c=document.createElement('i');c.className='pig-coin';c.textContent='¥';p.appendChild(c);p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');setTimeout(()=>c.remove(),900);}}},60);},true);}
+
+ /* 最後一天敲破小豬：看這趟花了多少 */
+ const SMK='hk-pig-smash-v1';
+ const lastDay=()=>D.length?D[D.length-1].date:'9999';
+ const canSmash=()=>jpDate()>=lastDay()||window.__hkPigPreview;
+ function pigData(){const L=get('hk-ledger-v1',[])||[],S=get('hk-ledger-set-v1',{});const rate=+(S.rate||0.21)||0.21,A=S.a||'我',B=S.b||'陳肥肥';
+  const J=e=>e.cur==='JPY'?+e.amt||0:(+e.amt||0)/rate;
+  const CAT={food:['🍜','餐飲'],move:['🚗','交通'],shop:['🛍️','購物'],stay:['🏨','住宿'],ticket:['🎟️','門票'],other:['✨','其他']};
+  const tot=L.reduce((a,e)=>a+J(e),0);
+  const by=Object.keys(CAT).map(k=>({k,ic:CAT[k][0],n:CAT[k][1],v:L.filter(e=>(e.cat||'other')===k).reduce((a,e)=>a+J(e),0)})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  const sh=L.filter(e=>e.shared),shT=sh.reduce((a,e)=>a+J(e),0),pa=sh.filter(e=>e.payer==='a').reduce((a,e)=>a+J(e),0),diff=pa-shT/2;
+  const big=L.slice().sort((a,b)=>J(b)-J(a))[0];
+  const days={};L.forEach(e=>{if(e.day>=0)days[e.day]=(days[e.day]||0)+J(e);});const bd=Object.entries(days).sort((a,b)=>b[1]-a[1])[0];
+  return {tot,rate,by,diff,A,B,n:L.length,big,bigV:big?J(big):0,bd,CAT};}
+ const Y=v=>'¥'+Math.round(v).toLocaleString(),T=(v,r)=>'NT$'+Math.round(v*r).toLocaleString();
+ function smashAsk(){const d=pigData();const done=get(SMK,0);
+  open(`<div class="cs-panel g-panel pig-panel" role="dialog" aria-modal="true" aria-label="敲破小豬"><h3>${done?'小豬的肚子裡有…':'旅行結束了，要敲破小豬嗎？'}</h3>
+   <div class="pig-stage${done?' broken still':''}" id="pigStage"><div class="pig-big">${done?`<span class="half l">${PIG}</span><span class="half r">${PIG}</span>`:PIG}</div><svg class="pig-hammer" viewBox="0 0 60 60" aria-hidden="true"><rect x="27" y="22" width="6" height="34" rx="3" fill="#D9B98A" stroke="#5B4B43" stroke-width="2"/><rect x="10" y="8" width="40" height="18" rx="6" fill="#F3B6A8" stroke="#5B4B43" stroke-width="2.4"/><path d="M14 13h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+   ${done?'':`<p class="g-hint">這趟一共餵了小豬 ${d.n} 筆帳</p><button type="button" class="cs-save g-go" id="pigGo">敲下去！</button>`}
+   <div id="pigOut"></div>
+   <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
+  if(done){reveal2(d,false);return;}
+  $('#pigGo').addEventListener('click',()=>{$('#pigGo').remove();const st=$('#pigStage');
+   const fin=()=>{put(SMK,Date.now());const pb=st.querySelector('.pig-big');pb.innerHTML=`<span class="half l">${PIG}</span><span class="half r">${PIG}</span>`;st.classList.add('broken');coins(st);reveal2(d,true);const p=document.querySelector('#ledger h2 .pig');if(p)p.classList.add('smashed');};
+   if(RM){fin();return;}st.classList.add('swing');let k=0;const hit=()=>{k++;st.classList.remove('hit');void st.offsetWidth;st.classList.add('hit');if(navigator.vibrate)navigator.vibrate(25);if(k<3)setTimeout(hit,380);else setTimeout(fin,260);};setTimeout(hit,300);});}
+ function coins(st){if(RM)return;const fx=document.createElement('div');fx.className='pig-fx';fx.innerHTML=Array.from({length:18},(_,k)=>`<i style="--x:${(k%9-4)*24+(k>8?12:0)}px;--y:${-60-(k*17)%70}px;--e:${44+(k%4)*9-(Math.abs(k%9-4)*3)}px;--d:${(k%6)*.05}s">¥</i>`).join('')+Array.from({length:5},(_,k)=>`<b style="--x:${(k-2)*30}px;--r:${(k-2)*40}deg"></b>`).join('');st.appendChild(fx);ding();setTimeout(ding,150);setTimeout(ding,300);}
+ function reveal2(d,anim){const out=$('#pigOut');if(!out)return;
+  const max=d.by[0]?d.by[0].v:1;
+  const settle=Math.abs(d.diff)<1?'兩人剛好打平 🎉':d.diff>0?`${esc(d.B)} 要給 ${esc(d.A)} <b>${Y(d.diff)}</b>`:`${esc(d.A)} 要給 ${esc(d.B)} <b>${Y(-d.diff)}</b>`;
+  out.innerHTML=`<div class="pig-res${anim?' in':''}"><small>這趟北海道一共花了</small><div class="pig-tot">${Y(d.tot)}</div><p class="pig-twd">≈ ${T(d.tot,d.rate)}</p>
+   ${d.by.length?`<div class="pig-bars">${d.by.map(x=>`<div><span>${x.ic} ${x.n}</span><i style="--w:${(x.v/max*100).toFixed(1)}%"></i><b>${Y(x.v)}</b></div>`).join('')}</div>`:''}
+   <ul class="pig-facts">${d.bd?`<li>花最多的一天：<b>D${+d.bd[0]+1}</b>（${Y(d.bd[1])}）</li>`:''}${d.big?`<li>最貴的一筆：<b>${esc(d.big.note||(d.CAT[d.big.cat]||d.CAT.other)[1])}</b>（${Y(d.bigV)}）</li>`:''}<li>結算：${settle}</li></ul>
+   <button type="button" class="pig-glue">把小豬黏回去</button></div>`;
+  out.querySelector('.pig-glue').addEventListener('click',()=>{localStorage.removeItem(SMK);const p=document.querySelector('#ledger h2 .pig');if(p)p.classList.remove('smashed');close();toast('小豬黏好了，繼續餵牠吧');});}
+ window.hkPreviewPig=()=>{window.__hkPigPreview=1;smashAsk();};
+ if(get(SMK,0)){const p=document.querySelector('#ledger h2 .pig');if(p)p.classList.add('smashed');}
 
  /* ---------- 5. 今日全破＋地區章 ---------- */
  const REG=[['i-clock','札幌','#E7A391'],['s-gondola','藻岩山','#8FAFCB'],['i-lamp','小樽','#D9A75F'],['i-letter','白色戀人','#C9A0C4'],['i-tree','美瑛','#8CC7A6'],['i-penguin','旭山','#7FA6D6'],['i-onsen','溫泉鄉','#E39494'],['i-car','千歲','#A9B79A'],['i-plane','平安回家','#E7A391']];
