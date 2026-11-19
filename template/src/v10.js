@@ -21,7 +21,7 @@
  const RULES=[
   [/^複製/,'copy'],[/^看行程$|^行程$/,'cal'],[/^導航$|^地圖導航$/,'pin'],[/重新查詢/,'snow'],
   [/^儲存設定$/,'check'],[/^清除全部紀錄$/,'trash'],[/今天的重要事項/,'bell'],[/看全部待辦/,'list'],
-  [/看全部行李/,'bag'],[/取車路線/,'car'],[/雪地自駕提醒/,'snow'],[/退稅.*步/,'coin'],[/^傳送|^📤/,'share'],[/^打給/,'phone']
+  [/看全部行李/,'bag'],[/取車路線/,'car'],[/雪地自駕提醒/,'snow'],[/退稅.*步/,'coin'],[/^傳送|^📤/,'share'],[/^打給|^事故中心/,'phone'],[/^保險・/,'heart']
  ];
  function deco(root){
   (root||document).querySelectorAll('button, a.smallbtn, summary').forEach(el=>{

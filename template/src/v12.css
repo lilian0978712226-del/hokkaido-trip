@@ -54,3 +54,15 @@ html body .bk-row small .bk-ap{width:14px!important;height:14px!important;margin
 html body #essentials .rental-btns{display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin:14px 0 14px!important}
 html body #essentials .rental-btns .smallbtn{margin:0!important}
 html body #essentials>.card:first-of-type details.fold{margin-top:4px!important}
+html body #essentials .rt-tip{margin:8px 0 0!important;padding:8px 10px!important;border-radius:12px!important;background:#EEF5FB!important;color:#4F6577!important;font-size:13px!important;line-height:1.6!important}
+html body #essentials .rt-tip b{color:#3E5466!important}
+html body #essentials .ins-box{margin:0 0 10px!important}
+html body #essentials .ins-head{display:flex!important;flex-direction:column!important;gap:2px!important;margin:4px 0 8px!important;padding:10px 12px!important;border-radius:14px!important;background:#F2F7EF!important;border:1.5px solid #CFE0C8!important}
+html body #essentials .ins-head b{color:#4E7448!important;font-size:15px!important}
+html body #essentials .ins-head span{color:#6F8A69!important;font-size:12.5px!important}
+html body #essentials .ins-list,html body #essentials .ins-steps{margin:0 0 8px!important;padding-left:20px!important;font-size:13.5px!important;line-height:1.7!important}
+html body #essentials .ins-sub{margin:10px 0 4px!important;font-size:13.5px!important;color:#C0675B!important}
+html body #essentials .ins-tel{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin:6px 0 8px!important}
+html body #essentials .ins-tel .smallbtn{margin:0!important}
+html body #essentials .ins-note{font-size:12px!important;color:#8E7A6C!important;margin:4px 0 0!important}
+html.night body #essentials .rt-tip,html.night body #essentials .ins-head{color:#4F6577!important}

@@ -1680,6 +1680,18 @@ html body .bk-row small .bk-ap{width:14px!important;height:14px!important;margin
 html body #essentials .rental-btns{display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin:14px 0 14px!important}
 html body #essentials .rental-btns .smallbtn{margin:0!important}
 html body #essentials>.card:first-of-type details.fold{margin-top:4px!important}
+html body #essentials .rt-tip{margin:8px 0 0!important;padding:8px 10px!important;border-radius:12px!important;background:#EEF5FB!important;color:#4F6577!important;font-size:13px!important;line-height:1.6!important}
+html body #essentials .rt-tip b{color:#3E5466!important}
+html body #essentials .ins-box{margin:0 0 10px!important}
+html body #essentials .ins-head{display:flex!important;flex-direction:column!important;gap:2px!important;margin:4px 0 8px!important;padding:10px 12px!important;border-radius:14px!important;background:#F2F7EF!important;border:1.5px solid #CFE0C8!important}
+html body #essentials .ins-head b{color:#4E7448!important;font-size:15px!important}
+html body #essentials .ins-head span{color:#6F8A69!important;font-size:12.5px!important}
+html body #essentials .ins-list,html body #essentials .ins-steps{margin:0 0 8px!important;padding-left:20px!important;font-size:13.5px!important;line-height:1.7!important}
+html body #essentials .ins-sub{margin:10px 0 4px!important;font-size:13.5px!important;color:#C0675B!important}
+html body #essentials .ins-tel{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin:6px 0 8px!important}
+html body #essentials .ins-tel .smallbtn{margin:0!important}
+html body #essentials .ins-note{font-size:12px!important;color:#8E7A6C!important;margin:4px 0 0!important}
+html.night body #essentials .rt-tip,html.night body #essentials .ins-head{color:#4F6577!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -1937,10 +1949,16 @@ html body #essentials>.card:first-of-type details.fold{margin-top:4px!important}
 <div class="card lodging stay-card"><svg class="stay-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-onsen"></use></svg><div><h3>第一瀧本館（Dai-ichi Takimotokan）</h3><p class="muted">登別溫泉｜2/16–2/17</p></div><span class="pill">登別</span><button class="smallbtn" onclick="maps('第一滝本館, Noboribetsu, Hokkaido, Japan')">導航 ↗</button></div>
 <div class="card lodging stay-card"><svg class="stay-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-house"></use></svg><div><h3>KOKO STAY 千歲</h3><p class="muted">千歲｜2/17–2/18</p></div><span class="pill">千歲</span><button class="smallbtn" onclick="maps('KOKO STAY Chitose, Hokkaido, Japan')">導航 ↗</button></div></section>
 <section class="section" id="essentials"><h2><svg class="h-ic" aria-hidden="true" viewBox="0 0 64 64"><use href="#i-car"></use></svg>重要資訊・租車</h2><div class="card"><div class="info-grid"><div class="mini"><small>租車公司</small><strong>Nippon Rent-A-Car</strong><p>新千歲空港營業所</p></div><div class="mini"><small>預約編號</small><strong>G34218</strong><button class="smallbtn" onclick="copyText('G34218')">複製編號</button></div><div class="mini"><small>取車時間</small><strong>2/10 17:30</strong><p>新千歲機場</p></div><div class="mini"><small>還車最晚完成時間</small><strong>2/17 19:00 前</strong><p>新千歲空港營業所</p></div></div><div class="rental-btns"><button class="smallbtn" onclick="maps('Nippon Rent-A-Car New Chitose Airport, Hokkaido, Japan')">地圖導航</button> <a class="smallbtn" href="tel:+815017122970">打給租車公司</a></div>
+<div class="ins-box" id="rental-insurance"><p class="ins-head"><b>保險已經全保</b><span>安心方案＋CDW＋ECO・已線上付清 83,490 円</span></p>
+<ul class="ins-list"><li><b>CDW</b>：出事時的免責額（最多 15 萬円）不用付</li><li><b>ECO</b>：車子送修的營業損失 NOC（2 萬／5 萬円）不用付</li><li><b>安心方案</b>：爆胎換胎、電瓶沒電、沒油送 10L、鑰匙反鎖、車輪卡溝拉出來（後兩項各限一次）都免費；塞車晚還車，<b>還車前 1 小時</b>打電話，超時 3 小時內半價</li><li><b>ETC 卡</b>已租，高速公路走 ETC 車道（時速 20 公里以下通過）</li></ul>
+<p class="ins-sub"><b>萬一出事（不管多小都要做，不然保險不賠）</b></p>
+<ol class="ins-steps"><li>有人受傷先叫救護車</li><li>報警，拿事故證明</li><li>打給 Nippon 事故受理中心</li></ol>
+<div class="ins-tel"><a class="smallbtn" href="tel:119">打給救護車 119</a> <a class="smallbtn" href="tel:110">打給警察 110</a> <a class="smallbtn" href="tel:0120220865">打給事故中心</a> <a class="smallbtn" href="tel:0188889194">事故中心（打不通時）</a></div>
+<p class="ins-note">違規（例如酒駕）、沒登記的人開車、沒報警的事故，保險和 CDW／ECO 都不適用。</p></div>
 <div class="tax-route-card rental-route" id="rental-pickup-route">
 <div class="alert-panel" style="margin:8px 0 12px"><b>施工提醒｜2027 年 2 月</b><p>路線圖標示：3 樓通道封閉，請改走 2 樓連絡通道。施工期間為 2026/09/02 起，預計至 2027 年 6 月底；出發前仍請確認現場公告。</p></div>
 <div class="tax-route">
-<article class="tax-step"><div class="tax-num">1</div><div class="tax-step-body"><b>抵達國際線航廈 2F</b><p>搭乘 JX318 抵達新千歲機場後，在國際線航廈 2 樓入境大廳完成入境、領取行李。</p></div><div class="tax-visual">🛬<small>國際線 2F</small></div></article>
+<article class="tax-step"><div class="tax-num">1</div><div class="tax-step-body"><b>抵達國際線航廈 2F・入境</b><p>搭乘 JX318 抵達新千歲機場後，在國際線航廈 2 樓完成入境、領取行李。</p><p class="rt-tip"><b>兩人都排人工櫃檯</b>，讓海關在護照貼「入境貼紙」（上陸許可シール）；租車櫃檯要看入境日期。不小心走了自動閘門，就跟旁邊工作人員說「スタンプをお願いします」補蓋。登機證先留著，忘了蓋時可以證明入境日。</p></div><div class="tax-visual">🛬<small>國際線 2F</small></div></article>
 <div class="tax-arrow">↓</div>
 <article class="tax-step"><div class="tax-num">2</div><div class="tax-step-body"><b>走 2F 連絡通道前往國內線</b><p>依「國內線航廈」指標前進，走 2 樓室內連絡通道，約 240 公尺、步行 3～5 分鐘；路線圖標示有自動步道。</p></div><div class="tax-visual">🚶<small>約 240 公尺</small></div></article>
 <div class="tax-arrow">↓</div>
@@ -1948,7 +1966,7 @@ html body #essentials>.card:first-of-type details.fold{margin-top:4px!important}
 <div class="tax-arrow">↓</div>
 <article class="tax-step"><div class="tax-num">4</div><div class="tax-step-body"><b>下樓至 1F</b><p>抵達國內線航廈後，搭乘電梯或手扶梯下樓至 1 樓。</p></div><div class="tax-visual">⬇️<small>1F</small></div></article>
 <div class="tax-arrow">↓</div>
-<article class="tax-step"><div class="tax-num">5</div><div class="tax-step-body"><b>找 1F「抵達出口 3」附近的 Nippon 櫃檯</b><p>在國內線航廈 1 樓抵達出口 3 附近尋找 Nippon Rent-A-Car 櫃檯，出示預約資料辦理報到。</p></div><div class="tax-visual">🚗<small>出口 3 附近</small></div></article>
+<article class="tax-step"><div class="tax-num">5</div><div class="tax-step-body"><b>找 1F「抵達出口 3」附近的 Nippon 櫃檯</b><p>在國內線航廈 1 樓抵達出口 3 附近尋找 Nippon Rent-A-Car 櫃檯，出示預約資料辦理報到。</p><p class="rt-tip"><b>兩人各自拿出</b>：台灣駕照正本＋日文譯本＋護照，再加預約編號 G34218。陳肥肥要開車，跟店員說「この人も運転します」登記成追加駕駛；保險已經全加了，被問到就說「已經加了」。</p></div><div class="tax-visual">🚗<small>出口 3 附近</small></div></article>
 <div class="tax-arrow">↓</div>
 <article class="tax-step final-step"><div class="tax-num">6</div><div class="tax-step-body"><b>搭免費接駁車前往租車營業所</b><p>完成櫃檯報到後，搭乘 Nippon 免費接駁車前往租車營業所，車程約 10～15 分鐘；旺季可能更久，抵達後再辦理取車手續。</p></div><div class="tax-visual">🚌<small>接駁 10–15 分</small></div></article>
 </div>
@@ -2455,7 +2473,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   el.parentNode.insertBefore(d,el);d.appendChild(el);
  }
  fold($q('#prepList'),'看全部待辦');{const ir=$q('#importantReminders');if(ir)fold(ir,'今天的重要事項');}fold($q('#bagList'),'看全部行李');fold($q('#entryTaxList'),'看全部項目');
- [['#rental-pickup-route','看 1～6 步取車路線'],['#arrival-tax .tax-route-card','看退稅 1～5 步']].forEach(([sel,lab])=>{
+ [['#rental-pickup-route','看 1～6 步取車路線'],['#rental-insurance','保險・萬一出事怎麼辦'],['#arrival-tax .tax-route-card','看退稅 1～5 步']].forEach(([sel,lab])=>{
   const card=$q(sel);if(!card)return;const kids=[...card.children].slice(card.firstElementChild&&card.firstElementChild.classList.contains('dayhead')?1:0);if(!kids.length)return;
   const wrap=document.createElement('div');kids.forEach(k=>wrap.appendChild(k));card.appendChild(wrap);fold(wrap,lab);
  });
@@ -3491,7 +3509,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const RULES=[
   [/^複製/,'copy'],[/^看行程$|^行程$/,'cal'],[/^導航$|^地圖導航$/,'pin'],[/重新查詢/,'snow'],
   [/^儲存設定$/,'check'],[/^清除全部紀錄$/,'trash'],[/今天的重要事項/,'bell'],[/看全部待辦/,'list'],
-  [/看全部行李/,'bag'],[/取車路線/,'car'],[/雪地自駕提醒/,'snow'],[/退稅.*步/,'coin'],[/^傳送|^📤/,'share'],[/^打給/,'phone']
+  [/看全部行李/,'bag'],[/取車路線/,'car'],[/雪地自駕提醒/,'snow'],[/退稅.*步/,'coin'],[/^傳送|^📤/,'share'],[/^打給|^事故中心/,'phone'],[/^保險・/,'heart']
  ];
  function deco(root){
   (root||document).querySelectorAll('button, a.smallbtn, summary').forEach(el=>{
