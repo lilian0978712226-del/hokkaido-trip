@@ -36,31 +36,86 @@
  function ALB_IC(){return '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="8" width="26" height="26" rx="3" fill="#fff" stroke="#5B4B43" stroke-width="2" transform="rotate(-8 19 21)"/><rect x="10" y="6" width="24" height="27" rx="2.5" fill="#FFFDF9" stroke="#5B4B43" stroke-width="2"/><rect x="13" y="9" width="18" height="15" rx="1.5" fill="#BFD9F2"/><path d="M13 22l5-5 4 4 3-3 6 6v0H13Z" fill="#fff"/><circle cx="26" cy="13" r="2" fill="#FFE39A"/></svg>';}
  function GACHA_IC(){return '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15" r="11" fill="#E9F4FB" stroke="#5B4B43" stroke-width="2"/><circle cx="15" cy="15" r="3.4" fill="#F6B9C4"/><circle cx="23" cy="12" r="3.4" fill="#FFE39A"/><circle cx="23" cy="19" r="3.4" fill="#BFE0C8"/><rect x="10" y="24" width="20" height="12" rx="3" fill="#F3B6A8" stroke="#5B4B43" stroke-width="2"/><circle cx="20" cy="30" r="2.6" fill="#fff" stroke="#5B4B43" stroke-width="1.4"/></svg>';}
 
- /* ---------- 1. 今日御神籤 ---------- */
- const YI=[['宜：大口吃燒肉慶祝抵達','宜：在 UNIQLO 補一件發熱衣'],['宜：在雪地打滾拍照','宜：搭纜車看百萬夜景'],['宜：聽蒸汽鐘報時','宜：在運河邊同框拍照'],['宜：在神宮許一個願','宜：狸小路慢慢逛'],['宜：和聖誕樹合照','宜：慢慢開車看雪景'],['宜：耐心等企鵝散步','宜：今晚早點睡'],['宜：泡溫泉泡到滿足','宜：看湖景發呆十分鐘'],['宜：地獄谷散步找小鬼','宜：加滿油再還車'],['宜：最後一次逛機場','宜：先辦退稅再託運']];
- const YI_PRE=['宜：準備好發熱衣和暖暖包','宜：先去辦駕照日文譯本','宜：每天想一次北海道'],YI_POST=['宜：整理旅行照片','宜：偷偷計畫下一次旅行'];
- const JI=['忌：在結冰路上邊走邊滑手機','忌：把免稅品塞進託運','忌：小看北海道的冷','忌：手機電量低於 20% 還不充電','忌：一次吃太飽錯過下一攤','忌：雪地開快車','忌：出門忘記帶暖暖包'];
- const LUCKY=['幸運小物：暖暖包','幸運小物：毛帽','幸運小物：熱可可','幸運小物：雪丸','幸運色：櫻花粉','幸運色：雪白色','幸運色：天空藍','幸運小物：手套'];
- const LV=[['大吉',30,'今天什麼都會很順利！'],['中吉',26,'好事會一件一件來'],['小吉',20,'小小的幸運藏在路邊'],['吉',14,'平平順順就是福'],['末吉',10,'先慢後好，越晚越開心']];
- function fortune(){const t=jpDate(),r=seeded('omi'+t),i=tripIdx();let x=r()*100,lv=LV[0];for(const l of LV){if(x<l[1]){lv=l;break;}x-=l[1];}
-  const pool=i>=0&&i<YI.length?YI[i]:(i<0?YI_PRE:YI_POST);
-  return {t,no:1+Math.floor(r()*99),lv,yi:pool[Math.floor(r()*pool.length)],ji:JI[Math.floor(r()*JI.length)],lucky:LUCKY[Math.floor(r()*LUCKY.length)],day:i};}
+ /* ---------- 1. 今日御神籤（每支手機抽到不一樣、可分享、大吉有動畫） ---------- */
+ const OD={
+  pre:{yi:['準備發熱衣和暖暖包','去監理站辦駕照日文譯本','每天想一次北海道','把螃蟹的日文「カニ」練到很標準','先練習在冷凍庫前面站五分鐘','把行李箱擦乾淨迎接戰利品','偷看一次網站倒數'],ji:['先買太多衣服（北海道 UNIQLO 比較便宜）','出發前一天才開始收行李','現在就開始減肥（沒用的，會吃回來）','把護照放在「很安全的地方」然後忘記在哪'],lu:['暖暖包','日文譯本','護照','行李箱']},
+  post:{yi:['整理旅行照片','偷偷計畫下一次旅行','把伴手禮分完再偷吃一個','對著照片說「好想回去」'],ji:['打開行李箱發現白色戀人被壓扁','量體重','看自己的信用卡帳單','跟沒去的朋友說「其實也還好啦」'],lu:['旅途相冊','剩下的日圓硬幣','白色戀人','行李箱']},
+  d:[
+   {yi:['在飛機上先想好燒肉要點什麼','踏出機場第一口冷空氣大喊「好冷！」','在 UNIQLO 買發熱衣當場穿上','到飯店先在床上滾一圈','對著第一片雪花許願','跟陳肥肥說「我們到北海道了耶」十次'],ji:['燒肉吃到忘記今天才剛到','在機場就把行李箱塞滿','取車時太興奮忘記拍車子原本的刮痕','把第一天的力氣全部用完'],lu:['燒肉夾','剛拆封的發熱衣','租車鑰匙','機場的熱咖啡']},
+   {yi:['在雪地上躺下來畫雪天使','坐雪盆滑下去，尖叫音量不限','搭纜車看百萬夜景偷偷許願','湯咖哩加一顆溫泉蛋','在雪裡用手指寫兩人的名字','烤羊肉吃到全身都是羊肉味'],ji:['嘴巴張開滑雪盆（會吃到雪）','湯咖哩選辣度時逞強','在夜景前說「台北也差不多」','忘記擦掉眼鏡上的霧氣就拍照'],lu:['雪盆','暖暖包','纜車票','一碗湯咖哩']},
+   {yi:['在市場跟螃蟹對看三秒再決定','等蒸汽鐘「嗚～」那一刻一起錄影','甜點吃第二輪（有另一個胃）','在運河邊假裝在拍電影','在八音盒堂挑一首當今天的主題曲','海鮮丼先拍照再吃（但不要拍太久）'],ji:['在玻璃店轉身太大力','運河邊拍照後退一步（後面是河）','跟海鷗搶食物','看到第五家甜點店還說「最後一家」'],lu:['海膽','八音盒','玻璃小杯','蒸汽鐘的蒸氣']},
+   {yi:['在神宮抽到大吉就收好','在展望台假裝自己是跳台滑雪選手','在白色戀人公園吃餅乾吃到笑','狸小路逛到腳痠再多逛一條','可麗餅點最貴的那個','對神社的鴿子說早安'],ji:['在狸小路說「最後一家」超過三次','可麗餅邊走邊吃，奶油掉到外套上','在展望台往下看太久（腳會軟）','在神社大聲喧嘩'],lu:['御守','可麗餅','白色戀人','狸小路的燈']},
+   {yi:['在聖誕樹前拍一張明信片構圖','情人節跟陳肥肥說一句平常不好意思說的話','在牧場喝牛奶喝出白鬍子','在青池前安靜三秒','雪地開車開得比蝸牛還穩','跟美瑛的樹說「你好上相」'],ji:['在青池前說「好像也還好」','雪地開快車（美瑛的路很會滑）','情人節忘記是情人節','把聖誕樹當成普通的樹'],lu:['鮮奶','愛心形狀的雪','聖誕樹','巧克力']},
+   {yi:['跟企鵝用一樣的姿勢走路','找出最胖的企鵝幫牠取名字','晚上吃天金比較誰點的菜比較好吃','對北極熊揮手（牠可能不會理你）','買一個企鵝周邊當作今天的紀念','在動物園門口拍「我們來了」的照片'],ji:['跟北極熊比賽誰比較耐冷','企鵝散步時擋在牠們前面（牠們有行程）','把企鵝的屁股照片設成手機桌布（其實可以）','在動物園講「好想吃烤肉」'],lu:['企鵝玩偶','毛帽','動物園門票','旭川拉麵']},
+   {yi:['在牧場吃冰淇淋就算零下也要吃','看湖景發呆十分鐘什麼都不想','泡溫泉泡到變成紅通通的章魚','穿浴衣在旅館裡走來走去','溫泉後喝一瓶冰牛奶（傳統）','在湖邊對遠方大喊一個願望'],ji:['泡完溫泉馬上去外面拍照（會秒結冰）','浴衣穿反（右邊先包，左邊蓋在上面才對）','在溫泉裡游泳','吃太飽才去泡溫泉'],lu:['溫泉蛋','浴衣','瓶裝牛奶','湖邊的風']},
+   {yi:['在地獄谷找小鬼合照比誰比較兇','還車前幫車子拍一張謝謝它的照片','最後一晚把行李箱好好整理一次','海鮮午餐點最想吃的那個，不要省','跟小鬼說「謝謝你沒有抓我」','在千歲找一家便利商店買宵夜'],ji:['在地獄谷說「好香喔」（是硫磺味）','還車前忘記加滿油','把行李箱塞到關不起來','在地獄谷亂丟垃圾（小鬼會生氣）'],lu:['小鬼吊飾','加滿油的車','空的行李箱角落','還車收據']},
+   {yi:['在新千歲機場掃最後一輪伴手禮','先辦退稅再託運（綠燈綠燈綠燈）','在飛機上一起看這趟的照片','吃最後一碗拉麵當作告別','撕票根撕得很漂亮','跟北海道說「我還會再來」'],ji:['把免稅品塞進託運行李','說「我不想回家」超過五次（四次可以）','在機場買到超重','睡過頭錯過飛機（不要！）'],lu:['白色戀人','登機證票根','退稅綠燈','剩下的日圓']}
+  ],
+  any:{yi:['對路邊的雪人說早安','今天多喝一杯熱可可','找一個長得像臉的東西','在便利商店買一個沒吃過的東西','幫對方拍一張很美的照片','在車上一起大聲唱歌'],ji:['手機電量低於 20% 還不充電','在結冰路上邊走邊滑手機','出門忘記帶暖暖包','穿太少逞強說不冷','吃太飽錯過下一攤']}
+ };
+ const LV=[['大吉',22,['今天會好運到發光！','運氣滿點，螃蟹都會自己跳進碗裡','神明今天特別罩你','今天做什麼都會順順的','好運多到可以分給陳肥肥']],
+  ['中吉',24,['好事會一件一件來','今天適合多吃一點','小小的驚喜在轉角等你','運氣不錯，可以大膽一點']],
+  ['小吉',20,['小小的幸運藏在路邊','平凡的一天也會有好吃的','今天適合慢慢來','好運正在加熱中']],
+  ['吉',16,['平平順順就是福','普通的好運，最穩','今天不會出包，很棒']],
+  ['末吉',13,['先慢後好，越晚越開心','早上普通，晚餐會很好吃','好運塞車中，晚點到']],
+  ['凶',5,['別擔心！把籤綁起來就沒事了','凶到底就會轉運，明天一定大吉','今天的壞運氣會被燒肉吃掉']]];
+ const devId=(()=>{let d=get('hk-dev-id','');if(!d){d=Math.random().toString(36).slice(2,10);put('hk-dev-id',d);}return d;})();
+ const OK='hk-omi-v2';
+ function fortune(){const t=jpDate();const saved=get(OK,{})[t];if(saved)return saved;
+  const r=seeded(devId+'omi'+t),i=tripIdx(),pk=a=>a[Math.floor(r()*a.length)];
+  let x=r()*100,lv=LV[0];for(const l of LV){if(x<l[1]){lv=l;break;}x-=l[1];}
+  const base=i>=0&&i<OD.d.length?OD.d[i]:(i<0?OD.pre:OD.post);
+  const yiPool=[...base.yi,...base.yi,...OD.any.yi],jiPool=[...base.ji,...base.ji,...OD.any.ji];
+  const yi1=pk(yiPool);let yi2=pk(yiPool),k=0;while(yi2===yi1&&k++<9)yi2=pk(yiPool);
+  return {t,no:1+Math.floor(r()*99),lv:lv[0],msg:pk(lv[2]),yi:[yi1,yi2],ji:pk(jiPool),lu:pk(base.lu||OD.d[0].lu),day:i};}
  const NUM='〇一二三四五六七八九';const kanji=n=>n<10?NUM[n]:(n<20?'十'+(n%10?NUM[n%10]:''):NUM[Math.floor(n/10)]+'十'+(n%10?NUM[n%10]:''));
- function omiSub(){const s=$('#gOmiSub');if(!s)return;const o=get('hk-omi-v1',{});s.textContent=o[jpDate()]?`今天抽到「${o[jpDate()]}」`:'搖一搖抽今天的籤';}
- function slip(f){return `<div class="omi-slip"><div class="omi-no">第${kanji(f.no)}番</div><div class="omi-lv">${f.lv[0]}</div><p class="omi-msg">${esc(f.lv[2])}</p><ul><li>${esc(f.yi)}</li><li>${esc(f.ji)}</li><li>${esc(f.lucky)}</li></ul><p class="omi-foot">${f.t.slice(5).replace('-','/')}・明天再來抽新的籤</p></div>`;}
+ function omiSub(){const s=$('#gOmiSub');if(!s)return;const o=get(OK,{})[jpDate()];s.textContent=o?`今天抽到「${o.lv}」`:'搖一搖抽今天的籤';}
+ function slip(f){return `<div class="omi-slip lv-${f.lv}"><div class="omi-no">第${kanji(f.no)}番</div><div class="omi-lv">${f.lv}</div><p class="omi-msg">${esc(f.msg)}</p><ul><li><b>宜</b>${esc(f.yi[0])}</li><li><b>宜</b>${esc(f.yi[1])}</li><li><b class="ji">忌</b>${esc(f.ji)}</li><li><b class="lu">幸運小物</b>${esc(f.lu)}</li></ul><p class="omi-foot">${f.t.slice(5).replace('-','/')}・明天再來抽新的籤</p></div>`;}
+ function after(f){return `<div class="omi-acts"><button type="button" class="omi-share">把籤分享出去</button>${f.lv==='凶'?'<button type="button" class="omi-tie">把籤綁起來</button>':''}</div>`;}
+ function party(st){if(RM)return;const fx=document.createElement('div');fx.className='omi-fx';fx.setAttribute('aria-hidden','true');
+  fx.innerHTML='<i class="ray"></i>'+Array.from({length:26},(_,k)=>`<span class="pt" style="left:${(k*37)%100}%;--d:${(k%7)*.12}s;--x:${(k%5-2)*24}px;--s:${.7+(k%4)*.15}"></span>`).join('')+Array.from({length:10},(_,k)=>`<em style="left:${8+k*9}%;top:${18+(k*23)%50}%;--d:${(k%5)*.18}s">✦</em>`).join('');
+  st.appendChild(fx);setTimeout(()=>fx.remove(),4200);
+  try{const C=window.AudioContext||window.webkitAudioContext;const c=new C();[1047,1319,1568,2093].forEach((h,k)=>{const o=c.createOscillator(),g=c.createGain();o.frequency.value=h;const t0=c.currentTime+k*.11;g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.1,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+.5);o.connect(g).connect(c.destination);o.start(t0);o.stop(t0+.55);});}catch(e){}
+  if(navigator.vibrate)navigator.vibrate([30,40,30]);}
+ function show(f,anim){const st=sh.querySelector('.omi-stage');if(!st)return;st.innerHTML=slip(f)+after(f);const s=st.querySelector('.omi-slip');
+  if(anim){s.classList.add('unfold');if(f.lv==='大吉'){s.classList.add('gold');party(st);}}
+  st.querySelector('.omi-share').addEventListener('click',()=>shareOmi(f));
+  const tie=st.querySelector('.omi-tie');if(tie)tie.addEventListener('click',()=>{s.classList.add('tied');tie.textContent='綁好了，厄運退散！';tie.disabled=true;toast('綁起來了，明天一定大吉！');});}
  function omikuji(){
-  const f=fortune(),drawn=get('hk-omi-v1',{})[f.t];
+  const f=fortune(),drawn=!!get(OK,{})[f.t];
   open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="今日御神籤"><h3>今日御神籤</h3>
-   <div class="omi-stage">${drawn?slip(f):`<div class="omi-box" id="omiBox"><svg viewBox="0 0 120 150" aria-hidden="true"><path d="M48 30V8M60 30V4M72 30V10" stroke="#C9A97A" stroke-width="5" stroke-linecap="round"/><path d="M30 34h60l-6 104H36Z" fill="#F3B6A8" stroke="#5B4B43" stroke-width="3" stroke-linejoin="round"/><path d="M30 34h60" stroke="#5B4B43" stroke-width="3"/><rect x="44" y="62" width="32" height="44" rx="4" fill="#FFF8EF" stroke="#5B4B43" stroke-width="2"/><text x="60" y="80" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">御</text><text x="60" y="97" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">神籤</text><path d="M36 124h48" stroke="#E7A391" stroke-width="3"/></svg><i class="omi-stick" hidden></i></div>
+   <div class="omi-stage">${drawn?'':`<div class="omi-box" id="omiBox"><svg viewBox="0 0 120 150" aria-hidden="true"><path d="M48 30V8M60 30V4M72 30V10" stroke="#C9A97A" stroke-width="5" stroke-linecap="round"/><path d="M30 34h60l-6 104H36Z" fill="#F3B6A8" stroke="#5B4B43" stroke-width="3" stroke-linejoin="round"/><path d="M30 34h60" stroke="#5B4B43" stroke-width="3"/><rect x="44" y="62" width="32" height="44" rx="4" fill="#FFF8EF" stroke="#5B4B43" stroke-width="2"/><text x="60" y="80" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">御</text><text x="60" y="97" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">神籤</text><path d="M36 124h48" stroke="#E7A391" stroke-width="3"/></svg><i class="omi-stick" hidden></i></div>
    <p class="g-hint">點下面按鈕，或直接搖一搖手機</p><button type="button" class="cs-save g-go" id="omiGo">搖一搖抽籤</button>`}</div>
    <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
-  if(drawn)return;
+  if(drawn){show(f,false);return;}
   const go=()=>{const b=$('#omiBox');if(!b||b.dataset.busy)return;b.dataset.busy=1;shakeFns.delete(go);
-   const fin=()=>{const o=get('hk-omi-v1',{});o[f.t]=f.lv[0];put('hk-omi-v1',o);omiSub();const st=sh.querySelector('.omi-stage');if(st){st.innerHTML=slip(f);st.querySelector('.omi-slip').classList.add('unfold');}};
+   const fin=()=>{const o=get(OK,{});o[f.t]=f;put(OK,o);omiSub();show(f,true);};
    if(RM){fin();return;}b.classList.add('shaking');setTimeout(()=>{b.classList.remove('shaking');const s=b.querySelector('.omi-stick');s.hidden=false;s.textContent=f.no;s.classList.add('pop');setTimeout(fin,900);},1300);};
   shakeFns.add(go);
   $('#omiGo').addEventListener('click',()=>{askMotion();go();});
  }
+ async function shareOmi(f){
+  const W=720,H=1080,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const F='"Huninn","PingFang TC","Noto Sans TC",sans-serif';
+  const gold=f.lv==='大吉';
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,gold?'#FFF1C9':'#FDEFF3');g.addColorStop(1,'#FFF9F1');x.fillStyle=g;x.fillRect(0,0,W,H);
+  for(let k=0;k<40;k++){x.fillStyle='rgba(255,255,255,.9)';x.beginPath();x.arc((k*97)%W,(k*61)%H,2+k%4,0,7);x.fill();}
+  const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
+  rr(110,90,500,880,14);x.fillStyle='#FFFDF6';x.fill();x.lineWidth=5;x.strokeStyle=gold?'#D4A63A':'#5B4B43';x.stroke();
+  x.strokeStyle='#F4E7D3';x.lineWidth=2;[140,580].forEach(X=>{x.beginPath();x.moveTo(X,110);x.lineTo(X,950);x.stroke();});
+  x.textAlign='center';x.fillStyle='#9A8B80';x.font=`800 30px ${F}`;x.fillText('北海道雪日記・今日御神籤',360,160);
+  x.font=`800 28px ${F}`;x.fillText(`第${kanji(f.no)}番`,360,215);
+  x.fillStyle=gold?'#D4A63A':'#C0675B';x.font=`900 150px ${F}`;x.fillText(f.lv,360,380);
+  x.fillStyle='#6E5A3A';x.font=`700 30px ${F}`;wrap(f.msg,360,440,420,40);
+  x.strokeStyle='#E3D6C9';x.setLineDash([10,8]);x.lineWidth=3;x.beginPath();x.moveTo(160,500);x.lineTo(560,500);x.stroke();x.setLineDash([]);
+  x.textAlign='left';let y=560;
+  [['宜',f.yi[0],'#C0675B'],['宜',f.yi[1],'#C0675B'],['忌',f.ji,'#5D7488'],['幸運小物',f.lu,'#B98A3E']].forEach(([k,v,col])=>{x.fillStyle=col;x.font=`900 30px ${F}`;x.fillText(k,170,y);const w=x.measureText(k).width+18;x.fillStyle='#4A3B34';x.font=`700 30px ${F}`;y=wrapL(v,170+w,y,390-w,42)+70;});
+  x.textAlign='center';x.fillStyle='#A39286';x.font=`700 26px ${F}`;x.fillText(`2027 北海道大暴吃・${f.t.slice(5).replace('-','/')}`,360,1030);
+  function wrap(t,cx,y0,mw,lh){let line='',yy=y0;for(const ch of t.match(/[A-Za-z0-9.]+|./gu)){if(x.measureText(line+ch).width>mw){x.fillText(line,cx,yy);line=ch;yy+=lh;}else line+=ch;}x.fillText(line,cx,yy);return yy;}
+  function wrapL(t,lx,y0,mw,lh){let line='',yy=y0;for(const ch of t.match(/[A-Za-z0-9.]+|./gu)){if(x.measureText(line+ch).width>mw){x.fillText(line,lx,yy);line=ch;yy+=lh;}else line+=ch;}x.fillText(line,lx,yy);return yy;}
+  const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],`omikuji-${f.t}.png`,{type:'image/png'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'今日御神籤',text:`我今天抽到「${f.lv}」！`});return;}}catch(e){return;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('已存成圖片');}
+ window.hkPreviewOmi=lv=>{const f=fortune();f.lv=lv||'大吉';f.msg=(LV.find(l=>l[0]===f.lv)||LV[0])[2][0];open('<div class="cs-panel g-panel"><h3>今日御神籤</h3><div class="omi-stage"></div><div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>');show(f,true);};
  omiSub();
 
  /* ---------- 2. 拍照扭蛋（任務＋搞笑姿勢）＋旅途相冊 ---------- */

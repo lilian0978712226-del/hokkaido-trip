@@ -126,3 +126,28 @@ html body .al-acts{display:grid!important;grid-template-columns:1fr 1fr 1fr!impo
 html body .al-acts button{min-height:42px!important;border-radius:12px!important;border:1.5px solid #E5DAD0!important;background:#fff!important;font-family:inherit!important;font-size:12.5px!important;font-weight:800!important;color:var(--ink)!important}
 html body .al-acts button[data-v=save]{background:#FFF3CF!important;border-color:#E2C27A!important}
 html body .al-acts button[data-v=del]{color:#C0675B!important}
+html body .omi-slip li{display:flex!important;gap:8px!important;align-items:baseline!important}
+html body .omi-slip li b{flex:none!important;font-size:12px!important;font-weight:900!important;color:#fff!important;background:#E7A391!important;border-radius:6px!important;padding:1px 6px!important}
+html body .omi-slip li b.ji{background:#8FAFCB!important}
+html body .omi-slip li b.lu{background:#E2C27A!important}
+html body .omi-acts{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%!important;max-width:300px!important;margin:10px auto 0!important}
+html body .omi-acts button{min-height:44px!important;border-radius:999px!important;border:2px solid #5B4B43!important;background:#FFF3CF!important;font-family:inherit!important;font-weight:900!important;font-size:14.5px!important;color:#5B4B43!important;box-shadow:0 3px 0 #5B4B43!important}
+html body .omi-acts .omi-tie{background:#EEF5FB!important}
+html body .omi-stage{position:relative!important}
+html body .omi-slip.lv-凶 .omi-lv{color:#7E8FA3!important}
+html body .omi-slip.tied{animation:omiTie .7s ease forwards!important}
+@keyframes omiTie{to{transform:scale(.55) rotate(-8deg);clip-path:inset(30% 0 30% 0 round 10px)}}
+html body .omi-slip.gold{border-color:#D4A63A!important;box-shadow:0 0 0 4px #FFE9A8,0 0 28px rgba(255,200,80,.65)!important;background-color:#FFFCEF!important}
+html body .omi-slip.gold .omi-lv{color:#D4A63A!important;background:linear-gradient(100deg,#C8962A 20%,#FFF2B8 40%,#E0B040 55%,#C8962A 75%)!important;background-size:250% 100%!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;animation:dkBounce .9s cubic-bezier(.2,1.6,.4,1) .3s both,dkShine 2.2s linear 1s infinite!important;display:inline-block!important}
+@keyframes dkBounce{0%{transform:scale(.2) rotate(-12deg)}100%{transform:none}}
+@keyframes dkShine{from{background-position:120% 0}to{background-position:-130% 0}}
+html body .omi-fx{position:absolute!important;inset:-40px -20px 0!important;pointer-events:none!important;overflow:hidden!important;z-index:5!important}
+html body .omi-fx .ray{position:absolute!important;left:50%!important;top:40%!important;width:520px!important;height:520px!important;margin:-260px 0 0 -260px!important;background:repeating-conic-gradient(rgba(255,222,140,.45) 0 10deg,transparent 10deg 24deg)!important;border-radius:50%!important;-webkit-mask:radial-gradient(circle,#000 20%,transparent 68%)!important;mask:radial-gradient(circle,#000 20%,transparent 68%)!important;animation:dkRay 4s linear forwards!important}
+@keyframes dkRay{0%{transform:scale(.3) rotate(0);opacity:0}15%{opacity:1}80%{opacity:.8}100%{transform:scale(1.1) rotate(120deg);opacity:0}}
+html body .omi-fx .pt{position:absolute!important;top:-14px!important;width:12px!important;height:9px!important;background:#F7B6C6!important;border-radius:12px 0 12px 0!important;transform:scale(var(--s))!important;animation:dkPetal 3.4s ease-in var(--d) forwards!important}
+html body .omi-fx .pt:nth-child(3n){background:#FFD86B!important}
+html body .omi-fx .pt:nth-child(4n){background:#FFE7EE!important}
+@keyframes dkPetal{0%{transform:translate(0,0) rotate(0) scale(var(--s))}100%{transform:translate(var(--x),620px) rotate(540deg) scale(var(--s));opacity:.2}}
+html body .omi-fx em{position:absolute!important;font-style:normal!important;color:#FFC94A!important;font-size:20px!important;opacity:0!important;animation:dkTwinkle 1.4s ease-in-out var(--d) 3!important}
+@keyframes dkTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.2)}}
+@media (prefers-reduced-motion:reduce){html body .omi-slip.gold .omi-lv{animation:none!important}}
