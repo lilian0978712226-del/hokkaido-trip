@@ -131,3 +131,23 @@ html body .pass .bp-code{flex:1!important;height:26px!important;fill:#5B4B43!imp
 html body .pass .bp-stub .pass-tag{flex:none!important}
 html body .pass:before,html body .pass:after{bottom:35px!important;width:18px!important;height:18px!important;border-width:2px!important}
 html.night body .pass .bp-port b,html.night body .pass .bp-grid b{color:#4A3B34!important}
+html body .pass .bp-stub{position:relative!important;touch-action:pan-x!important;transition:transform .25s ease!important;background:inherit!important;user-select:none!important;-webkit-user-select:none!important}
+html body .pass .bp-hint{display:none!important}
+html body .pass.tearable .bp-stub{cursor:grab!important}
+html body .pass.tearable .bp-hint{display:block!important;position:absolute!important;left:50%!important;top:-11px!important;transform:translateX(-50%)!important;background:#FFF3CF!important;color:#8A6A2E!important;border:1.5px solid #E2C27A!important;border-radius:999px!important;font-size:11px!important;font-weight:800!important;padding:1px 9px!important;white-space:nowrap!important;animation:bpNudge 1.8s ease-in-out infinite!important;z-index:5!important}
+@keyframes bpNudge{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,3px)}}
+html body .pass.tearable .bp-code{animation:bpWiggle 2.4s ease-in-out infinite!important}
+@keyframes bpWiggle{0%,90%,100%{transform:none}93%{transform:translateY(2px) rotate(.6deg)}96%{transform:translateY(0) rotate(-.4deg)}}
+html body .pass .bp-stub.fly{transition:transform .6s cubic-bezier(.3,.1,.6,1),opacity .6s!important;transform:translateY(90px) rotate(14deg)!important;opacity:0!important}
+html body .pass.ripping{overflow:visible!important}
+html body .pass.torn{border-bottom:none!important;border-radius:18px 18px 0 0!important;overflow:visible!important}
+html body .pass.torn:before,html body .pass.torn:after{display:none!important}
+html body .pass .bp-boarded{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;padding:8px 14px 6px!important;border-top:2px dashed #D8CBC0!important}
+html body .pass .bp-boarded b{font-size:12.5px!important;letter-spacing:1px!important;color:#5E7F57!important}
+html body .pass .bp-undo{font-size:11px!important;color:#A39286!important;background:none!important;border:none!important;text-decoration:underline!important;padding:6px 2px!important;font-family:inherit!important;min-height:30px!important}
+html body .pass .bp-edge{display:block!important;width:calc(100% + 4px)!important;height:8px!important;margin:0 -2px -6px!important;fill:#FFFDF9!important;stroke:#5B4B43!important;stroke-width:1.2!important;vector-effect:non-scaling-stroke!important}
+html body .pass.back .bp-edge{fill:#FBFDFF!important}
+@media (prefers-reduced-motion:reduce){html body .pass.tearable .bp-hint,html body .pass.tearable .bp-code{animation:none!important}}
+html body .pass.torn{align-self:flex-start!important}
+html body .flightgrid.boarding{padding-bottom:12px!important}
+html body .pass .bp-stub[hidden]{display:none!important}

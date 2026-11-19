@@ -221,3 +221,43 @@
 /* ===== v12c：日本時間下面加台灣時間 ===== */
 (function(){const d=document.getElementById('jpDate');if(!d)return;const p=document.createElement('p');p.id='twClock';p.className='muted';d.after(p);
  const up=()=>{const t=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());p.textContent='台灣 '+t;};up();setInterval(up,30000);})();
+/* ===== v12d：登機當天可以手動撕票根 ===== */
+(function(){
+ const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const K='hk-torn-v1';const get=()=>{try{return JSON.parse(localStorage.getItem(K)||'{}')}catch(e){return {}}};
+ const put=v=>{try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}};
+ const YEAR=(()=>{try{return +String(days[0].date).slice(0,4)}catch(e){return new Date().getFullYear()}})();
+ const TZ={RMQ:8,TPE:8,TSA:8,KHH:8,CTS:9,HND:9,NRT:9,KIX:9};
+ const toast=m=>{if(window.toast)window.toast(m)};
+ let preview=false;
+ function info(p){const l=p.getAttribute('aria-label')||'';const m=l.match(/(\d{1,2})\/(\d{1,2})\s+(\w+)\s+\S+\s+([A-Z]{3})/);if(!m)return null;
+  const off=TZ[m[4]]!=null?TZ[m[4]]:8;const now=new Date(Date.now()+off*3600e3);const today=now.getUTCFullYear()*10000+(now.getUTCMonth()+1)*100+now.getUTCDate();
+  return {id:m[3],open:preview||today>=YEAR*10000+(+m[1])*100+(+m[2]),date:`${+m[1]}/${+m[2]}`};}
+ const EDGE='<svg class="bp-edge" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L0 3 L4 7 L8 2 L12 6 L16 1 L20 7 L24 3 L28 6 L32 1 L36 7 L40 2 L44 6 L48 1 L52 7 L56 3 L60 6 L64 1 L68 7 L72 2 L76 6 L80 1 L84 7 L88 3 L92 6 L96 1 L100 5 L100 0 Z"/></svg>';
+ function torn(p,o){p.classList.add('torn');const s=p.querySelector('.bp-stub');if(s)s.hidden=true;
+  if(!p.querySelector('.bp-boarded'))p.insertAdjacentHTML('beforeend',`<div class="bp-boarded"><b>BOARDED ✓ 已登機</b><button type="button" class="bp-undo">貼回去</button></div>${EDGE}`);}
+ function untear(p){p.classList.remove('torn');p.querySelectorAll('.bp-boarded,.bp-edge').forEach(x=>x.remove());const s=p.querySelector('.bp-stub');if(s){s.hidden=false;s.style.transform='';s.classList.remove('fly');}}
+ function setup(){
+  const T=get();
+  document.querySelectorAll('article.pass').forEach(p=>{const o=info(p);if(!o)return;const s=p.querySelector('.bp-stub');if(!s)return;
+   p.classList.toggle('tearable',o.open&&!T[o.id]);
+   if(!s.querySelector('.bp-hint'))s.insertAdjacentHTML('afterbegin','<span class="bp-hint" aria-hidden="true">✂ 往下拉撕票根</span>');
+   if(T[o.id])torn(p,o);else untear(p);
+   if(s.dataset.on)return;s.dataset.on=1;s.setAttribute('role','button');s.setAttribute('tabindex','0');s.setAttribute('aria-label','撕下票根');
+   let y0=null,dy=0;
+   const go=()=>{const t=get();t[o.id]=Date.now();put(t);p.classList.remove('tearable');
+    if(RM){torn(p,o);return;}
+    s.classList.add('fly');p.classList.add('ripping');setTimeout(()=>{p.classList.remove('ripping');torn(p,o);},650);toast('票根撕下來了！一路順風 ✈');};
+   const can=()=>{const ok=info(p).open&&!get()[o.id];if(!ok&&!get()[o.id])toast(`${o.date} 登機當天才能撕喔`);return ok;};
+   s.addEventListener('pointerdown',e=>{if(!info(p).open||get()[o.id])return;y0=e.clientY;dy=0;s.setPointerCapture&&s.setPointerCapture(e.pointerId);});
+   s.addEventListener('pointermove',e=>{if(y0==null)return;dy=Math.max(0,e.clientY-y0);s.style.transform=`translateY(${Math.min(dy,60)}px) rotate(${Math.min(dy,60)/12}deg)`;});
+   const end=()=>{if(y0==null)return;y0=null;if(dy>36)go();else{s.style.transform='';}};
+   s.addEventListener('pointerup',end);s.addEventListener('pointercancel',()=>{y0=null;s.style.transform='';});
+   s.addEventListener('click',()=>{if(dy>4)return;if(can())go();});
+   s.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&can()){e.preventDefault();go();}});
+  });
+ }
+ document.addEventListener('click',e=>{const u=e.target.closest('.bp-undo');if(!u)return;const p=u.closest('article.pass'),o=info(p);const t=get();delete t[o.id];put(t);untear(p);p.classList.toggle('tearable',o.open);});
+ setup();setInterval(setup,60000);
+ window.hkPreviewTear=()=>{preview=true;setup();document.getElementById('flights')?.scrollIntoView({block:'center'});};
+})();
