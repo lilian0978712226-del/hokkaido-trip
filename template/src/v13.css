@@ -302,3 +302,4 @@ html body .say-bubble::after{content:''!important;position:absolute!important;le
 html body .say-bubble.below::after{bottom:auto!important;top:-8px!important;transform:rotate(225deg)!important}
 html body .say-bubble.out{opacity:0!important;transform:translateY(-4px)!important;transition:all .25s!important}
 @keyframes sayIn{from{transform:scale(.4);opacity:0}}
+html body .lg-item strong small.lg-orig{display:block!important;font-size:11px!important;font-weight:700!important;opacity:.6!important;text-align:right!important}

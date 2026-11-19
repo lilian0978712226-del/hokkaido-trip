@@ -269,7 +269,7 @@
   host.innerHTML=`
    <div class="lg-sum">
     <div><small>已花</small><b>${twd(total)}</b><span>≈ ${yen(total)}</span></div>
-    <div class="${left<0?'over':''}"><small>${budget?'還剩':'預算'}</small><b>${budget?yen(left):'—'}</b><span>${budget?'預算 '+yen(budget):'到 ⚙️ 設定'}</span></div>
+    <div class="${left<0?'over':''}"><small>${budget?'還剩':'預算'}</small><b>${budget?twd(left):'—'}</b><span>${budget?'預算 '+twd(budget):'到 ⚙️ 設定'}</span></div>
     ${budget?`<div class="lg-bar ${pct>=90?'warn':''}"><i style="width:${pct}%"></i></div>`:''}
    </div>
    <form class="lg-form" id="lgForm" autocomplete="off">
@@ -282,10 +282,10 @@
      <div class="lg-opt"><span>備註</span><input id="lgNote" placeholder="例：螃蟹、伴手禮（選填）" aria-label="備註"></div>
     </div>
    </form>
-   <div class="lg-settle">🤝 ${settle}<small>${todayIdx<0?'出發前':'D'+(todayIdx+1)+' 今天'}花了 ${yen(todaySum)}</small></div>
+   <div class="lg-settle">🤝 ${settle}<small>${todayIdx<0?'出發前':'D'+(todayIdx+1)+' 今天'}花了 ${twd(todaySum)}</small></div>
    <details class="fold lg-listbox"><summary><span>📊 統計與明細・${L.length} 筆</span><i>展開</i></summary>
-    ${byCat.length?`<div class="lg-cbars">${byCat.map(c=>`<div class="lg-cb"><span>${c.ic} ${c.n}</span><i><em style="width:${c.v/maxC*100}%"></em></i><b>${yen(c.v)}</b></div>`).join('')}</div>`:''}
-    <div class="lg-list">${list.length?list.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `<div class="lg-item"><span class="lg-ic">${c[1]}</span><div><b>${esc(e.note||c[2])}</b><small>${e.day<0?'出發前':'D'+(e.day+1)}・${esc(e.payer==='a'?S.a:S.b)}付${e.shared?'・平分':''}</small></div><strong>${e.cur==='TWD'?'NT$'+e.amt.toLocaleString():yen(e.amt)}</strong><button type="button" class="lg-del" data-del="${e.t}" aria-label="刪除">×</button></div>`}).join(''):'<p class="muted">還沒有紀錄，從上面記第一筆吧！</p>'}</div>
+    ${byCat.length?`<div class="lg-cbars">${byCat.map(c=>`<div class="lg-cb"><span>${c.ic} ${c.n}</span><i><em style="width:${c.v/maxC*100}%"></em></i><b>${twd(c.v)}</b></div>`).join('')}</div>`:''}
+    <div class="lg-list">${list.length?list.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `<div class="lg-item"><span class="lg-ic">${c[1]}</span><div><b>${esc(e.note||c[2])}</b><small>${e.day<0?'出發前':'D'+(e.day+1)}・${esc(e.payer==='a'?S.a:S.b)}付${e.shared?'・平分':''}</small></div><strong>${e.cur==='TWD'?'NT$'+e.amt.toLocaleString():twd(e.amt)+'<small class="lg-orig">'+yen(e.amt)+'</small>'}</strong><button type="button" class="lg-del" data-del="${e.t}" aria-label="刪除">×</button></div>`}).join(''):'<p class="muted">還沒有紀錄，從上面記第一筆吧！</p>'}</div>
     ${list.length?'<button type="button" class="smallbtn" id="lgCopy">複製全部明細</button>':''}
    </details>
    <details class="fold lg-sync"><summary><span>🔄 和${esc(S.b)}合併帳本</span><i>展開</i></summary>
@@ -294,7 +294,7 @@
     <p class="lg-hint">⚠️ 第一次使用前：${esc(S.b)}的手機要到 ⚙️ 設定把「名字 1」改成自己的名字、「名字 2」填你的名字，誰付錢才不會對調。</p>
    </details>
    <details class="fold lg-set"><summary><span>⚙️ 預算與設定</span><i>展開</i></summary>
-    <label>總預算（日圓）<input id="lgBudget" inputmode="numeric" value="${budget||''}" placeholder="例如 300000"></label>
+    <label>總預算（台幣）<input id="lgBudget" inputmode="numeric" value="${budget?Math.round(budget*S.rate):''}" placeholder="例如 150000"></label>
     <label>匯率：1 日圓 ＝ ? 台幣<input id="lgRate" inputmode="decimal" value="${S.rate}"></label>
     <div class="lg-row"><label>名字 1<input id="lgNA" value="${esc(S.a)}"></label><label>名字 2<input id="lgNB" value="${esc(S.b)}"></label></div>
     <button type="button" class="smallbtn" id="lgSaveSet">儲存設定</button>
@@ -311,7 +311,7 @@
    if(t.id==='lgCur'){cur=cur==='JPY'?'TWD':'JPY';t.textContent=cur==='JPY'?'¥':'NT$';return;}
    const d=t.closest('[data-del]');if(d){if(confirmDel(d)){L=L.filter(e=>String(e.t)!==d.dataset.del);DEL.push(+d.dataset.del);save(DK,DEL);save(LK,L);renderLedger();openList();}return;}
    if(t.id==='lgCopy'){copyText(L.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `${e.day<0?'出發前':'D'+(e.day+1)}\t${c[2]}\t${e.note||''}\t${e.cur==='TWD'?'NT$':'¥'}${e.amt}\t${e.payer==='a'?S.a:S.b}付${e.shared?'(平分)':''}`}).join('\n'));return;}
-   if(t.id==='lgSaveSet'){S.budget=+($q('#lgBudget').value.replace(/[^\d.]/g,''))||0;S.rate=+$q('#lgRate').value||S.rate;S.a=$q('#lgNA').value.trim()||'我';S.b=$q('#lgNB').value.trim()||'陳肥肥';save(SK,S);renderLedger();toast('設定已儲存');return;}
+   if(t.id==='lgSaveSet'){S.rate=+$q('#lgRate').value||S.rate;S.budget=(+($q('#lgBudget').value.replace(/[^\d.]/g,''))||0)/S.rate;S.a=$q('#lgNA').value.trim()||'我';S.b=$q('#lgNB').value.trim()||'陳肥肥';save(SK,S);renderLedger();toast('設定已儲存');return;}
    if(t.id==='lgClear'){if(t.dataset.sure){DEL=DEL.concat(L.map(e=>e.t));save(DK,DEL);L=[];save(LK,L);renderLedger();toast('已清除全部紀錄');}else{t.dataset.sure='1';t.textContent='再按一次確認清除';setTimeout(()=>{t.textContent='清除全部紀錄';delete t.dataset.sure},3000);}return;}
   });
   function confirmDel(btn){if(btn.dataset.sure)return true;btn.dataset.sure='1';btn.textContent='刪?';btn.classList.add('sure');setTimeout(()=>{if(btn.isConnected){btn.textContent='×';btn.classList.remove('sure');delete btn.dataset.sure}},2500);return false;}
@@ -364,7 +364,7 @@
    const amt=parseFloat(($q('#lgAmt').value||'').replace(/[^\d.]/g,''));
    if(!amt){toast('請先輸入金額');$q('#lgAmt').focus();return;}
    L.push({t:Date.now()*10+Math.floor(Math.random()*10),amt,cur,cat,payer,shared,day:+$q('#lgDay').value,note:$q('#lgNote').value.trim()});
-   save(LK,L);renderLedger();toast('記好了！'+(cur==='JPY'?yen(amt):'NT$'+amt));
+   save(LK,L);renderLedger();toast('記好了！'+(cur==='JPY'?yen(amt)+'（≈ '+twd(amt)+'）':'NT$'+amt));
    const b=host.querySelector('.lg-add');if(b&&!RM){const r=b.getBoundingClientRect();document.dispatchEvent(new CustomEvent('sb-burst',{detail:{x:r.left+r.width/2,y:r.top}}));}
   });
   if(typeof showDay==='function'){const p2=showDay;window.showDay=showDay=function(i){const r=p2.apply(this,arguments);try{const a=$q('#lgAmt');if(!a||(!a.value&&document.activeElement!==a))renderLedger()}catch(e){}return r;};}

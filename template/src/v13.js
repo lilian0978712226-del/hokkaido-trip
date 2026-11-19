@@ -345,13 +345,13 @@
  function spentJPY(){const L=get('hk-ledger-v1',[]),S=get('hk-ledger-set-v1',{});const rate=+(S.rate||0.21)||0.21;return (Array.isArray(L)?L:[]).reduce((a,e)=>a+(e.cur==='JPY'?+e.amt||0:(+e.amt||0)/rate),0);}
  function pig(){const h=document.querySelector('#ledger h2');if(!h)return null;let p=h.querySelector('.pig');
   if(!p){const old=h.querySelector('.jp-deco');p=document.createElement('span');p.className='pig';p.setAttribute('role','img');p.innerHTML=`<span class="pig-body">${PIG}</span>`;if(old)old.replaceWith(p);else h.appendChild(p);}
-  const s=spentJPY();p.style.setProperty('--fat',(1+Math.min(s/150000,1)*.35).toFixed(3));p.setAttribute('aria-label',s?`存錢筒小豬吃了 ¥${Math.round(s).toLocaleString()}`:'存錢筒小豬，記帳就會餵牠');return p;}
+  const s=spentJPY();p.style.setProperty('--fat',(1+Math.min(s/150000,1)*.35).toFixed(3));p.setAttribute('aria-label',s?`存錢筒小豬吃了 NT$${Math.round(s*(+(get('hk-ledger-set-v1',{}).rate)||0.21)).toLocaleString()}`:'存錢筒小豬，記帳就會餵牠');return p;}
  function ding(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=ding.c||(ding.c=new C());const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(1568,c.currentTime);o.frequency.setValueAtTime(2093,c.currentTime+.08);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.35);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.4);}catch(e){}}
  const led=document.getElementById('ledger');
  if(led){pig();setTimeout(pig,1500);new MutationObserver(()=>{const h=document.querySelector('#ledger h2');if(h&&(!h.querySelector('.pig')||h.querySelector('.jp-deco')))pig();}).observe(led,{childList:true,subtree:true});
   led.addEventListener('click',e=>{const p=e.target.closest('#ledger h2 .pig');if(!p)return;
    if(canSmash()){smashAsk();return;}
-   p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();(window.hkSay||toast)(p,s?`吃了 ¥${Math.round(s).toLocaleString()}，好飽～`:'好餓…記一筆帳餵我嘛');});
+   p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');const s=spentJPY();(window.hkSay||toast)(p,s?`吃了 NT$${Math.round(s*(+(get('hk-ledger-set-v1',{}).rate)||0.21)).toLocaleString()}，好飽～`:'好餓…記一筆帳餵我嘛');});
   led.addEventListener('submit',()=>{const before=(get('hk-ledger-v1',[])||[]).length;setTimeout(()=>{const after=(get('hk-ledger-v1',[])||[]).length;const p=pig();if(after>before&&p){ding();setTimeout(()=>window.hkSay&&window.hkSay(p,['好吃！','謝謝餵食～','嗝～','還要還要！'][Math.floor(Math.random()*4)]),500);if(!RM){const c=document.createElement('i');c.className='pig-coin';c.textContent='¥';p.appendChild(c);p.classList.remove('munch');void p.offsetWidth;p.classList.add('munch');setTimeout(()=>c.remove(),900);}}},60);},true);}
 
  /* 最後一天敲破小豬：看這趟花了多少 */
@@ -381,10 +381,10 @@
  function coins(st){if(RM)return;const fx=document.createElement('div');fx.className='pig-fx';fx.innerHTML=Array.from({length:18},(_,k)=>`<i style="--x:${(k%9-4)*24+(k>8?12:0)}px;--y:${-60-(k*17)%70}px;--e:${44+(k%4)*9-(Math.abs(k%9-4)*3)}px;--d:${(k%6)*.05}s">¥</i>`).join('')+Array.from({length:5},(_,k)=>`<b style="--x:${(k-2)*30}px;--r:${(k-2)*40}deg"></b>`).join('');st.appendChild(fx);ding();setTimeout(ding,150);setTimeout(ding,300);}
  function reveal2(d,anim){const out=$('#pigOut');if(!out)return;
   const max=d.by[0]?d.by[0].v:1;
-  const settle=Math.abs(d.diff)<1?'兩人剛好打平 🎉':d.diff>0?`${esc(d.B)} 要給 ${esc(d.A)} <b>${Y(d.diff)}</b>`:`${esc(d.A)} 要給 ${esc(d.B)} <b>${Y(-d.diff)}</b>`;
-  out.innerHTML=`<div class="pig-res${anim?' in':''}"><small>這趟北海道一共花了</small><div class="pig-tot">${Y(d.tot)}</div><p class="pig-twd">≈ ${T(d.tot,d.rate)}</p>
-   ${d.by.length?`<div class="pig-bars">${d.by.map(x=>`<div><span>${x.ic} ${x.n}</span><i style="--w:${(x.v/max*100).toFixed(1)}%"></i><b>${Y(x.v)}</b></div>`).join('')}</div>`:''}
-   <ul class="pig-facts">${d.bd?`<li>花最多的一天：<b>D${+d.bd[0]+1}</b>（${Y(d.bd[1])}）</li>`:''}${d.big?`<li>最貴的一筆：<b>${esc(d.big.note||(d.CAT[d.big.cat]||d.CAT.other)[1])}</b>（${Y(d.bigV)}）</li>`:''}<li>結算：${settle}</li></ul>
+  const settle=Math.abs(d.diff)<1?'兩人剛好打平 🎉':d.diff>0?`${esc(d.B)} 要給 ${esc(d.A)} <b>${T(d.diff,d.rate)}</b>`:`${esc(d.A)} 要給 ${esc(d.B)} <b>${T(-d.diff,d.rate)}</b>`;
+  out.innerHTML=`<div class="pig-res${anim?' in':''}"><small>這趟北海道一共花了</small><div class="pig-tot">${T(d.tot,d.rate)}</div><p class="pig-twd">≈ ${Y(d.tot)}</p>
+   ${d.by.length?`<div class="pig-bars">${d.by.map(x=>`<div><span>${x.ic} ${x.n}</span><i style="--w:${(x.v/max*100).toFixed(1)}%"></i><b>${T(x.v,d.rate)}</b></div>`).join('')}</div>`:''}
+   <ul class="pig-facts">${d.bd?`<li>花最多的一天：<b>D${+d.bd[0]+1}</b>（${T(d.bd[1],d.rate)}）</li>`:''}${d.big?`<li>最貴的一筆：<b>${esc(d.big.note||(d.CAT[d.big.cat]||d.CAT.other)[1])}</b>（${T(d.bigV,d.rate)}）</li>`:''}<li>結算：${settle}</li></ul>
    <button type="button" class="pig-glue">把小豬黏回去</button></div>`;
   out.querySelector('.pig-glue').addEventListener('click',()=>{localStorage.removeItem(SMK);pigBadge();const p=document.querySelector('#ledger h2 .pig');if(p)p.classList.remove('smashed');close();toast('小豬黏好了，繼續餵牠吧');});}
  function pigTap(){if(canSmash()||get(SMK,0)){smashAsk();return;}const v=spentJPY();
