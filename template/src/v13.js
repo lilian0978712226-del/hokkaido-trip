@@ -262,6 +262,10 @@
   <button type="button" class="gm-knob-hit" id="gmKnob" aria-label="轉轉鈕"></button>
   <div class="gm-drop" id="gmDrop"></div></div>`;}
  let paid=false;
+ function knobTo(a){const k=document.querySelector('#gaMachine .gm-knob');if(k)k.setAttribute('transform',`rotate(${a.toFixed(1)} 110 198)`);}
+ function knobAnim(from,to,ms,ease,done){const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms);knobTo(from+(to-from)*ease(p));if(p<1)requestAnimationFrame(f);else done&&done();};requestAnimationFrame(f);}
+ const easeIO=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+ const wobble=p=>Math.sin(p*Math.PI*4)*(1-p);
  function chink(){try{const C=window.AudioContext||window.webkitAudioContext;const c=chink.c||(chink.c=new C());[2637,3520].forEach((h,k)=>{const o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.value=h;const t=c.currentTime+k*.07;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.09,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.25);o.connect(g).connect(c.destination);o.start(t);o.stop(t+.3);});}catch(e){}}
  function clicks(){try{const C=window.AudioContext||window.webkitAudioContext;const c=chink.c||(chink.c=new C());for(let k=0;k<5;k++){const o=c.createOscillator(),g=c.createGain();o.type='square';o.frequency.value=180;const t=c.currentTime+k*.16;g.gain.setValueAtTime(.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);o.connect(g).connect(c.destination);o.start(t);o.stop(t+.05);}}catch(e){}}
  function gacha(){paid=false;
@@ -285,12 +289,12 @@
   coin.addEventListener('pointerup',end);coin.addEventListener('pointercancel',end);
   coin.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();insert();}});}
  function spin(){const m=$('#gaMachine');if(!m||m.dataset.busy)return;
-  if(!paid){const c=$('#gmCoin');if(c&&!RM){c.classList.remove('nudge');void c.offsetWidth;c.classList.add('nudge');}$('#gaHint').textContent='要先投 ¥100 喔！地上的硬幣撿起來投進去';return;}
+  if(!paid){if(!RM)knobAnim(0,1,500,p=>wobble(p)*14,()=>knobTo(0));const c=$('#gmCoin');if(c&&!RM){c.classList.remove('nudge');void c.offsetWidth;c.classList.add('nudge');}$('#gaHint').textContent='要先投 ¥100 喔！地上的硬幣撿起來投進去';return;}
   m.dataset.busy=1;$('#gaCard').innerHTML='';const id=pick(Math.random()<MIS.length/(MIS.length+POSE.length)?'m':'p'),c=COL[(+id.slice(1))%6],it=ITK[Math.floor(Math.random()*ITK.length)];
   const drop=()=>{const d=$('#gmDrop');d.innerHTML=`<button type="button" class="ga-cap2" aria-label="打開扭蛋"><svg viewBox="-18 -18 36 36" aria-hidden="true">${capSVG(0,0,c,it,16)}</svg></button>`;$('#gaHint').textContent='③ 點扭蛋打開！';
    d.querySelector('.ga-cap2').addEventListener('click',e=>{const b=e.currentTarget;b.classList.add('open');setTimeout(()=>{reveal(id);m.classList.remove('paid');paid=false;delete m.dataset.busy;const cn=$('#gmCoin');if(cn){cn.style.transition='none';cn.style.transform='';cn.style.opacity='';cn.classList.remove('lift');void cn.offsetWidth;cn.classList.add('fall');}
     $('#gaHint').textContent='地上又掉了一枚 ¥100，可以再轉一次';b.closest('.gm-drop').innerHTML='';},RM?0:450);},{once:true});};
-  if(RM){drop();return;}clicks();m.classList.add('turn');setTimeout(()=>{m.classList.remove('turn');drop();},950);}
+  if(RM){drop();return;}clicks();m.classList.add('turn');knobAnim(0,360,950,easeIO,()=>{knobTo(0);m.classList.remove('turn');drop();});}
  function reveal(id){const g=gs(),done=!!g.done[id];
   $('#gaCard').innerHTML=`<div class="ga-card ${id[0]==='p'?'pose':''}"><small>${id[0]==='p'?'這次的搞笑姿勢':'這次的拍照任務'}</small><b>${esc(title(id))}</b><div class="ga-acts"><button type="button" class="ga-did on2" data-act="photo">📷 拍到了！放進相冊</button><button type="button" class="ga-did" data-act="done">${done?'已完成 ✓':'完成，不放照片'}</button></div></div>`;
   $('#gaCard').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;

@@ -226,8 +226,8 @@ html body .shake-on{position:absolute!important;right:8px!important;bottom:8px!i
 /* 新扭蛋機 */
 html body .gm{position:relative!important;width:min(78vw,280px)!important;margin:0 auto!important;touch-action:none!important}
 html body .gm-svg{width:100%!important;height:auto!important;display:block!important;overflow:visible!important}
-html body .gm .gm-knob{transform-box:fill-box!important;transform-origin:center!important}
-html body .gm.turn .gm-knob{animation:gaTurn .95s cubic-bezier(.4,0,.3,1)!important}
+
+
 html body .gm.turn .ga-caps{animation:gaJig .16s ease-in-out 6!important}
 html body .gm.paid .gm-knob{animation:knobGlow 1s ease-in-out infinite!important}
 @keyframes knobGlow{0%,100%{filter:none}50%{filter:drop-shadow(0 0 6px #FFE39A) brightness(1.06)}}
