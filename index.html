@@ -3378,7 +3378,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   <label>哪一天<select id="csDay">${days.map((d,i)=>`<option value="${i}">D${i+1}・${d.date.slice(5).replace('-','/')} ${esc3(d.label.split('・')[0])}</option>`).join('')}</select></label>
   <label>幾點<input id="csTime" type="time" value="12:00"></label>
   <label>貼 Google 地圖連結（選填）<input id="csUrl" inputmode="url" placeholder="在 Google 地圖按「分享」→ 複製，貼這裡" enterkeyhint="done"></label><p class="cs-hint" id="csUrlHint">貼上後會自動帶入店名，導航也會直接開這個地點。</p><label>去哪裡（店名或地點）<input id="csName" placeholder="例：二条市場 大磯" enterkeyhint="done"></label>
-  <p class="cs-lab">這站是什麼？（點一個）</p><div class="cs-icons" id="csIcons">${[['📍','景點'],['🍜','吃飯'],['🍰','甜點・咖啡'],['🛍️','逛街'],['🎁','伴手禮'],['♨️','溫泉']].map(([x,l],k)=>`<button type="button" data-ic="${x}" class="${k?'':'on'}" aria-pressed="${k?'false':'true'}">${l}</button>`).join('')}</div>
+  <p class="cs-lab">這站是什麼？（點一個）</p><div class="cs-icons" id="csIcons">${[['📍','景點'],['🍜','吃飯'],['🍰','甜點'],['🛍️','逛街'],['🎁','伴手禮']].map(([x,l],k)=>`<button type="button" data-ic="${x}" class="${k?'':'on'}" aria-pressed="${k?'false':'true'}">${l}</button>`).join('')}</div>
   <p class="cs-lab">從上一站怎麼過去？</p><div class="cs-icons cs-mode" id="csMode"><button type="button" data-m="walk">🚶 走路</button><button type="button" data-m="drive">🚗 開車</button></div><label>備註（選填）<input id="csNote" placeholder="例：排隊很久就換這家"></label>
   <label>要取代原本哪一站？<select id="csRep"></select></label>
   <div class="cs-btns"><button type="button" class="cs-cancel">取消</button><button type="button" class="cs-save">加進行程</button></div></div>`;
@@ -3397,7 +3397,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const guessMode=(d,t)=>{const ev=days[d].events,m=toMin(t||'12:00');let j=-1;ev.forEach((e,k)=>{if(toMin(e[0])<=m)j=k;});return j>=0&&(days[d].walkLegs||[]).includes(j)?'walk':'drive';};
  $('#csMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m);});
  $('#csTime').addEventListener('change',()=>{if(!editId)setMode(guessMode(+$('#csDay').value,$('#csTime').value));});
- let editId=null;const setIc=x=>{if(x==='🍣')x='🍜';if(x==='☕')x='🍰';if(x==='📸')x='📍';ic=x;$('#csIcons').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.ic===x);b.setAttribute('aria-pressed',b.dataset.ic===x);});};
+ let editId=null;const setIc=x=>{if(x==='🍣')x='🍜';if(x==='☕')x='🍰';if(x==='📸'||x==='♨️')x='📍';ic=x;$('#csIcons').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.ic===x);b.setAttribute('aria-pressed',b.dataset.ic===x);});};
  function openSheet(d,c){editId=c?c.id:null;$('#csTitle').textContent=c?'✏️ 編輯行程':'✏️ 新增行程';sh.querySelector('.cs-save').textContent=c?'儲存':'加進行程';$('#csDay').value=c?c.d:d;fillRep();$('#csName').value=c?c.n:'';$('#csNote').value=c?(c.p||''):'';$('#csUrl').value=c?(c.u||''):'';setMode(c&&c.m?c.m:guessMode(c?c.d:d,c?c.t:$('#csTime').value));$('#csUrlHint').textContent='貼上後會自動帶入店名，導航也會直接開這個地點。';setIc(c?(c.ic||'📍'):'📍');if(c){$('#csRep').value=c.rep;$('#csTime').value=c.t;}else{const ev=days[d].events;$('#csTime').value=ev.length?ev[Math.floor(ev.length/2)][0]:'12:00';}sh.hidden=false;document.body.classList.add('cs-open');setTimeout(()=>$('#csName').focus(),60);}
  function closeSheet(){sh.hidden=true;document.body.classList.remove('cs-open');}
  sh.addEventListener('click',e=>{if(e.target===sh||e.target.closest('.cs-cancel'))closeSheet();});
