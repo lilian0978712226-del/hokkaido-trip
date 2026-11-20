@@ -247,6 +247,11 @@
   [[1763600000001,17329,'move',0,'Nippon 租車 8 天'],[1763600000002,46886,'move',0,'來回機票（台中⇄新千歲）'],[1763600000003,19500,'stay',0,'Hotel Vista Sapporo Odori'],[1763600000004,7820,'stay',4,'Amanek 旭川住宿'],[1763600000005,6395,'stay',6,'第一瀧本館'],[1763600000006,2410,'stay',7,'KOKO STAY 千歲']]
   .forEach(([t,amt,cat,day,note])=>{if(!has.has(t))L.push({t,amt,cur:'TWD',cat,payer:P,shared:true,day,note});});
   save(LK,L);try{localStorage.setItem(FK,'1')}catch(e){}})();
+ /* 第二批：eSIM 兩人份（只加一次） */
+ (function(){const FK='hk-ledger-seed-v2';if(localStorage.getItem(FK))return;
+  const P=S.a==='陳肥肥'?'b':'a';const has=new Set(L.map(e=>e.t).concat(DEL));
+  if(!has.has(1763600000007))L.push({t:1763600000007,amt:1620,cur:'TWD',cat:'other',payer:P,shared:true,day:-1,note:'eSIM 兩張（CDJapan Rental）'});
+  save(LK,L);try{localStorage.setItem(FK,'1')}catch(e){}})();
  let cur='JPY',cat='food',payer='a',shared=true;
  const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
  const twd=n=>'NT$'+Math.round(n*S.rate).toLocaleString('zh-TW');
