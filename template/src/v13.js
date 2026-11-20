@@ -126,7 +126,10 @@
   const VV=varOf(f),[ink,inkL,paper]=VV.pal;
   const P=(POEM[f.lv]||POEM['吉']),poem=P[f.no%P.length];
   const cats=[['宜',f.yi[0]],['忌',f.ji],['食運',FOOD[f.no%FOOD.length]],['拍照',SHOT[(f.no*7+3)%SHOT.length]],['幸運',f.lu]];
-  const V=(t,x,y,fs,step,max,colGap,anchorFill)=>{const ch=[...String(t).replace(/\s/g,'')].map(vch);let o='';ch.forEach((c,i)=>{const col=Math.floor(i/max),row=i%max;o+=`<text x="${x-col*colGap}" y="${y+row*step}" font-size="${fs}" text-anchor="middle" fill="${anchorFill}">${esc(c)}</text>`;});return o;};
+  const V=(t,x,y,fs,step,max,colGap,anchorFill)=>{
+   /* 直書不放括號和逗號（直排時位置會歪）：括號拿掉，逗號變成空一格 */
+   const ch=[...String(t).replace(/\s/g,'').replace(/[）)」]/g,'').replace(/[（(「]/g,'，').replace(/[，、。,]+$/,'').replace(/^[，、。,]+/,'').replace(/[，、。,]+/g,'　')].map(vch);let o='';
+   ch.forEach((c,i)=>{if(c==='　')return;const col=Math.floor(i/max),row=i%max;o+=`<text x="${x-col*colGap}" y="${y+row*step}" font-size="${fs}" text-anchor="middle" fill="${anchorFill}">${esc(c)}</text>`;});return o;};
   const poemSvg=poem.map((ln,i)=>V(ln,252-i*46,322,22,25.5,7,0,ink)).join('');
   const catSvg=cats.map(([k,v],i)=>{const x=316-i*68;const lab=k.length>1?`<text x="${x}" y="${541}" font-size="12.5" font-weight="900" text-anchor="middle" fill="#fff" letter-spacing="-.5">${k}</text>`:`<text x="${x}" y="${543}" font-size="16" font-weight="900" text-anchor="middle" fill="#fff">${k}</text>`;
    return `<path d="M${x} ${512}c-3 6-16 9-16 22a16 14 0 0 0 32 0c0-13-13-16-16-22Z" fill="${ink}"/><path d="M${x-9} ${526}q9-5 18 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".7"/>${lab}${V(v,x+8,570,14,15.2,8,16,ink)}`;}).join('');
@@ -134,7 +137,7 @@
   const rays=[-62,-40,-18,18,40,62].map(a=>{const r=a*Math.PI/180;return `<path d="M${(180+Math.sin(r)*88).toFixed(1)} ${(122-Math.cos(r)*88).toFixed(1)}L${(180+Math.sin(r)*104).toFixed(1)} ${(122-Math.cos(r)*104).toFixed(1)}" stroke="${ink}" stroke-width="7" stroke-linecap="round"/>`;}).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" font-family="'Huninn','PingFang TC','Noto Sans TC','Hiragino Sans',sans-serif" font-weight="900">
    <defs>${PATS[VV.pat](ink,inkL,paper,'ckr'+f.no)}
-   <filter id="grn${f.no}"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.7 1.08"/><feComposite in="SourceGraphic" operator="in"/></filter>
+   <filter id="grn${f.no}"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.45 1.1"/><feComposite in="SourceGraphic" operator="in"/></filter>
    <clipPath id="hdr${f.no}"><rect x="26" y="40" width="308" height="160"/></clipPath></defs>
    <rect width="360" height="720" rx="18" fill="${paper}"/>
    <g filter="url(#grn${f.no})">
@@ -150,11 +153,13 @@
    <text x="180" y="263" font-size="${f.lv.length>1?54:62}" text-anchor="middle" fill="#fff" letter-spacing="6">${f.lv}</text>
    <g transform="translate(312 330)"><path d="M0 -26L24 0 0 26-24 0Z" fill="${ink}" stroke="#fff" stroke-width="2.5"/><text x="0" y="8" font-size="22" text-anchor="middle" fill="#fff">運</text></g>
    <g transform="translate(312 384)"><path d="M0 -26L24 0 0 26-24 0Z" fill="${ink}" stroke="#fff" stroke-width="2.5"/><text x="0" y="8" font-size="22" text-anchor="middle" fill="#fff">勢</text></g>
+   <path d="M36 494H324" stroke="${ink}" stroke-width="3.4" stroke-linecap="round" stroke-dasharray=".1 9"/>
+   </g>
+   <g text-rendering="geometricPrecision">
    ${poemSvg}
    ${V(`第${kanji(f.no)}番`,48,320,15,19,9,0,ink)}
-   <path d="M36 494H324" stroke="${ink}" stroke-width="3.4" stroke-linecap="round" stroke-dasharray=".1 9"/>
    ${catSvg}
-   <text x="180" y="696" font-size="11.5" text-anchor="middle" fill="${ink}" opacity=".75" letter-spacing="2">北海道雪日記・${f.t.slice(5).replace('-','/')}・明天再來抽</text>
+   <text x="180" y="696" font-size="11.5" text-anchor="middle" fill="${ink}" opacity=".8" letter-spacing="2">北海道雪日記・${f.t.slice(5).replace('-','/')}・明天再來抽</text>
    </g></svg>`;}
  function slip(f){return `<div class="omi-slip omi-slip2 lv-${f.lv}" role="img" aria-label="${esc(`第${f.no}番 ${f.lv}：${f.msg}。宜：${f.yi[0]}；忌：${f.ji}；幸運小物：${f.lu}`)}">${slipSVG(f)}<p class="omi-msg2">${esc(f.msg)}</p></div>`;}
  function after(f){return `<div class="omi-acts"><button type="button" class="omi-share">把籤分享出去</button>${f.lv==='凶'?'<button type="button" class="omi-tie">把籤綁起來</button>':''}</div>`;}
