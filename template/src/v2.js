@@ -250,7 +250,7 @@
  /* 第二批：eSIM 兩人份（只加一次） */
  (function(){const FK='hk-ledger-seed-v2';if(localStorage.getItem(FK))return;
   const P=S.a==='陳肥肥'?'b':'a';const has=new Set(L.map(e=>e.t).concat(DEL));
-  if(!has.has(1763600000007))L.push({t:1763600000007,amt:1620,cur:'TWD',cat:'other',payer:P,shared:true,day:-1,note:'eSIM 兩張（CDJapan Rental）'});
+  if(!has.has(1763600000007))L.push({t:1763600000007,amt:1620,cur:'TWD',cat:'other',payer:P,shared:true,day:-1,note:'eSIM 兩張（CDJapan 50GB／16 天）'});
   save(LK,L);try{localStorage.setItem(FK,'1')}catch(e){}})();
  let cur='JPY',cat='food',payer='a',shared=true;
  const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
