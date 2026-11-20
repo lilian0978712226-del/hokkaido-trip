@@ -53,14 +53,17 @@
     const key=el.classList.contains('custom-ev')?'c:'+el.dataset.cid:'o:'+el.dataset.k;
     el.insertAdjacentHTML('beforeend',`<button type="button" class="adj-corner" data-adj="${key}" aria-label="調整這一站的順序、日期或時間"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 15.5V5.5M8 5.5 5 8.6M8 5.5l3 3.1M16 8.5v10M16 18.5l-3-3.1M16 18.5l3-3.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`);}
   });
-  if(touched){
+  if(true){
    const tm=el=>toMin((el.querySelector('.time')||{}).textContent||'0');
    const sorted=evs.map((el,n)=>({el,n,t:tm(el)})).sort((a,b)=>a.t-b.t||a.n-b.n).map(x=>x.el);
    dc.querySelectorAll('.leg').forEach(x=>x.remove());
    const bar=dc.querySelector('.cs-addbar');
+   /* 每段路線：自己加的那站也有；步行或開車沿用原本那一段；顯示隔多久 */
+   const WL=new Set(days[i].walkLegs||[]);let anc=-1;const anchor=sorted.map(el=>{const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);if(a===i)anc=b;}return anc;});
    sorted.forEach((el,n)=>{
-    if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el);
-     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`↓ ${esc4(b)} <a href="${routeLink(a,b)}" target="_blank" rel="noopener">🚗 開車路線</a>`}),bar);}
+    if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el),cm=c=>{const x=c.dataset.cid&&CSget().find(y=>y.id===c.dataset.cid);return x&&x.m;},walk=cm(el)?cm(el)==='walk':anchor[n-1]>=0&&WL.has(anchor[n-1]);const gap=tm(el)-tm(prev);
+     const gs=gap>0?`<span class="leg-gap">隔 ${gap>=60?Math.floor(gap/60)+' 小時'+(gap%60?' '+gap%60+' 分':''):gap+' 分'}</span>`:'';
+     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`<span class="leg-n">↓ ${esc4(b)}</span>${gs}<a href="${routeLink(a,b,walk?'walking':'driving')}" target="_blank" rel="noopener">${walk?'🚶 步行路線':'🚗 開車路線'}</a>`}),bar);}
     dc.insertBefore(el,bar);
    });
   }
@@ -68,6 +71,7 @@
   syncBar(dc);
   if(window.hkHours)window.hkHours(i);
  }
+ function urlOf(el){const c=el.dataset.cid&&CSget().find(x=>x.id===el.dataset.cid);return c&&c.u||'';}
  function nameOf(el){const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);return days[a].events[b][1];}const c=CSget().find(x=>x.id===el.dataset.cid);return c?c.n:'';}
  function mark(el,t,why){
   const tt=el.querySelector('.time');if(tt)tt.textContent=t;

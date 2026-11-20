@@ -2082,6 +2082,21 @@ html body .say-bubble.below::after{bottom:auto!important;top:-8px!important;tran
 html body .say-bubble.out{opacity:0!important;transform:translateY(-4px)!important;transition:all .25s!important}
 @keyframes sayIn{from{transform:scale(.4);opacity:0}}
 html body .lg-item strong small.lg-orig{display:block!important;font-size:11px!important;font-weight:700!important;opacity:.6!important;text-align:right!important}
+html body #dayCard .leg .leg-gap{display:inline-block!important;font-size:11.5px!important;font-weight:800!important;color:#8A7568!important;background:#FFF4D6!important;border:1.5px solid #E8D9A8!important;border-radius:999px!important;padding:1px 8px!important;margin:0 6px 0 2px!important;vertical-align:middle!important}
+html.night body #dayCard .leg .leg-gap{background:#3A3346!important;border-color:#5A4E66!important;color:#E9DFF2!important}
+html body .cs-icons{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:8px!important;margin-bottom:6px!important}
+html body .cs-icons button{aspect-ratio:auto!important;transform:none!important;display:flex!important;align-items:center!important;justify-content:center!important;height:44px!important;width:auto!important;min-width:0!important;border-radius:999px!important;padding:0 6px!important;font-size:14.5px!important;font-weight:900!important;color:#5B4B43!important;background:#fff!important;border:2px solid #CDBFB3!important;box-shadow:none!important;white-space:nowrap!important}
+html body .cs-icons button.on{background:#F4C9C9!important;border-color:#5B4B43!important;box-shadow:0 3px 0 #5B4B43!important}
+html body .cs-icons button.on::before{content:'✓ '!important;margin-right:2px!important}
+html body .cs-lab{margin:10px 0 6px!important;font-size:13px!important;font-weight:800!important;color:#6B5A50!important}
+html body .cs-hint{margin:6px 2px 10px!important;font-size:12px!important;color:#8A7568!important;line-height:1.5!important}
+html body .cs-panel input,html body .cs-panel select{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+html body .cs-panel input[type=time]{-webkit-appearance:none!important;appearance:none!important;display:block!important;text-align:left!important}
+html body #dayCard .leg{flex-wrap:nowrap!important;align-items:center!important;gap:6px!important}
+html body #dayCard .leg .leg-n{flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+html body #dayCard .leg .leg-gap,html body #dayCard .leg a{flex:0 0 auto!important}
+html body #dayCard .leg .leg-gap{margin:0!important}
+html body .cs-mode{grid-template-columns:repeat(2,1fr)!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3323,7 +3338,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* ---------- 行程卡：顯示自己加的、被取代的 ---------- */
  function cardHTML(c){
   const k='cstop-'+c.id;
-  return `<div class="event custom-ev" data-cid="${c.id}"><div class="time">${esc3(c.t)}</div><div><h4>${c.ic||'📍'} ${esc3(c.n)}</h4>${c.p?`<p>${esc3(c.p)}</p>`:''}<div class="tags" style="display:flex"><span class="tag mine">✏️ 自己加的</span>${c.rep>=0&&days[c.d].events[c.rep]?`<span class="tag mine-rep">取代：${esc3(days[c.d].events[c.rep][1])}</span>`:''}</div><div class="event-actions"><button type="button" class="smallbtn" data-cmap="${c.id}">📍 導航</button><label class="smallbtn"><input type="checkbox" data-ccheck="${k}" ${isDone(k)?'checked':''}> 完成</label><button type="button" class="smallbtn cs-del" data-cdel="${c.id}">刪除</button></div></div></div>`;
+  return `<div class="event custom-ev" data-cid="${c.id}"><div class="time">${esc3(c.t)}</div><div><h4>${c.ic||'📍'} ${esc3(c.n)}</h4>${c.p?`<p>${esc3(c.p)}</p>`:''}<div class="tags" style="display:flex"><span class="tag mine">✏️ 自己加的</span>${c.rep>=0&&days[c.d].events[c.rep]?`<span class="tag mine-rep">取代：${esc3(days[c.d].events[c.rep][1])}</span>`:''}</div><div class="event-actions"><button type="button" class="smallbtn" data-cmap="${c.id}">📍 導航</button><label class="smallbtn"><input type="checkbox" data-ccheck="${k}" ${isDone(k)?'checked':''}> 完成</label><button type="button" class="smallbtn cs-edit" data-cedit="${c.id}">✏️ 編輯</button><button type="button" class="smallbtn cs-del" data-cdel="${c.id}">刪除</button></div></div></div>`;
  }
  function decorate(i){
   const dc=$('#dayCard');if(!dc)return;
@@ -3348,7 +3363,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* 按鈕順序：導航、複製、完成，備註在下一行 */
  function catOf(ev){
   const has=c=>ev.querySelector('.tags .tag.'+c),ic=(ev.querySelector('h4')||{}).textContent||'';
-  if(ev.classList.contains('custom-ev')){if(/🍜|🍣|🍰|☕/.test(ic))return['food','美食'];if(/🛍️/.test(ic))return['shop','逛街'];return['spot','景點'];}
+  if(ev.classList.contains('custom-ev')){if(/🍰|☕/.test(ic))return['food','甜點'];if(/🍜|🍣/.test(ic))return['food','美食'];if(/🎁/.test(ic))return['shop','伴手禮'];if(/🛍️/.test(ic))return['shop','逛街'];if(/♨️/.test(ic))return['spot','溫泉'];return['spot','景點'];}
   if(has('food'))return['food','美食'];if(has('stay'))return['stay','住宿'];if(/🅿️/.test(ic))return['park','停車'];if(has('move'))return['move','交通'];
   if(/🧥|🐰|🐶|🛍️|🍞/.test(ic))return['shop','逛街'];return['spot','景點'];
  }
@@ -3356,40 +3371,53 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   col.querySelectorAll('.cat,.tag').forEach(x=>{if(x.classList.contains('tag')&&!x.classList.contains('cat'))ev.querySelector('.tags')&&ev.querySelector('.tags').appendChild(x);else x.remove();});
   const [k,l]=catOf(ev);col.insertAdjacentHTML('beforeend',`<span class="cat cat-${k}">${l}</span>`);
   t.classList.toggle('must',!!ev.querySelector('.tags .tag.must'));});}
- function orderBtns(){document.querySelectorAll('#dayCard .event-actions').forEach(ac=>{if(ac.dataset.ord)return;const nav=ac.querySelector('[data-map-place],[data-cmap]'),cp=ac.querySelector('[data-copy-place]'),dn=ac.querySelector('label'),dl=ac.querySelector('[data-cdel]'),nt=ac.querySelector('[data-note-title]');[nav,cp,dn,dl].forEach(x=>x&&ac.appendChild(x));if(nt){nt.classList.add('note-row');ac.appendChild(nt);}ac.dataset.ord=1;});}
+ function orderBtns(){document.querySelectorAll('#dayCard .event-actions').forEach(ac=>{if(ac.dataset.ord)return;const nav=ac.querySelector('[data-map-place],[data-cmap]'),cp=ac.querySelector('[data-copy-place]'),dn=ac.querySelector('label'),dl=ac.querySelector('[data-cdel]'),ed=ac.querySelector('[data-cedit]'),nt=ac.querySelector('[data-note-title]');[nav,cp,dn,ed,dl].forEach(x=>x&&ac.appendChild(x));if(nt){nt.classList.add('note-row');ac.appendChild(nt);}ac.dataset.ord=1;});}
  /* ---------- 新增表單 ---------- */
  const sh=document.createElement('div');sh.className='cs-sheet';sh.hidden=true;
  sh.innerHTML=`<div class="cs-panel" role="dialog" aria-modal="true" aria-labelledby="csTitle"><h3 id="csTitle">✏️ 新增行程</h3>
   <label>哪一天<select id="csDay">${days.map((d,i)=>`<option value="${i}">D${i+1}・${d.date.slice(5).replace('-','/')} ${esc3(d.label.split('・')[0])}</option>`).join('')}</select></label>
   <label>幾點<input id="csTime" type="time" value="12:00"></label>
-  <label>去哪裡（店名或地點）<input id="csName" placeholder="例：二条市場 大磯" enterkeyhint="done"></label>
-  <div class="cs-icons" id="csIcons">${['📍','🍜','🍣','🍰','☕','🛍️','📸','♨️'].map((x,k)=>`<button type="button" data-ic="${x}" class="${k?'':'on'}">${x}</button>`).join('')}</div>
-  <label>備註（選填）<input id="csNote" placeholder="例：排隊很久就換這家"></label>
+  <label>貼 Google 地圖連結（選填）<input id="csUrl" inputmode="url" placeholder="在 Google 地圖按「分享」→ 複製，貼這裡" enterkeyhint="done"></label><p class="cs-hint" id="csUrlHint">貼上後會自動帶入店名，導航也會直接開這個地點。</p><label>去哪裡（店名或地點）<input id="csName" placeholder="例：二条市場 大磯" enterkeyhint="done"></label>
+  <p class="cs-lab">這站是什麼？（點一個）</p><div class="cs-icons" id="csIcons">${[['📍','景點'],['🍜','吃飯'],['🍰','甜點・咖啡'],['🛍️','逛街'],['🎁','伴手禮'],['♨️','溫泉']].map(([x,l],k)=>`<button type="button" data-ic="${x}" class="${k?'':'on'}" aria-pressed="${k?'false':'true'}">${l}</button>`).join('')}</div>
+  <p class="cs-lab">從上一站怎麼過去？</p><div class="cs-icons cs-mode" id="csMode"><button type="button" data-m="walk">🚶 走路</button><button type="button" data-m="drive">🚗 開車</button></div><label>備註（選填）<input id="csNote" placeholder="例：排隊很久就換這家"></label>
   <label>要取代原本哪一站？<select id="csRep"></select></label>
   <div class="cs-btns"><button type="button" class="cs-cancel">取消</button><button type="button" class="cs-save">加進行程</button></div></div>`;
  document.body.appendChild(sh);
  let ic='📍';
  const fillRep=()=>{const d=+$('#csDay').value;$('#csRep').innerHTML=`<option value="-1">不取代，另外加一站</option>`+days[d].events.map((e,j)=>`<option value="${j}">${e[0]} ${esc3(e[1])}</option>`).join('');};
  $('#csDay').addEventListener('change',fillRep);
- $('#csIcons').addEventListener('click',e=>{const b=e.target.closest('[data-ic]');if(!b)return;ic=b.dataset.ic;$('#csIcons').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));});
+ /* 貼 Google 地圖分享：「店名＋連結」或網址裡的 /place/店名 */
+ function parseMap(){const v=$('#csUrl').value;const m=v.match(/https?:\/\/\S+/);if(!m)return;const before=v.slice(0,m.index).split('\n').map(x=>x.trim()).filter(Boolean)[0];let nm=before||'';if(!nm){const pm=m[0].match(/\/place\/([^/@?]+)/);if(pm){try{nm=decodeURIComponent(pm[1].replace(/\+/g,' '));}catch(e){}}}
+  if(nm&&!$('#csName').value.trim())$('#csName').value=nm;if(m.index>0)$('#csUrl').value=m[0];$('#csUrlHint').textContent=nm?'✓ 已帶入店名，導航會直接開這個地點':'✓ 連結已存，導航會直接開這個地點（店名請自己填）';}
+ $('#csUrl').addEventListener('input',parseMap);$('#csUrl').addEventListener('paste',()=>setTimeout(parseMap,30));
+ $('#csIcons').addEventListener('click',e=>{const b=e.target.closest('[data-ic]');if(!b)return;ic=b.dataset.ic;$('#csIcons').querySelectorAll('button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});});
  $('#csRep').addEventListener('change',()=>{const d=+$('#csDay').value,j=+$('#csRep').value;if(j>=0&&!$('#csName').value)$('#csTime').value=days[d].events[j][0];else if(j>=0)$('#csTime').value=days[d].events[j][0];});
- function openSheet(d){$('#csDay').value=d;fillRep();$('#csName').value='';$('#csNote').value='';const ev=days[d].events;$('#csTime').value=ev.length?ev[Math.floor(ev.length/2)][0]:'12:00';sh.hidden=false;document.body.classList.add('cs-open');setTimeout(()=>$('#csName').focus(),60);}
+ let mode='drive';const setMode=m=>{mode=m;$('#csMode').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.m===m);b.setAttribute('aria-pressed',b.dataset.m===m);});};
+ /* 預設：插在哪兩站中間，就沿用原本那段是走路還是開車 */
+ const guessMode=(d,t)=>{const ev=days[d].events,m=toMin(t||'12:00');let j=-1;ev.forEach((e,k)=>{if(toMin(e[0])<=m)j=k;});return j>=0&&(days[d].walkLegs||[]).includes(j)?'walk':'drive';};
+ $('#csMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m);});
+ $('#csTime').addEventListener('change',()=>{if(!editId)setMode(guessMode(+$('#csDay').value,$('#csTime').value));});
+ let editId=null;const setIc=x=>{if(x==='🍣')x='🍜';if(x==='☕')x='🍰';if(x==='📸')x='📍';ic=x;$('#csIcons').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.ic===x);b.setAttribute('aria-pressed',b.dataset.ic===x);});};
+ function openSheet(d,c){editId=c?c.id:null;$('#csTitle').textContent=c?'✏️ 編輯行程':'✏️ 新增行程';sh.querySelector('.cs-save').textContent=c?'儲存':'加進行程';$('#csDay').value=c?c.d:d;fillRep();$('#csName').value=c?c.n:'';$('#csNote').value=c?(c.p||''):'';$('#csUrl').value=c?(c.u||''):'';setMode(c&&c.m?c.m:guessMode(c?c.d:d,c?c.t:$('#csTime').value));$('#csUrlHint').textContent='貼上後會自動帶入店名，導航也會直接開這個地點。';setIc(c?(c.ic||'📍'):'📍');if(c){$('#csRep').value=c.rep;$('#csTime').value=c.t;}else{const ev=days[d].events;$('#csTime').value=ev.length?ev[Math.floor(ev.length/2)][0]:'12:00';}sh.hidden=false;document.body.classList.add('cs-open');setTimeout(()=>$('#csName').focus(),60);}
  function closeSheet(){sh.hidden=true;document.body.classList.remove('cs-open');}
  sh.addEventListener('click',e=>{if(e.target===sh||e.target.closest('.cs-cancel'))closeSheet();});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)closeSheet();});
  sh.querySelector('.cs-save').addEventListener('click',()=>{
   const n=$('#csName').value.trim();if(!n){$('#csName').focus();toast('請填地點名稱');return;}
   const d=+$('#csDay').value,rep=+$('#csRep').value;
-  CS=CS.filter(c=>!(rep>=0&&c.d===d&&c.rep===rep));
-  CS.push({id:Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep});
-  save(CS);closeSheet();refresh(d);toast(rep>=0?'已換成新的一站 ✨':'已加進行程 ✨');
+  CS=CS.filter(c=>!(rep>=0&&c.d===d&&c.rep===rep&&c.id!==editId));
+  const u=(($('#csUrl').value.match(/https?:\/\/\S+/)||[])[0])||'';
+  const item={id:editId||Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep,u,m:mode};
+  const at=editId?CS.findIndex(c=>c.id===editId):-1;if(at>=0)CS[at]=item;else CS.push(item);
+  const wasEdit=!!editId;save(CS);closeSheet();refresh(d);toast(wasEdit?'已更新 ✨':rep>=0?'已換成新的一站 ✨':'已加進行程 ✨');
  });
  window.hkCS={get:()=>CS,set:a=>{CS=a;save(CS);}};
  function refresh(d){showDay(typeof d==='number'?d:current);renderMap();if(window.hkRenderNext)window.hkRenderNext();}
  document.addEventListener('click',e=>{
-  const t=e.target.closest&&e.target.closest('[data-cadd],[data-cmap],[data-cdel],[data-cundo]');if(!t)return;
+  const t=e.target.closest&&e.target.closest('[data-cadd],[data-cmap],[data-cdel],[data-cundo],[data-cedit]');if(!t)return;
   if(t.dataset.cadd!=null)openSheet(+t.dataset.cadd);
-  else if(t.dataset.cmap){const c=CS.find(x=>x.id===t.dataset.cmap);if(c)maps(c.n,c.d);}
+  else if(t.dataset.cedit){const c=CS.find(x=>x.id===t.dataset.cedit);if(c)openSheet(c.d,c);}
+  else if(t.dataset.cmap){const c=CS.find(x=>x.id===t.dataset.cmap);if(c){if(c.u)window.open(c.u,'_blank','noopener');else maps(c.n,c.d);}}
   else if(t.dataset.cundo){CS=CS.filter(x=>x.id!==t.dataset.cundo);save(CS);refresh();toast('已恢復原本行程');}
   else if(t.dataset.cdel){if(!t.classList.contains('sure')){t.classList.add('sure');t.textContent='確定刪除？';setTimeout(()=>{if(t.isConnected){t.classList.remove('sure');t.textContent='刪除';}},2600);return;}CS=CS.filter(x=>x.id!==t.dataset.cdel);save(CS);refresh();toast('已刪除');}
  });
@@ -3620,14 +3648,17 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
     const key=el.classList.contains('custom-ev')?'c:'+el.dataset.cid:'o:'+el.dataset.k;
     el.insertAdjacentHTML('beforeend',`<button type="button" class="adj-corner" data-adj="${key}" aria-label="調整這一站的順序、日期或時間"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 15.5V5.5M8 5.5 5 8.6M8 5.5l3 3.1M16 8.5v10M16 18.5l-3-3.1M16 18.5l3-3.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`);}
   });
-  if(touched){
+  if(true){
    const tm=el=>toMin((el.querySelector('.time')||{}).textContent||'0');
    const sorted=evs.map((el,n)=>({el,n,t:tm(el)})).sort((a,b)=>a.t-b.t||a.n-b.n).map(x=>x.el);
    dc.querySelectorAll('.leg').forEach(x=>x.remove());
    const bar=dc.querySelector('.cs-addbar');
+   /* 每段路線：自己加的那站也有；步行或開車沿用原本那一段；顯示隔多久 */
+   const WL=new Set(days[i].walkLegs||[]);let anc=-1;const anchor=sorted.map(el=>{const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);if(a===i)anc=b;}return anc;});
    sorted.forEach((el,n)=>{
-    if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el);
-     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`↓ ${esc4(b)} <a href="${routeLink(a,b)}" target="_blank" rel="noopener">🚗 開車路線</a>`}),bar);}
+    if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el),cm=c=>{const x=c.dataset.cid&&CSget().find(y=>y.id===c.dataset.cid);return x&&x.m;},walk=cm(el)?cm(el)==='walk':anchor[n-1]>=0&&WL.has(anchor[n-1]);const gap=tm(el)-tm(prev);
+     const gs=gap>0?`<span class="leg-gap">隔 ${gap>=60?Math.floor(gap/60)+' 小時'+(gap%60?' '+gap%60+' 分':''):gap+' 分'}</span>`:'';
+     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`<span class="leg-n">↓ ${esc4(b)}</span>${gs}<a href="${routeLink(a,b,walk?'walking':'driving')}" target="_blank" rel="noopener">${walk?'🚶 步行路線':'🚗 開車路線'}</a>`}),bar);}
     dc.insertBefore(el,bar);
    });
   }
@@ -3635,6 +3666,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   syncBar(dc);
   if(window.hkHours)window.hkHours(i);
  }
+ function urlOf(el){const c=el.dataset.cid&&CSget().find(x=>x.id===el.dataset.cid);return c&&c.u||'';}
  function nameOf(el){const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);return days[a].events[b][1];}const c=CSget().find(x=>x.id===el.dataset.cid);return c?c.n:'';}
  function mark(el,t,why){
   const tt=el.querySelector('.time');if(tt)tt.textContent=t;
