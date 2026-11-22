@@ -62,7 +62,7 @@
    const WL=new Set(days[i].walkLegs||[]);let anc=-1;const anchor=sorted.map(el=>{const k=el.dataset.k;if(k){const [a,b]=k.split('-').map(Number);if(a===i)anc=b;}return anc;});
    sorted.forEach((el,n)=>{
     if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el),cm=c=>{const x=c.dataset.cid&&CSget().find(y=>y.id===c.dataset.cid);return x&&x.m;},walk=cm(el)?cm(el)==='walk':anchor[n-1]>=0&&WL.has(anchor[n-1]);const gap=tm(el)-tm(prev);
-     const gs=gap>0?`<span class="leg-gap">隔 ${gap>=60?Math.floor(gap/60)+' 小時'+(gap%60?' '+gap%60+' 分':''):gap+' 分'}</span>`:'';
+     const gs=gap>0?`<span class="leg-gap" title="上一站抵達到這一站抵達的時間，包含在上一站停留的時間，不是路上開車或走路的時間">含停留 ${gap>=60?Math.floor(gap/60)+' 小時'+(gap%60?' '+gap%60+' 分':''):gap+' 分'}</span>`:'';
      dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`<span class="leg-n">↓ ${esc4(b)}</span>${gs}<a href="${routeLink(a,b,walk?'walking':'driving')}" target="_blank" rel="noopener">${walk?'🚶 步行路線':'🚗 開車路線'}</a>`}),bar);}
     dc.insertBefore(el,bar);
    });
