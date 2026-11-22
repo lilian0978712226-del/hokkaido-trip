@@ -16,7 +16,7 @@ with sync_playwright() as p:
     n = pg.evaluate('days.length')
     for d in range(n):
         pg.evaluate(f'showDay({d})'); pg.wait_for_timeout(150)
-        ev = pg.evaluate("document.querySelectorAll('#dayCard .event').length")
+        ev = pg.evaluate("document.querySelectorAll('#dayCard .event:not(.custom-ev)').length")
         if ev != len(pg.evaluate(f'days[{d}].events')): problems.append(f'D{d+1} 卡片數和資料不同')
         if shots:
             shots.mkdir(parents=True, exist_ok=True); pg.query_selector('#dayCard').screenshot(path=str(shots / f'day{d+1}.png'))

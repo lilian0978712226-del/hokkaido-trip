@@ -3341,6 +3341,8 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const load=()=>{try{return JSON.parse(localStorage.getItem(CK)||'[]')}catch(e){return[]}};
  const save=a=>{try{localStorage.setItem(CK,JSON.stringify(a))}catch(e){}};
  let CS=load();
+ /* 每天回飯店前買草莓：只自動放一次，可以編輯或刪除 */
+ (function(){const FK='hk-berry-seed-v1';try{if(localStorage.getItem(FK))return;const have=new Set(CS.map(c=>c.id));[{"id": "berry1", "d": 0, "t": "22:30", "n": "Dinner Bell（24 小時超市）", "p": "🍓 買一大盒草莓｜24 小時營業，晚上回飯店前補一大盒草莓", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJxWYoxIgpC18R_7st2JpY6fo", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry2", "d": 1, "t": "22:40", "n": "Dinner Bell（24 小時超市）", "p": "🍓 買一大盒草莓｜24 小時營業，晚上回飯店前補一大盒草莓", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJxWYoxIgpC18R_7st2JpY6fo", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry3", "d": 2, "t": "21:10", "n": "Dinner Bell（24 小時超市）", "p": "🍓 買一大盒草莓｜24 小時營業，晚上回飯店前補一大盒草莓", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJxWYoxIgpC18R_7st2JpY6fo", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry4", "d": 3, "t": "22:15", "n": "Dinner Bell（24 小時超市）", "p": "🍓 買一大盒草莓｜24 小時營業，晚上回飯店前補一大盒草莓", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJxWYoxIgpC18R_7st2JpY6fo", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry5", "d": 4, "t": "19:15", "n": "AEON 旭川站前（1 樓超市）", "p": "🍓 買一大盒草莓｜吃完大阪燒就在同一棟｜營業到 22:00", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJY-alVxDmDF8RzMwKG3gc9BM", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry6", "d": 5, "t": "19:00", "n": "北のエース フィール旭川店（地下 1 樓）", "p": "🍓 買一大盒草莓｜跟飯店同一條街｜19:30 關門，來不及就去 AEON 旭川站前（到 22:00）", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJMw17mRHmDF8R7f-OY7_LYHY", "m": "walk", "tag": "🍓 每日草莓"}, {"id": "berry7", "d": 6, "t": "15:50", "n": "MaxValu 登別店", "p": "🍓 買一大盒草莓｜溫泉街沒有超市，上山前先買｜8:00–23:00", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJKbu1bE7Yn18RMGaSZhI1t0U", "m": "drive", "tag": "🍓 每日草莓"}, {"id": "berry8", "d": 7, "t": "17:30", "n": "AEON 千歲（千歲站旁）", "p": "🍓 買一大盒草莓｜還車回千歲站後順路買｜營業到 21:45", "ic": "🍓", "rep": -1, "u": "https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id=ChIJy8G2GKogdV8R5Hwe5rBX1r8", "m": "walk", "tag": "🍓 每日草莓"}].forEach(c=>{if(!have.has(c.id))CS.push(c);});save(CS);localStorage.setItem(FK,'1');}catch(e){}})();
  const isDone=k=>safeGet(k);
 
  /* 合併後的每日行程（給「現在該去哪」用） */
@@ -3354,7 +3356,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* ---------- 行程卡：顯示自己加的、被取代的 ---------- */
  function cardHTML(c){
   const k='cstop-'+c.id;
-  return `<div class="event custom-ev" data-cid="${c.id}"><div class="time">${esc3(c.t)}</div><div><h4>${c.ic||'📍'} ${esc3(c.n)}</h4>${c.p?`<p>${esc3(c.p)}</p>`:''}<div class="tags" style="display:flex"><span class="tag mine">✏️ 自己加的</span>${c.rep>=0&&days[c.d].events[c.rep]?`<span class="tag mine-rep">取代：${esc3(days[c.d].events[c.rep][1])}</span>`:''}</div><div class="event-actions"><button type="button" class="smallbtn" data-cmap="${c.id}">📍 導航</button><label class="smallbtn"><input type="checkbox" data-ccheck="${k}" ${isDone(k)?'checked':''}> 完成</label><button type="button" class="smallbtn cs-edit" data-cedit="${c.id}">✏️ 編輯</button><button type="button" class="smallbtn cs-del" data-cdel="${c.id}">刪除</button></div></div></div>`;
+  return `<div class="event custom-ev" data-cid="${c.id}"><div class="time">${esc3(c.t)}</div><div><h4>${c.ic||'📍'} ${esc3(c.n)}</h4>${c.p?`<p>${esc3(c.p)}</p>`:''}<div class="tags" style="display:flex"><span class="tag mine">${c.tag?esc3(c.tag):'✏️ 自己加的'}</span>${c.rep>=0&&days[c.d].events[c.rep]?`<span class="tag mine-rep">取代：${esc3(days[c.d].events[c.rep][1])}</span>`:''}</div><div class="event-actions"><button type="button" class="smallbtn" data-cmap="${c.id}">📍 導航</button><label class="smallbtn"><input type="checkbox" data-ccheck="${k}" ${isDone(k)?'checked':''}> 完成</label><button type="button" class="smallbtn cs-edit" data-cedit="${c.id}">✏️ 編輯</button><button type="button" class="smallbtn cs-del" data-cdel="${c.id}">刪除</button></div></div></div>`;
  }
  function decorate(i){
   const dc=$('#dayCard');if(!dc)return;
@@ -3379,7 +3381,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  /* 按鈕順序：導航、複製、完成，備註在下一行 */
  function catOf(ev){
   const has=c=>ev.querySelector('.tags .tag.'+c),ic=(ev.querySelector('h4')||{}).textContent||'';
-  if(ev.classList.contains('custom-ev')){if(/🍰|☕/.test(ic))return['food','甜點'];if(/🍜|🍣/.test(ic))return['food','美食'];if(/🎁/.test(ic))return['shop','伴手禮'];if(/🛍️/.test(ic))return['shop','逛街'];if(/♨️/.test(ic))return['spot','溫泉'];return['spot','景點'];}
+  if(ev.classList.contains('custom-ev')){if(/🍰|☕/.test(ic))return['food','甜點'];if(/🍜|🍣/.test(ic))return['food','美食'];if(/🍓/.test(ic))return['food','草莓'];if(/🎁/.test(ic))return['shop','伴手禮'];if(/🛍️/.test(ic))return['shop','逛街'];if(/♨️/.test(ic))return['spot','溫泉'];return['spot','景點'];}
   if(has('food'))return['food','美食'];if(has('stay'))return['stay','住宿'];if(/🅿️/.test(ic))return['park','停車'];if(has('move'))return['move','交通'];
   if(/🧥|🐰|🐶|🛍️|🍞/.test(ic))return['shop','逛街'];return['spot','景點'];
  }
@@ -3413,7 +3415,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  const guessMode=(d,t)=>{const ev=days[d].events,m=toMin(t||'12:00');let j=-1;ev.forEach((e,k)=>{if(toMin(e[0])<=m)j=k;});return j>=0&&(days[d].walkLegs||[]).includes(j)?'walk':'drive';};
  $('#csMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m);});
  $('#csTime').addEventListener('change',()=>{if(!editId)setMode(guessMode(+$('#csDay').value,$('#csTime').value));});
- let editId=null;const setIc=x=>{if(x==='🍣')x='🍜';if(x==='☕')x='🍰';if(x==='📸'||x==='♨️')x='📍';ic=x;$('#csIcons').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.ic===x);b.setAttribute('aria-pressed',b.dataset.ic===x);});};
+ let editId=null;const setIc=x=>{const keep=x==='🍓';if(keep)x='🍜';if(x==='🍣')x='🍜';if(x==='☕')x='🍰';if(x==='📸'||x==='♨️')x='📍';ic=keep?'🍓':x;$('#csIcons').querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.ic===x);b.setAttribute('aria-pressed',b.dataset.ic===x);});};
  function openSheet(d,c){editId=c?c.id:null;$('#csTitle').textContent=c?'✏️ 編輯行程':'✏️ 新增行程';sh.querySelector('.cs-save').textContent=c?'儲存':'加進行程';$('#csDay').value=c?c.d:d;fillRep();$('#csName').value=c?c.n:'';$('#csNote').value=c?(c.p||''):'';$('#csUrl').value=c?(c.u||''):'';setMode(c&&c.m?c.m:guessMode(c?c.d:d,c?c.t:$('#csTime').value));$('#csUrlHint').textContent='貼上後會自動帶入店名，導航也會直接開這個地點。';setIc(c?(c.ic||'📍'):'📍');if(c){$('#csRep').value=c.rep;$('#csTime').value=c.t;}else{const ev=days[d].events;$('#csTime').value=ev.length?ev[Math.floor(ev.length/2)][0]:'12:00';}sh.hidden=false;document.body.classList.add('cs-open');setTimeout(()=>$('#csName').focus(),60);}
  function closeSheet(){sh.hidden=true;document.body.classList.remove('cs-open');}
  sh.addEventListener('click',e=>{if(e.target===sh||e.target.closest('.cs-cancel'))closeSheet();});
@@ -3423,7 +3425,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   const d=+$('#csDay').value,rep=+$('#csRep').value;
   CS=CS.filter(c=>!(rep>=0&&c.d===d&&c.rep===rep&&c.id!==editId));
   const u=(($('#csUrl').value.match(/https?:\/\/\S+/)||[])[0])||'';
-  const item={id:editId||Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep,u,m:mode};
+  const item={id:editId||Date.now().toString(36),d,t:$('#csTime').value||'12:00',n,p:$('#csNote').value.trim(),ic,rep,u,m:mode};{const old=editId&&CS.find(c=>c.id===editId);if(old&&old.tag)item.tag=old.tag;}
   const at=editId?CS.findIndex(c=>c.id===editId):-1;if(at>=0)CS[at]=item;else CS.push(item);
   const wasEdit=!!editId;save(CS);closeSheet();refresh(d);toast(wasEdit?'已更新 ✨':rep>=0?'已換成新的一站 ✨':'已加進行程 ✨');
  });
