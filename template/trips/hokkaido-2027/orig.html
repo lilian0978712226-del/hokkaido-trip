@@ -473,7 +473,13 @@ body{background:linear-gradient(180deg,#EAF4F8 0,#F7FAFC 290px,#FBFAF6 100%)!imp
 <nav class="bottomnav"><button onclick="jumpToday()">📍 今天</button><button onclick="document.getElementById('weather').scrollIntoView()">🌤️ 天氣</button><button onclick="document.getElementById('itinerary').scrollIntoView()">🗓️ 行程</button><button onclick="document.getElementById('care-notes').scrollIntoView()">📘 貼心備註</button><button onclick="document.getElementById('arrival-tax').scrollIntoView()">🛍️ 退稅</button></nav>
 <div class="toast" id="toast">已複製</div>
 <div class="modal-backdrop" id="noteModal" onclick="if(event.target===this)closeNote()"><div class="modal"><div class="modal-head"><h3 id="modalTitle">❄️ 貼心備註</h3><button class="modal-close" onclick="closeNote()">×</button></div><div class="note-body" id="modalBody"></div></div></div>
-<script>
+<script>/* D1 合併台中機場兩站：第 0 天第 1 站刪除，之後的站號往前一格（完成、評價、調整都跟著移） */
+(function(){try{if(localStorage.getItem('hk-mig-d1air'))return;
+const sh=j=>j>1?j-1:j;
+for(let j=1;j<40;j++){const k='event-0-'+j,v=localStorage.getItem(k);if(v==null)continue;localStorage.removeItem(k);if(j>1)localStorage.setItem('event-0-'+(j-1),v);}
+['hk-adjust-v1','hk-rate-v1'].forEach(K=>{const o=JSON.parse(localStorage.getItem(K)||'{}'),r={};Object.keys(o).sort((a,b)=>+a.split('-')[1]-+b.split('-')[1]).forEach(k=>{const [d,j]=k.split('-').map(Number);if(d===0){if(j===1)return;r['0-'+sh(j)]=o[k];}else r[k]=o[k];});localStorage.setItem(K,JSON.stringify(r));});
+localStorage.setItem('hk-mig-d1air','1');}catch(e){}})();
+
 const days=[
 {date:'2027-02-10',label:'札幌・抵達與燒肉',route:'台中 → 新千歲 → 札幌',theme:'第一口北海道美食：燒肉與夜間補給',food:'🥩',walkLegs:[4,5,6],weather:'新千歲／札幌｜2 月冬季，出發前 7 天更新逐日預報。',events:[
 ['08:20','台中國際機場','抵達機場、報到及托運行李','🧳','依你上傳的 Funliday 行程截圖補回 08:20 機場報到；實際航空公司報到櫃檯與截止時間仍以當日公告為準。'],['10:20','台中國際機場','去程航班 JX318；請以航空公司通知確認報到與登機時間','✈️','航班時間已更正為 10:20。'],['15:00','新千歲機場','抵達北海道、入境及領行李','🦀','租車櫃檯動線：國際線 2F 入境後，走 2F 連絡通道往國內線（約 240 公尺、步行約 3–5 分鐘），再下至 1F 抵達出口 3 附近的 Nippon 櫃檯；辦理後搭免費接駁車約 10–15 分鐘到營業所。2027 年 2 月施工期間請走 2F 通道。'],['17:30','Nippon 租車（新千歲空港營業所）','預約 G34218；取車','🚗','預約確認：2/10 17:30 取車、2/17 19:00 還車；車型 Compact、方案 General Rate。預約確認信提醒：若取車時間超過 1 小時未聯絡，可能取消預約；若航班延誤或會晚到，請直接聯絡營業所。預約編號 G34218。'],['19:26','UNIQLO 札幌店','採買發熱衣（依你原行程截圖）','🧤','先買發熱衣及保暖內搭；實際分店導航請確認店名與營業時間。'],['19:55','Hotel Vista Sapporo Odori','札幌住宿、辦理入住','🏨','先辦入住、放行李，再前往晚餐。'],['20:32','德壽燒肉（焼肉徳寿 しんら亭）','晚餐','🥩','點餐重點：稀有部位三種拼盤「極」¥3,190、特選和牛沙朗燒涮 ¥4,070、熟成厚切鹽味牛舌 ¥2,090、醃製橫膈膜肉 ¥2,640。兩人可優先從這幾項挑，不必每樣都點；價格以當日菜單為準。'],['21:41','大通周邊','晚間散步／補給','🌃','若抵達太晚或雪況不佳，可縮短散步，優先休息。'],['23:21','Hotel Vista Sapporo Odori','返回飯店休息','🛏️','隔天要去滝野雪世界，記得準備雪地衣物。']]},

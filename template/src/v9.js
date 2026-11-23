@@ -63,7 +63,7 @@
    sorted.forEach((el,n)=>{
     if(n){const prev=sorted[n-1],a=nameOf(prev),b=nameOf(el),cm=c=>{const x=c.dataset.cid&&CSget().find(y=>y.id===c.dataset.cid);return x&&x.m;},walk=cm(el)?cm(el)==='walk':anchor[n-1]>=0&&WL.has(anchor[n-1]);const gap=tm(el)-tm(prev);
      const same=a===b;const lm=(typeof legMin!=='undefined'&&(legMin[a+'→'+b]||legMin[b+'→'+a]))||0;const gs=lm?`<span class="leg-gap" title="點到點路程時間（不含停留），實際以導航為準">${/機場/.test(a)&&/機場/.test(b)?'飛行':(walk||/Daiichi|北のエース|AEON 旭川/.test(a))&&lm<=20?'走路':'車程'} 約 ${lm>=60?Math.floor(lm/60)+' 小時'+(lm%60?' '+lm%60+' 分':''):lm+' 分'}</span>`:same?'<span class="leg-gap">同一地點</span>':'';
-     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`<span class="leg-n">↓ ${esc4(b)}</span>${gs}<a href="${routeLink(a,b,walk?'walking':'driving')}" target="_blank" rel="noopener">${walk?'🚶 步行路線':'🚗 開車路線'}</a>`}),bar);}
+     dc.insertBefore(Object.assign(document.createElement('div'),{className:'leg',innerHTML:`<span class="leg-n">↓ ${esc4(b)}</span>${gs}${/機場/.test(a)&&/機場/.test(b)?'':`<a href="${routeLink(a,b,walk?'walking':'driving')}" target="_blank" rel="noopener">${walk?'🚶 步行路線':'🚗 開車路線'}</a>`}`}),bar);}
     dc.insertBefore(el,bar);
    });
   }
