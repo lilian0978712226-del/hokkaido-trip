@@ -443,3 +443,29 @@ window.hkSay=function(el,text,ms){if(!el)return;document.querySelectorAll('.say-
  const hit=e=>{e.stopPropagation();if(e.type==='pointerdown')return;c.classList.remove('mad');void c.getBBox();c.classList.add('mad');clearTimeout(t);t=setTimeout(()=>c.classList.remove('mad'),1700);
   if(navigator.vibrate)navigator.vibrate([20,40,30]);window.hkSay(c,LINES[n++%LINES.length]);};
  c.addEventListener('pointerdown',hit);c.addEventListener('click',hit);})();
+
+/* ---------- 🍓 住宿附近的草莓超市 ---------- */
+(function(){
+ const h=document.querySelector('#stay h2');if(!h)return;
+ const G=pid=>'https://www.google.com/maps/search/?api=1&query=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC&query_place_id='+pid;
+ const BERRY='<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 18c-12 0-20 7-20 17 0 12 11 23 20 23s20-11 20-23c0-10-8-17-20-17z" fill="#F07A8A" stroke="#5B4B43" stroke-width="3"/><path d="M20 20c4-5 8-6 12-3 4-3 8-2 12 3-5 1-8 3-12 3s-7-2-12-3z" fill="#8CC79A" stroke="#5B4B43" stroke-width="3" stroke-linejoin="round"/><path d="M32 17v-7" stroke="#5B4B43" stroke-width="3" stroke-linecap="round"/><g fill="#FFF3B0"><ellipse cx="24" cy="33" rx="1.6" ry="2.3"/><ellipse cx="32" cy="30" rx="1.6" ry="2.3"/><ellipse cx="40" cy="33" rx="1.6" ry="2.3"/><ellipse cx="28" cy="41" rx="1.6" ry="2.3"/><ellipse cx="36" cy="41" rx="1.6" ry="2.3"/><ellipse cx="32" cy="49" rx="1.6" ry="2.3"/></g><circle cx="22" cy="38" r="2.4" fill="#FFB3C0" opacity=".8"/><circle cx="42" cy="38" r="2.4" fill="#FFB3C0" opacity=".8"/></svg>';
+ const L=[
+  {hotel:'Hotel Vista 札幌',when:'D1–D5（2/10–2/14）',shops:[
+   ['Daiichi すすきの店','COCONO SUSUKINO 地下 2 樓','走路約 3 分','10:00–21:00','水果區很大，首選','ChIJvWHaNecpC18R8GTqg_86Ggg'],
+   ['Dinner Bell 南7条店','24 小時超市','走路約 10 分','24 小時','晚上 21:00 以後來這家','ChIJxWYoxIgpC18R_7st2JpY6fo']]},
+  {hotel:'Hotel Amanek 旭川',when:'D5–D7（2/14–2/16）',shops:[
+   ['北のエース フィール旭川店','フィール旭川 地下 1 樓','就在飯店隔壁','10:00–19:30','北海道水果、生鮮','ChIJMw17mRHmDF8R7f-OY7_LYHY'],
+   ['AEON 旭川站前','AEON MALL 1 樓','走路約 5 分','8:00–22:00','晚一點去這家','ChIJY-alVxDmDF8RzMwKG3gc9BM']]},
+  {hotel:'第一瀧本館（登別）',when:'D7（2/16）',note:'溫泉街上沒有超市，要在上山前先買',shops:[
+   ['MaxValu 登別店','登別市區','開車約 15–20 分','8:00–23:00','2 月放車上不會壞','ChIJKbu1bE7Yn18RMGaSZhI1t0U']]},
+  {hotel:'KOKO STAY 千歲',when:'D8（2/17）',shops:[
+   ['AEON 千歲店','千歲站旁','走路約 7–8 分','8:00–21:45','從千歲站走回飯店會經過','ChIJy8G2GKogdV8R5Hwe5rBX1r8']]}];
+ const b=document.createElement('button');b.type='button';b.className='berry-btn';b.setAttribute('aria-label','住宿附近的草莓超市');b.innerHTML=BERRY;h.appendChild(b);
+ const sh=document.createElement('div');sh.className='cs-sheet g-sheet';sh.hidden=true;document.body.appendChild(sh);
+ const close=()=>{sh.hidden=true;document.body.classList.remove('cs-open');};
+ sh.addEventListener('click',e=>{if(e.target===sh||e.target.closest('.g-close'))close();});
+ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ b.addEventListener('click',()=>{
+  sh.innerHTML=`<div class="cs-panel g-panel berry-panel" role="dialog" aria-modal="true" aria-label="住宿附近的草莓超市"><h3><span class="bp-ic">${BERRY}</span>住宿附近的草莓超市</h3><p class="bp-tip">標籤寫「いちご」就是草莓。2 月是日本草莓季，超市都買得到。吃之前用水沖一下；新鮮水果不能帶回台灣。</p>${L.map(x=>`<section class="bp-hotel"><h4>${esc(x.hotel)}<small>${esc(x.when)}</small></h4>${x.note?`<p class="bp-note">${esc(x.note)}</p>`:''}${x.shops.map(s=>`<div class="bp-shop"><div><b>${esc(s[0])}</b><span>${esc(s[1])}</span><span class="bp-meta">${esc(s[2])}・${esc(s[3])}</span><span class="bp-why">${esc(s[4])}</span></div><a class="smallbtn" href="${G(s[5])}" target="_blank" rel="noopener">導航</a></div>`).join('')}</section>`).join('')}<button type="button" class="smallbtn g-close">關閉</button></div>`;
+  sh.hidden=false;document.body.classList.add('cs-open');});
+})();
