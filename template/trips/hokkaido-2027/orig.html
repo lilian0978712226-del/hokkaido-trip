@@ -479,6 +479,11 @@ const sh=j=>j>1?j-1:j;
 for(let j=1;j<40;j++){const k='event-0-'+j,v=localStorage.getItem(k);if(v==null)continue;localStorage.removeItem(k);if(j>1)localStorage.setItem('event-0-'+(j-1),v);}
 ['hk-adjust-v1','hk-rate-v1'].forEach(K=>{const o=JSON.parse(localStorage.getItem(K)||'{}'),r={};Object.keys(o).sort((a,b)=>+a.split('-')[1]-+b.split('-')[1]).forEach(k=>{const [d,j]=k.split('-').map(Number);if(d===0){if(j===1)return;r['0-'+sh(j)]=o[k];}else r[k]=o[k];});localStorage.setItem(K,JSON.stringify(r));});
 localStorage.setItem('hk-mig-d1air','1');}catch(e){}})();
+/* D9 合併新千歲機場兩站：第 8 天第 2 站刪除 */
+(function(){try{if(localStorage.getItem('hk-mig-d9air'))return;
+for(let j=2;j<20;j++){const k='event-8-'+j,v=localStorage.getItem(k);if(v==null)continue;localStorage.removeItem(k);if(j>2)localStorage.setItem('event-8-'+(j-1),v);}
+['hk-adjust-v1','hk-rate-v1'].forEach(K=>{const o=JSON.parse(localStorage.getItem(K)||'{}'),r={};Object.keys(o).sort((a,b)=>+a.split('-')[1]-+b.split('-')[1]).forEach(k=>{const [d,j]=k.split('-').map(Number);if(d===8){if(j===2)return;r['8-'+(j>2?j-1:j)]=o[k];}else r[k]=o[k];});localStorage.setItem(K,JSON.stringify(r));});
+localStorage.setItem('hk-mig-d9air','1');}catch(e){}})();
 
 const days=[
 {date:'2027-02-10',label:'札幌・抵達與燒肉',route:'台中 → 新千歲 → 札幌',theme:'第一口北海道美食：燒肉與夜間補給',food:'🥩',walkLegs:[4,5,6],weather:'新千歲／札幌｜2 月冬季，出發前 7 天更新逐日預報。',events:[
