@@ -23,12 +23,12 @@
  let motionAsked=false,lastA=null;
  function onMotion(e){const a=e.accelerationIncludingGravity||e.acceleration;if(!a)return;const v=[a.x||0,a.y||0,a.z||0];
   if(lastA){const d=Math.abs(v[0]-lastA[0])+Math.abs(v[1]-lastA[1])+Math.abs(v[2]-lastA[2]);if(d>22&&Date.now()-lastShake>700){lastShake=Date.now();shakeFns.forEach(f=>f());}}lastA=v;}
- function askMotion(){if(motionOK)return Promise.resolve(true);
+ function askMotion(){return Promise.resolve(false);if(motionOK)return Promise.resolve(true);
   const DM=window.DeviceMotionEvent;if(!DM)return Promise.resolve(false);
   if(typeof DM.requestPermission!=='function'){motionOK=true;window.addEventListener('devicemotion',onMotion);return Promise.resolve(true);}
   if(motionAsked&&!motionOK)return Promise.resolve(false);motionAsked=true;
   return DM.requestPermission().then(r=>{if(r==='granted'){motionOK=true;window.addEventListener('devicemotion',onMotion);document.querySelectorAll('.shake-on').forEach(x=>x.remove());toast('開好了！搖一搖手機試試看');return true;}toast('沒有開啟動作感應，可以用手指點雪景');return false;}).catch(()=>false);}
- if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission!=='function'){motionOK=true;window.addEventListener('devicemotion',onMotion);}
+ 
 
  /* ---------- 入口：旅途小遊戲 ---------- */
  function funRow(){const fp=document.getElementById('footprints');if(!fp)return;if(fp.querySelector('.fun-row'))return;
@@ -180,7 +180,7 @@
   const f=fortune(),drawn=!!get(OK,{})[f.t];
   open(`<div class="cs-panel g-panel" role="dialog" aria-modal="true" aria-label="今日御神籤"><h3>今日御神籤</h3>
    <div class="omi-stage">${drawn?'':`<div class="omi-box" id="omiBox"><svg viewBox="0 0 120 150" aria-hidden="true"><path d="M48 30V8M60 30V4M72 30V10" stroke="#C9A97A" stroke-width="5" stroke-linecap="round"/><path d="M30 34h60l-6 104H36Z" fill="#F3B6A8" stroke="#5B4B43" stroke-width="3" stroke-linejoin="round"/><path d="M30 34h60" stroke="#5B4B43" stroke-width="3"/><rect x="44" y="62" width="32" height="44" rx="4" fill="#FFF8EF" stroke="#5B4B43" stroke-width="2"/><text x="60" y="80" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">御</text><text x="60" y="97" text-anchor="middle" font-size="12" font-weight="900" fill="#C0675B">神籤</text><path d="M36 124h48" stroke="#E7A391" stroke-width="3"/></svg><i class="omi-stick" hidden></i></div>
-   <p class="g-hint">點下面按鈕，或直接搖一搖手機</p><button type="button" class="cs-save g-go" id="omiGo">搖一搖抽籤</button>`}</div>
+   <p class="g-hint">點下面按鈕抽籤</p><button type="button" class="cs-save g-go" id="omiGo">抽籤</button>`}</div>
    <div class="cs-btns"><button type="button" class="g-close g-x">關閉</button></div></div>`);
   if(drawn){show(f,false);return;}
   const go=()=>{const b=$('#omiBox');if(!b||b.dataset.busy)return;b.dataset.busy=1;shakeFns.delete(go);
@@ -341,8 +341,7 @@
   wrap.addEventListener('pointermove',e=>{if(lx==null)return;acc+=Math.abs(e.clientX-lx);lx=e.clientX;if(acc>40){acc=0;const r=wrap.getBoundingClientRect();burst((e.clientX-r.left)/r.width*100,8);}});
   ['pointerup','pointercancel','pointerleave'].forEach(t=>wrap.addEventListener(t,()=>{lx=null;}));
   shakeFns.add(()=>{const r=wrap.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)burst(50,40);});
-  if(!motionOK&&window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==='function'){const c=document.createElement('button');c.type='button';c.className='shake-on';c.textContent='❄ 開啟搖一搖';c.addEventListener('click',e=>{e.stopPropagation();askMotion().then(ok=>{if(ok)c.remove();});});wrap.appendChild(c);}
-  else if(!get('hk-snowhint-v1',0)){const h=document.createElement('span');h.className='snow-hint';h.textContent='摸一下或搖手機，雪會下更大';wrap.appendChild(h);setTimeout(()=>h.remove(),6000);put('hk-snowhint-v1',1);}
+  if(!get('hk-snowhint-v1',0)){const h=document.createElement('span');h.className='snow-hint';h.textContent='摸一下雪景，雪會下更大';wrap.appendChild(h);setTimeout(()=>h.remove(),6000);put('hk-snowhint-v1',1);}
  }
 
  /* ---------- 4. 存錢筒 ---------- */
