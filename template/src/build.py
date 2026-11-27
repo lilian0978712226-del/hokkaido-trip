@@ -92,9 +92,9 @@ def pass_(cls, label, fn, a, an, at, b, bn, bt, tag, cells=(), dur=''):
             f'<div class="bp-stub">{code}<span class="pass-tag">{tag}</span></div></article>')
 new_fl = ('<section class="section" id="flights"><h2>' + ic('i-plane') + '航班小卡</h2><div class="flightgrid boarding">'
           + pass_('', '去程｜2/10', 'JX318', 'RMQ', '台中', '10:20', 'CTS', '新千歲', '15:00', 'HOKKAIDO ♡',
-                  [('FLIGHT', 'JX318', 0), ('DATE', '10 FEB', 0), ('DEPART', '10:20', 0), ('ARRIVE', '15:00', 0), ('CLASS', '經濟艙', 0), ('SEAT', '12A・12B', 0), ('TERMINAL', 'T2 → 國際線', 0), ('BAGGAGE', '標準額度', 0)], '3h40m')
+                  [('起飛・台灣時間', '10:20', 1), ('抵達・日本時間', '15:00', 1), ('航班', 'JX318', 0), ('日期', '2/10（三）', 0)], '3h40m')
           + pass_('back', '回程｜2/18', 'JX319', 'CTS', '新千歲', '16:00', 'RMQ', '台中', '19:55', 'HOME ♡',
-                  [('FLIGHT', 'JX319', 0), ('DATE', '18 FEB', 0), ('DEPART', '16:00', 0), ('ARRIVE', '19:55', 0), ('CLASS', '經濟艙', 0), ('SEAT', '12A・12B', 0), ('TERMINAL', '國際線 → T2', 0), ('BAGGAGE', '+1 件托運', 1)], '4h55m')
+                  [('起飛・日本時間', '16:00', 1), ('抵達・台灣時間', '19:55', 1), ('航班', 'JX319', 0), ('日期', '2/18（四）', 0)], '4h55m')
           + '</div>')
 rep(old_fl, new_fl)
 

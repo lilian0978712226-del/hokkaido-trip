@@ -350,3 +350,10 @@ html body .berry-panel .bp-shop span{font-size:12.5px!important;color:#6B5A50!im
 html body .berry-panel .bp-shop .bp-meta{font-weight:800!important;color:#5B4B43!important}
 html body .berry-panel .bp-shop .bp-why{color:#C0607A!important;font-weight:700!important}
 html body .berry-panel .bp-shop .smallbtn{flex:0 0 auto!important}
+/* 簡化機票：時間大字 */
+html body .pass .bp-grid{grid-template-columns:1fr 1fr!important;gap:6px 10px!important;padding:8px 16px 12px!important}
+html body .pass .bp-grid div{grid-column:auto!important}
+html body .pass .bp-grid div:nth-child(even){text-align:right!important}
+html body .pass .bp-grid small{font-size:10.5px!important;letter-spacing:.5px!important}
+html body .pass .bp-grid .hl b{font-size:30px!important;line-height:1.1!important;color:#C0675B!important;letter-spacing:.5px!important}
+html body .pass .bp-grid div:nth-child(n+3) b{font-size:15px!important}
