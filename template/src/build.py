@@ -83,18 +83,17 @@ def pass_(cls, label, fn, a, an, at, b, bn, bt, tag, cells=(), dur=''):
     while x < 200:
         w = rnd.choice([1, 1, 1.6, 2.4, 3]); bars.append(f'<rect x="{x:.1f}" y="0" width="{w}" height="26"/>'); x += w + rnd.choice([1, 1.4, 2, 2.6])
     code = f'<svg class="bp-code" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">{"".join(bars)}</svg>'
-    grid = ''.join(f'<div class="{"hl" if h else ""}"><small>{k}</small><b>{v}</b></div>' for k, v, h in cells)
     return (f'<article class="pass {cls}" aria-label="{label} {fn} {an} {a} {at} 到 {bn} {b} {bt}"><div class="pass-top"><span>BOARDING PASS</span><small>{label}</small></div>'
-            f'<div class="bp-route"><div class="bp-port"><small>FROM</small><b>{a}</b><span>{an}</span></div>'
+            f'<div class="bp-route"><div class="bp-port"><small>{an} {a}</small><b>{at}</b><span>{cells[0]}</span></div>'
             f'<div class="bp-plane">{ic("i-plane", "")}<i>{dur}</i></div>'
-            f'<div class="bp-port r"><small>TO</small><b>{b}</b><span>{bn}</span></div></div>'
-            f'<div class="bp-grid">{grid}</div>'
+            f'<div class="bp-port r"><small>{bn} {b}</small><b>{bt}</b><span>{cells[1]}</span></div></div>'
+            f'<div class="bp-meta"><span>{fn}</span><i></i><span>{cells[2]}</span></div>'
             f'<div class="bp-stub">{code}<span class="pass-tag">{tag}</span></div></article>')
 new_fl = ('<section class="section" id="flights"><h2>' + ic('i-plane') + '航班小卡</h2><div class="flightgrid boarding">'
           + pass_('', '去程｜2/10', 'JX318', 'RMQ', '台中', '10:20', 'CTS', '新千歲', '15:00', 'HOKKAIDO ♡',
-                  [('起飛・台灣時間', '10:20', 1), ('抵達・日本時間', '15:00', 1), ('航班', 'JX318', 0), ('日期', '2/10（三）', 0)], '3h40m')
+                  ['台灣時間', '日本時間', '2/10（三）'], '3h40m')
           + pass_('back', '回程｜2/18', 'JX319', 'CTS', '新千歲', '16:00', 'RMQ', '台中', '19:55', 'HOME ♡',
-                  [('起飛・日本時間', '16:00', 1), ('抵達・台灣時間', '19:55', 1), ('航班', 'JX319', 0), ('日期', '2/18（四）', 0)], '4h55m')
+                  ['日本時間', '台灣時間', '2/18（四）'], '4h55m')
           + '</div>')
 rep(old_fl, new_fl)
 

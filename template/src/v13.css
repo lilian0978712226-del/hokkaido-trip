@@ -350,10 +350,14 @@ html body .berry-panel .bp-shop span{font-size:12.5px!important;color:#6B5A50!im
 html body .berry-panel .bp-shop .bp-meta{font-weight:800!important;color:#5B4B43!important}
 html body .berry-panel .bp-shop .bp-why{color:#C0607A!important;font-weight:700!important}
 html body .berry-panel .bp-shop .smallbtn{flex:0 0 auto!important}
-/* 簡化機票：時間大字 */
-html body .pass .bp-grid{grid-template-columns:1fr 1fr!important;gap:6px 10px!important;padding:8px 16px 12px!important}
-html body .pass .bp-grid div{grid-column:auto!important}
-html body .pass .bp-grid div:nth-child(even){text-align:right!important}
-html body .pass .bp-grid small{font-size:10.5px!important;letter-spacing:.5px!important}
-html body .pass .bp-grid .hl b{font-size:30px!important;line-height:1.1!important;color:#C0675B!important;letter-spacing:.5px!important}
-html body .pass .bp-grid div:nth-child(n+3) b{font-size:15px!important}
+/* 簡化機票：時間當主角 */
+html body .pass .bp-route{align-items:center!important;padding:14px 16px 8px!important}
+html body .pass .bp-port small{font-size:12px!important;letter-spacing:.5px!important;color:#8E7A6C!important;font-weight:800!important}
+html body .pass .bp-port{min-width:0!important}
+html body .pass .bp-port b{font-size:29px!important;letter-spacing:0!important;margin:4px 0 2px!important;font-variant-numeric:tabular-nums!important}
+html body .pass .bp-port span{font-size:11px!important;color:#A39286!important}
+html body .pass .bp-plane{padding-bottom:0!important;min-width:54px!important}
+html body .pass .bp-route{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;gap:4px!important}
+html body .pass .bp-meta{display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;padding:2px 16px 14px!important;font-size:13px!important;font-weight:800!important;color:#6E5A4E!important;letter-spacing:1px!important}
+html body .pass .bp-meta i{width:4px!important;height:4px!important;border-radius:50%!important;background:#D8CBC0!important}
+html.night body .pass .bp-meta{color:#6E5A4E!important}
