@@ -10,8 +10,9 @@ self.addEventListener('fetch',e=>{
  if(/open-meteo|api\./.test(u.hostname))return; // 天氣即時資料不快取
  const isPage=r.mode==='navigate'||(u.origin===location.origin&&/\.html?$|\/$/.test(u.pathname));
  if(isPage){ // 先用網路拿最新版，沒網路就用上次存的
-  const net=fetch(r.url,{cache:'no-store'}).then(res=>{if(res.ok){const cp=res.clone();caches.open(V).then(c=>c.put('./index.html',cp));}return res;});
-  e.respondWith(timeout(net,15000).catch(()=>caches.match('./index.html').then(m=>m||net)));
+  const key=u.origin===location.origin&&/\/lite\//.test(u.pathname)?'./lite/index.html':'./index.html'; // 精簡版跟主站分開存
+  const net=fetch(r.url,{cache:'no-store'}).then(res=>{if(res.ok){const cp=res.clone();caches.open(V).then(c=>c.put(key,cp));}return res;});
+  e.respondWith(timeout(net,15000).catch(()=>caches.match(key).then(m=>m||net)));
   return;
  }
  if(u.origin===location.origin||/fonts\.(googleapis|gstatic)\.com|cdn\.jsdelivr\.net/.test(u.hostname)){
