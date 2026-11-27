@@ -361,3 +361,22 @@ html body .pass .bp-route{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)
 html body .pass .bp-meta{display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;padding:2px 16px 14px!important;font-size:13px!important;font-weight:800!important;color:#6E5A4E!important;letter-spacing:1px!important}
 html body .pass .bp-meta i{width:4px!important;height:4px!important;border-radius:50%!important;background:#D8CBC0!important}
 html.night body .pass .bp-meta{color:#6E5A4E!important}
+/* 天氣卡簡化 */
+html body #weather .dayhead .muted,html body #weather .card>p.muted,html body #refreshWeather,html body #weather .event-actions a[href*="mlit"]{display:none!important}
+html body #weather .weather.wxp-far #homeWeatherRisk,html body #weather .weather.wxp-far #homeWeatherMeta{display:none!important}
+html body #weather .card{padding:12px 14px!important}
+html body #weather .dayhead{margin-bottom:8px!important}
+html body #weather .weather.wxp-far{padding:10px 12px!important;min-height:0!important}
+html body #weather .weather.wxp-far .wxp-main{gap:10px!important;align-items:center!important}
+html body #weather .weather.wxp-far .wxp-ic{width:38px!important;height:38px!important;font-size:20px!important;flex:none!important}
+html body #weather .weather.wxp-far .wxp-name{font-size:16px!important}
+html body #weather .weather.wxp-far .wxp-sub{font-size:12.5px!important;margin-top:1px!important}
+html body #weather .wx-here-btn{width:auto!important;min-height:36px!important;padding:6px 14px!important;font-size:13.5px!important;margin:8px 0 0!important;display:inline-flex!important;box-shadow:none!important}
+html body #weather .event-actions{display:inline-flex!important;flex-wrap:nowrap!important;gap:6px!important;margin:8px 0 0 6px!important;vertical-align:top!important}
+html body #weather .event-actions .smallbtn{min-height:36px!important;padding:6px 10px!important;font-size:12.5px!important;box-shadow:none!important}
+html body #weather .event-actions .smallbtn .cute-ic-wrap{display:none!important}
+html body #weather .event-actions .smallbtn{padding:6px 11px!important}
+html body #weather .wx-here-btn{padding:6px 12px!important}
+html body #weather .weather{margin-bottom:0!important}
+html body .pass .pass-top .sx .fn{font-weight:900!important;letter-spacing:1.5px!important;margin-left:4px!important;padding:1px 8px!important;border-radius:999px!important;background:rgba(255,255,255,.28)!important;color:inherit!important}
+html body .pass .bp-route{padding:16px 16px 14px!important}

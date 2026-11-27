@@ -28,9 +28,9 @@ fl=h[s:e]; h=h[:s]+h[e:]
 g0=fl.index('<div class="flightgrid boarding">'); g1=fl.rindex('</div><p class="muted">')+6
 grid=fl[g0:g1]
 note=re.search(r'<p class="muted">(.*?)</p>',fl).group(1)
-grid=grid.replace('<span>BOARDING PASS</span>','<span class="sx">'+ic('i-plane')+'STARLUX 星宇航空</span>')
+grid=re.sub(r'<span>BOARDING PASS\|(\w+)</span>',lambda m:'<span class="sx">'+ic('i-plane')+'星宇航空 <b class="fn">'+m.group(1)+'</b></span>',grid)
 s=h.index('<div class="hero-quick">'); e=h.index('</a></div>',s)+10
-h=h[:s]+('<div id="flights">'+grid+'<p class="flight-note">'+note+'</p></div>')+h[e:]
+h=h[:s]+('<div id="flights">'+grid+'</div>')+h[e:]
 # shortcut: weather -> ledger
 s=h.index('<a href="#weather"><span>'); e=h.index('</a>',s)+4
 h=h[:s]+'<a href="#ledger"><span>'+ic('i-wallet')+'</span><b>記帳預算</b><small>隨手記一筆</small></a>'+h[e:]

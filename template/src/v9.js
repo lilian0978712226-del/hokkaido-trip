@@ -283,7 +283,7 @@
    box.classList.add('wxp-on');box.classList.remove('wxp-far');
   }else if(far){
    const n=+far[1],wait=Math.max(0,n-16);
-   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">🔭</span><div><b class="wxp-name">還沒有預報</b><span class="wxp-sub">出發前 16 天開始會自動顯示當天天氣${wait?`（大約再 ${wait} 天）`:''}</span></div></div>`;
+   pretty.innerHTML=`<div class="wxp-main"><span class="wxp-ic">🔭</span><div><b class="wxp-name">還沒有預報</b><span class="wxp-sub">${wait?`約 ${wait} 天後自動出現`:'快出現了'}</span></div></div>`;
    box.classList.add('wxp-on','wxp-far');
   }else{pretty.innerHTML='';box.classList.remove('wxp-on','wxp-far');}
  }
@@ -295,7 +295,7 @@
  const TOWNS=[['札幌',43.062,141.354],['小樽',43.19,141.0],['新千歲機場',42.775,141.692],['千歲',42.82,141.65],['美瑛',43.588,142.467],['白金',43.48,142.64],['富良野',43.342,142.383],['旭川',43.771,142.365],['洞爺湖',42.565,140.82],['登別',42.49,141.147],['白老',42.55,141.355],['支笏湖',42.773,141.405],['台中',24.147,120.674]];
  const km=(a,b,c,d)=>{const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.sqrt(x*x+y*y)*6371;};
  const ICON=c=>c>=95?'⛈️':[75,86].includes(c)?'❄️':c>=71&&c<=86&&c!==80&&c!==81&&c!==82?'🌨️':c>=51?'🌧️':c>=45?'🌫️':c===3?'☁️':c===2?'⛅':c<=1?'☀️':'🌤️';
- const btn=document.createElement('button');btn.type='button';btn.className='wx-here-btn';btn.textContent='📍 用我現在的位置查天氣';
+ const btn=document.createElement('button');btn.type='button';btn.className='wx-here-btn';btn.textContent='📍 我這裡的天氣';
  const out=document.createElement('div');out.className='wx-here';out.hidden=true;
  wx.insertAdjacentElement('afterend',btn);btn.insertAdjacentElement('afterend',out);
  btn.addEventListener('click',()=>{
@@ -313,9 +313,9 @@
     out.innerHTML=`<div class="wxh-top"><span class="wxh-ic">${ICON(c.weather_code)}</span><div><small>📍 ${place}・${t} 現在</small><b>${name} ${Math.round(c.temperature_2m)}°C</b><span>體感 ${Math.round(c.apparent_temperature)}°・今天 ${Math.round(dy.temperature_2m_min[0])}° / ${Math.round(dy.temperature_2m_max[0])}°C</span></div></div>
      <div class="wxp-chips"><span><i>❄️</i>今天降雪<b>${dy.snowfall_sum[0]??'—'} cm</b></span><span><i>☂️</i>降水<b>${dy.precipitation_probability_max[0]??'—'}%</b></span><span><i>🌬️</i>現在風速<b>${Math.round(c.wind_speed_10m)} km/h</b></span></div>`;
     out.hidden=false;btn.textContent='📍 重新用我的位置查';
-   }catch(e){toast('查不到天氣，請確認網路後再試一次');btn.textContent='📍 用我現在的位置查天氣';}
+   }catch(e){toast('查不到天氣，請確認網路後再試一次');btn.textContent='📍 我這裡的天氣';}
    btn.disabled=false;
-  },err=>{btn.disabled=false;btn.textContent='📍 用我現在的位置查天氣';toast(err.code===1?'需要允許「位置」權限才能查，請到 Safari 設定開啟':'定位失敗，請到戶外或稍後再試');},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+  },err=>{btn.disabled=false;btn.textContent='📍 我這裡的天氣';toast(err.code===1?'需要允許「位置」權限才能查，請到 Safari 設定開啟':'定位失敗，請到戶外或稍後再試');},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
  });
 })();
 /* ===== 把「↗」換成可愛小圖示 ===== */
