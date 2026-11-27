@@ -56,11 +56,9 @@
   </section>
   <section class="section" id="emergency"><h2>${ic('i-compass')}緊急資訊</h2>
    <div class="em-grid">${EM.map(([e,n,t,d])=>`<a class="em-card" href="tel:${t.replace(/[^\d+#]/g,'').replace('#','%23')}"><span class="em-ic">${e}</span><div><b>${n}</b><strong>${t}</strong><small>${d}</small></div></a>`).join('')}</div>
-   <div class="card em-mine"><h3>🛡️ 我們的保險與重要資料</h3><p class="muted">只存在這支手機，不會上傳</p>
-    <label>旅平險／不便險公司<input data-em="ins"></label>
-    <label>保險 24 小時救援電話<input data-em="instel" inputmode="tel"></label>
-    <label>保單號碼<input data-em="pol"></label>
-    <label>其他備註（血型、過敏、家人電話）<textarea data-em="note" rows="2"></textarea></label>
+   <div class="card em-mine"><h3>🛡️ 旅平險資料</h3><div class="em-row"><label>保險公司<input data-em="ins" placeholder="例：富邦"></label>
+    <label>24 小時救援電話<input data-em="instel" inputmode="tel" placeholder="填了會變成一鍵撥號"></label></div>
+    <label>保單號碼<input data-em="pol" inputmode="text" placeholder="打電話時會問"></label>
     <div class="em-call" id="emInsCall"></div>
    </div>
   </section>`;

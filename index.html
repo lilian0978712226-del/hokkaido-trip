@@ -2175,6 +2175,12 @@ html body #phrases .ph-tile.on{background:#F6D9CF!important;transform:translateY
 html body #phrases .ph-panel>details>summary{display:none!important}
 html body #phrases .ph-panel>details{margin:0!important}
 html body #phrases .ph-panel>details[hidden]{display:none!important}
+/* 保險資料：精簡 */
+html body .em-mine{padding:12px 14px!important}
+html body .em-mine .em-row{display:grid!important;grid-template-columns:1fr 1.3fr!important;gap:8px!important}
+html body .em-mine label{display:block!important;font-size:12.5px!important;margin:0 0 8px!important;color:#8E7A6C!important}
+html body .em-mine input{display:block!important;width:100%!important;min-height:40px!important;margin-top:3px!important;padding:6px 12px!important;font-size:16px!important;border-radius:12px!important;box-sizing:border-box!important}
+html body .em-mine .em-call:empty{display:none!important}
 </style>
 </head>
 <body><div aria-hidden="true" id="snowfall-overlay"></div>
@@ -3258,11 +3264,9 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
   </section>
   <section class="section" id="emergency"><h2>${ic('i-compass')}緊急資訊</h2>
    <div class="em-grid">${EM.map(([e,n,t,d])=>`<a class="em-card" href="tel:${t.replace(/[^\d+#]/g,'').replace('#','%23')}"><span class="em-ic">${e}</span><div><b>${n}</b><strong>${t}</strong><small>${d}</small></div></a>`).join('')}</div>
-   <div class="card em-mine"><h3>🛡️ 我們的保險與重要資料</h3><p class="muted">只存在這支手機，不會上傳</p>
-    <label>旅平險／不便險公司<input data-em="ins"></label>
-    <label>保險 24 小時救援電話<input data-em="instel" inputmode="tel"></label>
-    <label>保單號碼<input data-em="pol"></label>
-    <label>其他備註（血型、過敏、家人電話）<textarea data-em="note" rows="2"></textarea></label>
+   <div class="card em-mine"><h3>🛡️ 旅平險資料</h3><div class="em-row"><label>保險公司<input data-em="ins" placeholder="例：富邦"></label>
+    <label>24 小時救援電話<input data-em="instel" inputmode="tel" placeholder="填了會變成一鍵撥號"></label></div>
+    <label>保單號碼<input data-em="pol" inputmode="text" placeholder="打電話時會問"></label>
     <div class="em-call" id="emInsCall"></div>
    </div>
   </section>`;
@@ -3661,7 +3665,7 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { wind
  if(eg&&!eg.closest('details')){const n=eg.querySelectorAll('.em-card').length;const d=document.createElement('details');d.className='fold em-fold2';d.innerHTML=`<summary><span>📞 緊急電話（${n} 支，點了可以直接撥）</span><i>展開</i></summary>`;eg.parentNode.insertBefore(d,eg);d.appendChild(eg);}
  /* ---------- 保險收合 ---------- */
  const em=$('.em-mine');
- if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 我們的保險與重要資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
+ if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 旅平險資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
 
  /* ---------- 掛上 showDay ---------- */
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}

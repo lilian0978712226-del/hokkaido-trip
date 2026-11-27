@@ -250,7 +250,7 @@
  if(eg&&!eg.closest('details')){const n=eg.querySelectorAll('.em-card').length;const d=document.createElement('details');d.className='fold em-fold2';d.innerHTML=`<summary><span>📞 緊急電話（${n} 支，點了可以直接撥）</span><i>展開</i></summary>`;eg.parentNode.insertBefore(d,eg);d.appendChild(eg);}
  /* ---------- 保險收合 ---------- */
  const em=$('.em-mine');
- if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 我們的保險與重要資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
+ if(em&&!em.closest('details')){const h=em.querySelector('h3');const d=document.createElement('details');d.className='fold em-fold';d.innerHTML=`<summary><span>🛡️ 旅平險資料</span><i>展開</i></summary>`;em.parentNode.insertBefore(d,em);d.appendChild(em);if(h)h.remove();}
 
  /* ---------- 掛上 showDay ---------- */
  if(typeof showDay==='function'){const p=showDay;window.showDay=showDay=function(i){const r=p.apply(this,arguments);try{decorate(i)}catch(e){console.warn(e)}return r;};}
