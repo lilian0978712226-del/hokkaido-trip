@@ -1,5 +1,5 @@
 
-/* ===== v2：導航短網址、行程轉場動畫、記帳預算、簡化版面 ===== */
+/* ===== v2：導航短網址、行程轉場動畫、記帳、簡化版面 ===== */
 (function(){
  const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const $q=(s,r=document)=>r.querySelector(s);
@@ -274,8 +274,6 @@
   host.innerHTML=`
    <div class="lg-sum">
     <div><small>已花</small><b>${twd(total)}</b><span>≈ ${yen(total)}</span></div>
-    <div class="${left<0?'over':''}"><small>${budget?'還剩':'預算'}</small><b>${budget?twd(left):'—'}</b><span>${budget?'預算 '+twd(budget):'到 ⚙️ 設定'}</span></div>
-    ${budget?`<div class="lg-bar ${pct>=90?'warn':''}"><i style="width:${pct}%"></i></div>`:''}
    </div>
    <form class="lg-form" id="lgForm" autocomplete="off">
     <div class="lg-amt"><button type="button" class="lg-cur" id="lgCur" aria-label="切換幣別">${cur==='JPY'?'¥':'NT$'}</button><input id="lgAmt" inputmode="decimal" enterkeyhint="done" placeholder="金額" aria-label="金額"><button class="lg-add" type="submit" aria-label="記一筆">＋ 記</button></div>
@@ -298,8 +296,7 @@
     <button type="button" class="lg-add lg-share" id="lgShare">📤 傳送我的帳本</button>
     <p class="lg-hint">⚠️ 第一次使用前：${esc(S.b)}的手機要到 ⚙️ 設定把「名字 1」改成自己的名字、「名字 2」填你的名字，誰付錢才不會對調。</p>
    </details>
-   <details class="fold lg-set"><summary><span>⚙️ 預算與設定</span><i>展開</i></summary>
-    <label>總預算（台幣）<input id="lgBudget" inputmode="numeric" value="${budget?Math.round(budget*S.rate):''}" placeholder="例如 150000"></label>
+   <details class="fold lg-set"><summary><span>⚙️ 設定</span><i>展開</i></summary>
     <label>匯率：1 日圓 ＝ ? 台幣<input id="lgRate" inputmode="decimal" value="${S.rate}"></label>
     <div class="lg-row"><label>名字 1<input id="lgNA" value="${esc(S.a)}"></label><label>名字 2<input id="lgNB" value="${esc(S.b)}"></label></div>
     <button type="button" class="smallbtn" id="lgSaveSet">儲存設定</button>
@@ -316,7 +313,7 @@
    if(t.id==='lgCur'){cur=cur==='JPY'?'TWD':'JPY';t.textContent=cur==='JPY'?'¥':'NT$';return;}
    const d=t.closest('[data-del]');if(d){if(confirmDel(d)){L=L.filter(e=>String(e.t)!==d.dataset.del);DEL.push(+d.dataset.del);save(DK,DEL);save(LK,L);renderLedger();openList();}return;}
    if(t.id==='lgCopy'){copyText(L.map(e=>{const c=CATS.find(x=>x[0]===e.cat)||CATS[5];return `${e.day<0?'出發前':'D'+(e.day+1)}\t${c[2]}\t${e.note||''}\t${e.cur==='TWD'?'NT$':'¥'}${e.amt}\t${e.payer==='a'?S.a:S.b}付${e.shared?'(平分)':''}`}).join('\n'));return;}
-   if(t.id==='lgSaveSet'){S.rate=+$q('#lgRate').value||S.rate;S.budget=(+($q('#lgBudget').value.replace(/[^\d.]/g,''))||0)/S.rate;S.a=$q('#lgNA').value.trim()||'我';S.b=$q('#lgNB').value.trim()||'陳肥肥';save(SK,S);renderLedger();toast('設定已儲存');return;}
+   if(t.id==='lgSaveSet'){S.rate=+$q('#lgRate').value||S.rate;S.budget=0;S.a=$q('#lgNA').value.trim()||'我';S.b=$q('#lgNB').value.trim()||'陳肥肥';save(SK,S);renderLedger();toast('設定已儲存');return;}
    if(t.id==='lgClear'){if(t.dataset.sure){DEL=DEL.concat(L.map(e=>e.t));save(DK,DEL);L=[];save(LK,L);renderLedger();toast('已清除全部紀錄');}else{t.dataset.sure='1';t.textContent='再按一次確認清除';setTimeout(()=>{t.textContent='清除全部紀錄';delete t.dataset.sure},3000);}return;}
   });
   function confirmDel(btn){if(btn.dataset.sure)return true;btn.dataset.sure='1';btn.textContent='刪?';btn.classList.add('sure');setTimeout(()=>{if(btn.isConnected){btn.textContent='×';btn.classList.remove('sure');delete btn.dataset.sure}},2500);return false;}

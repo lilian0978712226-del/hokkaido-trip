@@ -46,7 +46,7 @@
   });
   const last=[...dc.querySelectorAll('.event')].pop();
   orderBtns();tagsToTime();
-  if(last)last.insertAdjacentHTML('afterend',`<div class="cs-addbar"><button type="button" class="cs-add" data-cadd="${i}">＋ 新增行程・改去別家</button></div>`);
+  if(last)last.insertAdjacentHTML('afterend',`<div class="cs-addbar"><button type="button" class="cs-add" data-cadd="${i}">＋ 新增行程</button></div>`);
  }
 
  /* 按鈕順序：導航、複製、完成，備註在下一行 */

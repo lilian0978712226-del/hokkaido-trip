@@ -33,9 +33,9 @@ s=h.index('<div class="hero-quick">'); e=h.index('</a></div>',s)+10
 h=h[:s]+('<div id="flights">'+grid+'</div>')+h[e:]
 # shortcut: weather -> ledger
 s=h.index('<a href="#weather"><span>'); e=h.index('</a>',s)+4
-h=h[:s]+'<a href="#ledger"><span>'+ic('i-wallet')+'</span><b>記帳預算</b><small>隨手記一筆</small></a>'+h[e:]
+h=h[:s]+'<a href="#ledger"><span>'+ic('i-wallet')+'</span><b>記帳</b><small>隨手記一筆</small></a>'+h[e:]
 # ledger section right after itinerary/care-notes (before weather)
-rep('<section class="section" id="weather">','<section class="section" id="ledger"><h2>'+ic('i-wallet','h-ic')+'記帳・預算</h2><div class="card ledger-card" id="ledgerApp"></div></section>\n<section class="section" id="weather">')
+rep('<section class="section" id="weather">','<section class="section" id="ledger"><h2>'+ic('i-wallet','h-ic')+'記帳</h2><div class="card ledger-card" id="ledgerApp"></div></section>\n<section class="section" id="weather">')
 # shorter headings
 rep('今日旅行小幫手</h2>','旅行小幫手</h2>')
 rep('北海道美食圖鑑</h2>','北海道美食街</h2>')

@@ -380,3 +380,9 @@ html body #weather .wx-here-btn{padding:6px 12px!important}
 html body #weather .weather{margin-bottom:0!important}
 html body .pass .pass-top .sx .fn{font-weight:900!important;letter-spacing:1.5px!important;margin-left:4px!important;padding:1px 8px!important;border-radius:999px!important;background:rgba(255,255,255,.28)!important;color:inherit!important}
 html body .pass .bp-route{padding:16px 16px 14px!important}
+/* 新增行程＋傳給旅伴：一排小按鈕 */
+html body .cs-addbar{display:flex!important;gap:8px!important;margin:10px 0 2px!important}
+html body .cs-addbar>.cs-add,html body .cs-addbar>.adj-sync{flex:1 1 0!important;margin:0!important;min-width:0!important}
+html body .cs-add,html body .adj-share{min-height:38px!important;font-size:13.5px!important;border-radius:12px!important;padding:4px 8px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;border-width:1.5px!important}
+/* 記帳：拿掉預算，只顯示已花 */
+html body .lg-sum{grid-template-columns:1fr!important}

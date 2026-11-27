@@ -89,8 +89,8 @@
  function syncBar(dc){
   const old=dc.querySelector('.adj-sync');if(old)old.remove();
   const n=Object.values(OV).filter(o=>!o.r).length+CSget().length;if(!n)return;
-  const bar=dc.querySelector('.cs-addbar');const html=`<div class="adj-sync"><button type="button" class="adj-share">📤 把行程調整傳給${esc4(partner())}（${n} 項）</button></div>`;
-  if(bar)bar.insertAdjacentHTML('afterend',html);else dc.insertAdjacentHTML('beforeend',html);
+  const bar=dc.querySelector('.cs-addbar');const html=`<div class="adj-sync"><button type="button" class="adj-share">📤 傳給${esc4(partner())}（${n}）</button></div>`;
+  if(bar)bar.insertAdjacentHTML('beforeend',html);else dc.insertAdjacentHTML('beforeend',html);
  }
 
  /* 調整視窗 */
