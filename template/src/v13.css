@@ -386,3 +386,13 @@ html body .cs-addbar>.cs-add,html body .cs-addbar>.adj-sync{flex:1 1 0!important
 html body .cs-add,html body .adj-share{min-height:38px!important;font-size:13.5px!important;border-radius:12px!important;padding:4px 8px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;border-width:1.5px!important}
 /* 記帳：拿掉預算，只顯示已花 */
 html body .lg-sum{grid-template-columns:1fr!important}
+/* 日文溝通卡：六格 */
+html body #phrases .ph-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:10px!important;margin:12px 0 10px!important}
+html body #phrases .ph-tile{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;min-height:92px!important;padding:10px 6px!important;border:2px solid #5B4B43!important;border-radius:18px!important;background:#FFFDF9!important;box-shadow:0 3px 0 #5B4B43!important;font-family:inherit!important;color:#4A3B34!important;transition:transform .12s ease!important}
+html body #phrases .ph-tile b{font-size:14px!important;font-weight:800!important;line-height:1.25!important;text-align:center!important}
+html body #phrases .ph-tile-ic{display:flex!important;align-items:center!important;justify-content:center!important;width:40px!important;height:40px!important;font-size:28px!important;line-height:1!important}
+html body #phrases .ph-tile-ic img,html body #phrases .ph-tile-ic svg{width:34px!important;height:34px!important}
+html body #phrases .ph-tile.on{background:#F6D9CF!important;transform:translateY(2px)!important;box-shadow:0 1px 0 #5B4B43!important}
+html body #phrases .ph-panel>details>summary{display:none!important}
+html body #phrases .ph-panel>details{margin:0!important}
+html body #phrases .ph-panel>details[hidden]{display:none!important}

@@ -468,3 +468,26 @@ window.hkSay=function(el,text,ms){if(!el)return;document.querySelectorAll('.say-
   sh.innerHTML=`<div class="cs-panel g-panel berry-panel" role="dialog" aria-modal="true" aria-label="住宿附近的草莓超市"><h3><span class="bp-ic">${BERRY}</span>住宿附近的草莓超市</h3><p class="bp-tip">標籤寫「いちご」就是草莓。2 月是日本草莓季，超市都買得到。吃之前用水沖一下；新鮮水果不能帶回台灣。</p>${L.map(x=>`<section class="bp-hotel"><h4>${esc(x.hotel)}<small>${esc(x.when)}</small></h4>${x.note?`<p class="bp-note">${esc(x.note)}</p>`:''}${x.shops.map(s=>`<div class="bp-shop"><div><b>${esc(s[0])}</b><span>${esc(s[1])}</span><span class="bp-meta">${esc(s[2])}・${esc(s[3])}</span><span class="bp-why">${esc(s[4])}</span></div><a class="smallbtn" href="${G(s[5])}" target="_blank" rel="noopener">導航</a></div>`).join('')}</section>`).join('')}<button type="button" class="smallbtn g-close">關閉</button></div>`;
   sh.hidden=false;document.body.classList.add('cs-open');});
 })();
+/* ===== 日文溝通卡：六格選單（點一格，下面打開那一類） ===== */
+(function(){
+ function build(){
+  const sec=document.getElementById('phrases');if(!sec||sec.querySelector('.ph-grid'))return;
+  const cats=[...sec.querySelectorAll('details.ph-cat')];if(cats.length<2)return;
+  const grid=document.createElement('div');grid.className='ph-grid';
+  const panel=document.createElement('div');panel.className='ph-panel';
+  cats[0].before(grid);grid.after(panel);
+  const short=t=>/訂餐廳/.test(t)?'請飯店訂餐廳':t.replace(/（.*?）/g,'').trim();
+  cats.forEach((d,i)=>{
+   const sp=d.querySelector('summary span');const ic=sp.querySelector('img,svg,.cute-ic-wrap');
+   const txt=short(sp.textContent.replace(/^[^一-鿿]+/,''));
+   const b=document.createElement('button');b.type='button';b.className='ph-tile';
+   b.innerHTML=`<span class="ph-tile-ic"></span><b>${txt}</b>`;
+   if(ic)b.querySelector('.ph-tile-ic').appendChild(ic.cloneNode(true));else b.querySelector('.ph-tile-ic').textContent=(sp.textContent.match(/^\S+/)||[''])[0];
+   grid.appendChild(b);panel.appendChild(d);d.open=false;d.hidden=true;
+   b.addEventListener('click',()=>{const on=!b.classList.contains('on');
+    grid.querySelectorAll('.ph-tile').forEach(x=>x.classList.remove('on'));cats.forEach(x=>{x.hidden=true;x.open=false;});
+    if(on){b.classList.add('on');d.hidden=false;d.open=true;}});
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(build,50));else setTimeout(build,50);
+})();
